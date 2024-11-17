@@ -1,0 +1,13 @@
+nav li {
+    @apply hover:bg-gray-300 rounded border border-transparent;
+}
+nav li a {
+    @apply block px-2;
+}
+nav li:has(a.active) {
+    @apply bg-gray-700 text-gray-300 hover:bg-gray-300 hover:text-gray-700 hover:border hover:border-black;
+}
+input[type="text"],
+input[type="password"] {
+    @apply border border-gray-300 rounded px-2 py-1 m-1;
+}

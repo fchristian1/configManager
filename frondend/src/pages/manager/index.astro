@@ -1,0 +1,18 @@
+---
+import IndexLayout from "../../layouts/IndexLayout.astro";
+---
+
+<IndexLayout title="Manager Page" description="Manager Page of Config Manager">
+    <div class="flex flex-col items-stretch m-2" slot="sidebar">
+        <a href="/manager">Manager Dashboard</a>
+        <a class="ms-2" href="/manager/configs">Configs</a>
+        <a class="ms-2" href="/manager/editor">Editor</a>
+        <a class="ms-2" href="/manager/systems">Systems</a>
+    </div>
+    <div class="m-2">
+        <slot name="manager">
+            <h1>Manager Dashboard</h1>
+            <p>Manager Dashboard of Config Manager</p>
+        </slot>
+    </div>
+</IndexLayout>

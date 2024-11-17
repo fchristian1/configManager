@@ -1,0 +1,18 @@
+---
+import IndexLayout from "../../layouts/IndexLayout.astro";
+---
+
+<IndexLayout title="Guide Page" description="Guide Page of Config Manager">
+    <div class="flex flex-col items-stretch m-2" slot="sidebar">
+        <a href="/guide">Guide Dashboard</a>
+        <a class="ms-2" href="/guide/1">1</a>
+        <a class="ms-2" href="/guide/2">2</a>
+        <a class="ms-2" href="/guide/3">3</a>
+    </div>
+    <div class="m-2">
+        <slot name="guide">
+            <h1>Guide</h1>
+            <p>Config Manager Guide</p>
+        </slot>
+    </div>
+</IndexLayout>

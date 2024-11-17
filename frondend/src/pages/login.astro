@@ -1,0 +1,56 @@
+---
+import "../layouts/index.css";
+---
+
+<html>
+    <head>
+        <title>Login - ConfigManager</title>
+    </head>
+    <body>
+        <div class="m-2">
+            <slot name="login">
+                <div class="absolut">
+                    <div class="absolute top-0 bottom-0 left-0 right-0 flex flex-col justify-center items-center z-0">
+                        <div class="border border-gray-300 p-10 rounded flex flex-col gap-4">
+                            <h1 class="text-xl">Config Manager</h1>
+                            <p>Enter your credentials</p>
+                            <div class="flex flex-col w-full h-full gap-2">
+                                <div class="flex justify-center"><input type="text" name="email" id="login_email" placeholder="Email address ..." /></div>
+                                <div class="flex justify-center">
+                                    <input type="password" name="password" id="login_password" placeholder="Your password ..." />
+                                </div>
+                                <div class="flex justify-center">
+                                    <a href="/"><button class="px-6 py-1 border border-gray-400 rounded">Cancel</button></a><button
+                                        id="loginButton"
+                                        class="px-6 py-1 border border-gray-400 rounded">Login</button
+                                    >
+                                </div>
+                                <div><p class="text-sm">you dont have an account <a class="text-orange-900" href="/register">register HERE!</a></p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </slot>
+        </div>
+        <script>
+            const onlickLogin = async () => {
+                const email = (document.getElementById("login_email") as HTMLInputElement)?.value;
+                const password = (document.getElementById("login_password") as HTMLInputElement)?.value;
+                await fetch("/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+                document.cookie = `json=${JSON.stringify({ session: true })}`;
+                //get location query;
+                const urlParams = new URLSearchParams(window.location.search);
+                const href = urlParams.get("href") ?? "/";
+                window.location.href = href;
+            };
+            const loginButton = document.getElementById("loginButton");
+            loginButton?.addEventListener("click", onlickLogin);
+        </script>
+    </body>
+</html>

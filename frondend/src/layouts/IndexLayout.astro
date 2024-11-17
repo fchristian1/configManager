@@ -1,0 +1,92 @@
+---
+import "./index.css";
+interface Props {
+    title: string;
+    description: string;
+}
+const { title, description } = Astro.props;
+const pathname = new URL(Astro.request.url).pathname;
+const isActive = (path: string, alternative = "") => (path === pathname ? "active" : alternative);
+const { session } = JSON.parse(Astro.request.headers.get("Cookie")?.split("=")[1] ?? '{ "session": false }');
+const isLogin: boolean = session ?? false;
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="description" content={description} />
+        <title>{title}</title>
+    </head>
+
+    <body>
+        <nav class="flex p-2 gap-2">
+            <ul class="flex w-full gap-2">
+                <li><a href="/">Home</a></li>
+                <li class="bg-orange-100">
+                    {
+                        isLogin && (
+                            <a class={isActive("/manager")} href="/manager">
+                                Manager
+                            </a>
+                        )
+                    }
+                    {
+                        !isLogin && (
+                            <a class={isActive("/manager")} href="/login?href=/manager">
+                                Manager
+                            </a>
+                        )
+                    }
+                </li>
+                <li><a href="#search">Search</a></li>
+            </ul>
+            <ul class="flex gap-2">
+                <li><a class={isActive("/guide")} href="/guide">Guide</a></li>
+            </ul>|
+            <ul class="flex gap-2">
+                <li><a href="#lang">Lang</a></li>
+            </ul>|
+            <ul class="flex gap-2">
+                <li><a class={isActive("/about")} href="/about">About</a></li>
+                <li><a class={isActive("/contact")} href="/contact">Contact</a></li>
+                <li><a class={isActive("/github")} href="/github">GitHub</a></li>
+            </ul>|
+            <ul class="flex gap-2">
+                <li class="flex">
+                    {
+                        isLogin && (
+                            <a class="hover:text-orange-800" href="/profile">
+                                Profile
+                            </a>
+                        )
+                    }
+                    {
+                        isLogin == false && (
+                            <>
+                                <a class="pe-0 hover:text-orange-800" href="/register">
+                                    Register
+                                </a>
+                                /
+                                <a class="ps-0 hover:text-orange-800" href="/login">
+                                    Login
+                                </a>
+                            </>
+                        )
+                    }
+                </li>
+            </ul>
+        </nav>
+        <div class="flex">
+            <aside>
+                <slot name="sidebar" />
+            </aside>
+            <main class="">
+                <slot />
+            </main>
+        </div>
+        <footer><slot name="footer" /></footer>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+---
+import IndexLayout from "../layouts/IndexLayout.astro";
+---
+
+<IndexLayout title="Profile Page" description="Profile page of your account">
+    <div class="m-2">
+        <slot name="profile">
+            <h1>Profile</h1>
+            <button id="logoutButton">Logout</button>
+            <script>
+                document.getElementById("logoutButton").addEventListener("click", async () => {
+                    document.cookie = `json=${JSON.stringify({ session: false })}`;
+                    window.location.href = "/";
+                });
+            </script>
+        </slot>
+    </div>
+</IndexLayout>
