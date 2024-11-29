@@ -18,8 +18,8 @@
 
 {{yaml:docker-compose}}:
     services:
-        <NAME:TEXT>:
-            build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
+        <NAME:TEXT>:[]
+            build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT> | childrens}
                 context: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
                 dockerfile: <PATH:TEXT>
                 dockerfil_inline: (|)
@@ -157,4 +157,6 @@
             runtime: <RUNTIME>
             scale: <SCALE>+services.this.deploy.replicas
     networks:
+        <NAME:TEXT>:[]
     volumes:
+        <NAME:TEXT>:[]
