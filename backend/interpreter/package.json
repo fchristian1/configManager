@@ -26,6 +26,7 @@
   "scripts": {
     "dev": "node --watch server.js"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@types/node": "^22.10.1"
+  }
 }

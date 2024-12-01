@@ -2,8 +2,9 @@
 # DOCKER COMPOSE
 
 # LEGEND:
-#{{system_name}}: //the name of the system that the configuration is for
+#{{config_system:system_name}}: //the name of the system that the configuration is for
 #TAB(s) in front of a line, means that the line is a child of the line above
+#Tabs must be spaces, not tabs
 #section_name: // the name of the section_name
 #<NAME:TYPE:LIMIT>: //it is a section that name must be defined
 #<LABEL:TYPE:LIMIT> elements to define with a value. LABLE is a short description of the element, TYPE is the type of the element
@@ -16,147 +17,142 @@
 #'''https://link.com''' link to the documentation
 #'''""''' markdown for the documentation (multiline)
 
+
 {{yaml:docker-compose}}:
     services:
-        <NAME:TEXT>:[]
-            build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT> | childrens}
+        [{<NAME:TEXT>}:]
+            build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>|{{childrens}}}
                 context: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
-                dockerfile: <PATH:TEXT>
-                dockerfil_inline: (|)
-                    <DOCKERFILE_CONTENT:MTEXT>
+                dockerfile: {<PATH:TEXT>}
+                dockerfil_inline: {(|)}
+                    {<DOCKERFILE_CONTENT:MTEXT>}
                 args:
-                    [(- )<ARG_NAME:TEXT>(: )<ARG_VALUE:TEXT>]
+                    [{(- )<ARG_NAME:TEXT>(: )<ARG_VALUE:TEXT>}]
                 ssh:
-                    [(- ){"default"|<SSH_KEY_NAME:TEXT>}(: )<SSH_KEY_PATH:TEXT>]
+                    [{(- ){"default"|<SSH_KEY_NAME:TEXT>}(: )<SSH_KEY_PATH:TEXT>}]
                 cache_from:
-                    [(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]]
+                    [{(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]}]
                 cache_to:
-                    [(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]]
+                    [{(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]}]
                 additional_contexts:
-                    [(- )<CONTEXT_NAME>(=){<CONTEXT_PATH>|<CONTEXT_NAME>}(=)<TYPE>(://)<VALUE>]
+                    [{(- )<CONTEXT_NAME>(=){<CONTEXT_PATH>|<CONTEXT_NAME>}(=)<TYPE>(://)<VALUE>}]
                 entitlements:
-                    [(- )(")<name>(.)<value>(")]
+                    [{(- )(")<name>(.)<value>(")}]
                 extra_hosts:
-                    [(- )(")<HOST_NAME>(=|:){<HOST_IP>|[<HOST_IP>]}(")]
-                isolation: <ISOLATION>
-                privileged: <BOOL>
+                    [{(- )(")<HOST_NAME>(=|:){<HOST_IP>|[<HOST_IP>]}(")}]
+                isolation: {<ISOLATION>}
+                privileged: {<BOOL>}
                 labels:
-                    [(- )(")<LABEL_NAME[(.)<NAME>]>(=)LABEL_VALUE(")]
-                no_cache: <BOOL>
-                pull: <BOOL>
+                    [{(- )(")<LABEL_NAME[(.)<NAME>]>(=)LABEL_VALUE(")}]
+                no_cache: {<BOOL>}
+                pull: {<BOOL>}
                 network: {<NETWORK_NAME>|none}
-                shm_size: {<SIZE>"{b|kb|mb|gb}"}
-                target: <TARGET>
-                secrets: <SECRET_NAME>
+                shm_size: {<SIZE>("){b|kb|mb|gb}(")}
+                target: {<TARGET>}
+                secrets: {<SECRET_NAME>}
                 tags:
-                    [(- )(")<TAG_NAME>(:)TAG_VALUE(")]
+                    [{(- )(")<TAG_NAME>(:)TAG_VALUE(")}]
                 ulimits:
-                    nproc: <LIMIT>
+                    nproc: {<LIMIT>}
                     nofile: 
-                        soft: <LIMIT>
-                        hard: <LIMIT>
-                platform: <PLATFORM>
+                        soft: {<LIMIT>}
+                        hard: {<LIMIT>}
+                platform: {<PLATFORM>}
             blkio_config:
-                weight: <WEIGHT>
+                weight: {<WEIGHT>}
                 weight_device:
-                    (- )path: <PATH>
-                        weight: <WEIGHT:10-10000>
+                    (- )path: {<PATH>}
+                        weight: {<WEIGHT:10-10000>}
                 device_read_bps:
-                    (- )path: <PATH>
-                        rate: (')<RATE>"{b|kb|mb|gb}"(')
+                    (- )path: {<PATH>}
+                        rate: {(')<RATE>("){b|kb|mb|gb}(")(')}
                 device_read_iops:
-                    (- )path: /dev/sdb
-                        rate: <RATE>
+                    (- )path: {<PATH>}
+                        rate: {<RATE>}
                 device_write_bps:
-                    (- )path: /dev/sdb
-                        rate: (')<RATE>"{b|k|m|g}"(')
+                    (- )path: {<PATH>}
+                        rate: {(')<RATE>("){b|k|m|g}(")(')}
                 device_write_iops:
-                    (- )path: /dev/sdb
-                        rate: <RATE>
-            cpu_count: <INT>
-            cpu_percent: <PERCENT>
-            cpu_shares: <INT>
-            cpu_period: <INT>
-            cpu_quota: <INT>
+                    (- )path: {<PATH>}
+                        rate: {<RATE>}
+            cpu_count: {<INT>}
+            cpu_percent: {<PERCENT>}
+            cpu_shares: {<INT>}
+            cpu_period: {<INT>}
+            cpu_quota: {<INT>}
             cpu_rt_runtime: {<MICROSECONDS>:<DURATION>}
             cpu_rt_period: {<MICROSECONDS>:<DURATION>}
-            cpus: <FLOAT>=services.this.deploy.resources.cpus
-            cpuset: {<INT>(-)<INT>|<INT>[,(<INT>)]}
+            cpus: <FLOAT>={services.this.deploy.resources.cpus}
+            cpuset: {<INT>(-)<INT>|<INT>[(,<INT>)]}
             cap_add:
-                [(- )<CAPABILITY>]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''
+                [{(- )<CAPABILITY>}]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''
             cap_drop:
-                [(- )<CAPABILITY>]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''
+                [{(- )<CAPABILITY>}]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''
             cgroup: {<STRING|private}
-            cgroup_parent: <STRING>'''https://man7.org/linux/man-pages/man7/cgroups.7.html'''
+            cgroup_parent: {<STRING>}'''https://man7.org/linux/man-pages/man7/cgroups.7.html'''
             command: {<COMMAND>|["<COMMAND>"]}
             {configs:
-                [(- )<CONFIGNAME>]+configs
+                [{(- )<CONFIGNAME>}]+configs
             |
             configs:
-                [(- )source: <CONFIGNAME>+configs
+                [{(- )source: <CONFIGNAME>+configs}]
                     target: <PATH>
                     uid: (")<UID>(")
                     gid: (")<GID>(")
-                    mode: <CHMOD>]
+                    mode: <CHMOD>
             }
-            container_name: <STRING>
+            container_name: {<STRING>}
             credential_spec:
-                file: <STRING>
-                registry: <STRING>
-            {depends_on
-                [(- )<SERVICE>]
-            |
+                file: {<STRING>}
+                registry: {<STRING>}
             depends_on:
-                [<SERVICE>:
+                [{(- )<SERVICE>}]|
+                [{<SERVICE>}]:
                     condition: {service_started|service_healthy|service_completed_successfully}
-                    restart: <BOOL>
-                    required: <BOOL>
-                ]
-            }
+                    restart: {<BOOL>}
+                    required: {<BOOL>}
             deploy:'''https://github.com/compose-spec/compose-spec/blob/main/deploy.md'''
             develop:'''https://github.com/compose-spec/compose-spec/blob/main/develop.md'''
             device_cgroup_rules:
-                [(- )(')<RULE:TEXT>(')]
+                [{(- )(')<RULE:TEXT>(')}]
             devices:
-                [(- )(")<HOST_PATH>:<CONTAINER_PATH>[:<CGROUP_PERMISSIONS>](")]
+                [{(- )(")<HOST_PATH>:<CONTAINER_PATH>[:<CGROUP_PERMISSIONS>](")}]
             dns:
-                [(- )<DNS_SERVER>]
+                [{(- )<DNS_SERVER>}]
 
             // here work on
-            {ports:
-                (- )[{<HOST_PORT>|<HOST_PORT_RANGE>"{/tcp|/udp}"}(:){<CONTAINER_PORT>|<CONTAINER_PORT_RANGE>}]
-            |
-            ports:[ 
-                (- )name: <NAME>
-                    target: <CONTAINER_PORT>
-                    host_ip: <HOST_IP>
-                    published: <HOST_PORT>
+            ports:
+                {(- )[{<HOST_PORT>|<HOST_PORT_RANGE>"{/tcp|/udp}"}(:){<CONTAINER_PORT>|<CONTAINER_PORT_RANGE>}]}|
+                [{(- )name: <NAME>}]
+                    target: {<CONTAINER_PORT>}
+                    host_ip: {<HOST_IP>}
+                    published: {<HOST_PORT>}
                     protocol: {tcp|udp}
-                    app_protocol: <APP_PROTOCOL>
+                    app_protocol: {<APP_PROTOCOL>}
                     mode: {host|ingress}
-                ]
-            }
+                
+            
             post_start:
-                (- )comamnd: <COMMAND>
-                    user: <USER>
-                    privileged: <BOOL>
+                (- )comamnd: {<COMMAND>}
+                    user: {<USER>}
+                    privileged: {<BOOL>}
                     environment:
-                    (- )[<ENV_NAME>(=)ENV_VALUE]
+                        [{(- )<ENV_NAME>(=)ENV_VALUE}]
             pre_stop:
                 (- )comamnd: <COMMAND>
                     user: <USER>
                     privileged: <BOOL>
                     environment:
-                    (- )[<ENV_NAME>(=)ENV_VALUE]
+                        [{(- )<ENV_NAME>(=)ENV_VALUE}]
             privileged: <BOOL>
             profiles:
-                (- )[<PROFILE_NAME>]
+                [{(- )<PROFILE_NAME>}]
             pull_policy: {always|never|missing|build}
-            read_only: <BOOL>
+            read_only: {<BOOL>}
             restart: {always|(")no(")|on-failure|unless-stopped}
-            runtime: <RUNTIME>
-            scale: <SCALE>+services.this.deploy.replicas
+            runtime: {<RUNTIME>}
+            scale: {<SCALE>+services.this.deploy.replicas}
     networks:
-        <NAME:TEXT>:[]
+        [{<NAME:TEXT>}:]
     volumes:
-        <NAME:TEXT>:[]
+        [{<NAME:TEXT>}:]
