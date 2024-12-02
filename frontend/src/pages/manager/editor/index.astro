@@ -1,7 +1,8 @@
 ---
 import ManagerPage from "../index.astro";
+import EditorMain from "./components/EditorMain";
 ---
 
 <ManagerPage>
-    <div slot="manager">Editor</div>
+    <div slot="manager" class="min-h-full min-w-full overflow-hidden"><EditorMain client:only /></div>
 </ManagerPage>
