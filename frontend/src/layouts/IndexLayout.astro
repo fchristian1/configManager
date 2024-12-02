@@ -6,7 +6,8 @@ interface Props {
 }
 const { title, description } = Astro.props;
 const pathname = new URL(Astro.request.url).pathname;
-const isActive = (path: string, alternative = "") => (path === pathname ? "active" : alternative);
+const isHome = () => (pathname === "/" || pathname === "" ? "active" : "");
+const isActive = (path: string, alternative = "") => (pathname === path ? "active" : pathname.includes(path) ? "active2" : alternative);
 const { session } = JSON.parse(Astro.request.headers.get("Cookie")?.split("=")[1] ?? '{ "session": false }');
 const isLogin: boolean = session ?? false;
 ---
@@ -21,11 +22,11 @@ const isLogin: boolean = session ?? false;
         <title>{title}</title>
     </head>
 
-    <body>
-        <nav class="flex p-2 gap-2">
-            <ul class="flex w-full gap-2">
-                <li><a href="/">Home</a></li>
-                <li class="bg-orange-100">
+    <body class="h-screen flex flex-col overflow-hidden">
+        <nav class="flex flex-row p-4">
+            <ul class="flex w-full">
+                <li><a class={isHome()} href="/">Home</a></li>
+                <li>
                     {
                         isLogin && (
                             <a class={isActive("/manager")} href="/manager">
@@ -79,14 +80,14 @@ const isLogin: boolean = session ?? false;
                 </li>
             </ul>
         </nav>
-        <div class="flex">
+        <div class="flex flex-1 overflow-hidden">
             <aside>
                 <slot name="sidebar" />
             </aside>
-            <main class="">
+            <main class="flex flex-1 p-2 overflow-hidden">
                 <slot />
             </main>
         </div>
-        <footer><slot name="footer" /></footer>
+        <footer class="mt-auto"><slot name="footer" />testfooter</footer>
     </body>
 </html>

@@ -1,18 +1,20 @@
 ---
 import IndexLayout from "../../layouts/IndexLayout.astro";
+const pathname = new URL(Astro.request.url).pathname;
+const isActive = (path: string, alternative = "") => (pathname === path ? "active" : pathname.includes(path) ? "active2" : alternative);
 ---
 
 <IndexLayout title="Manager Page" description="Manager Page of Config Manager">
-    <div class="flex flex-col items-stretch m-2" slot="sidebar">
-        <a href="/manager">Manager Dashboard</a>
-        <a class="ms-2" href="/manager/configs">Configs</a>
-        <a class="ms-2" href="/manager/editor">Editor</a>
-        <a class="ms-2" href="/manager/systems">Systems</a>
+    <div class="flex flex-col items-stretch my-2 gap-1" slot="sidebar">
+        <a class={isActive("/manager") + " ms-2"} href="/manager">Manager Dashboard</a>
+        <a class={isActive("/manager/configs") + " ms-2"} href="/manager/configs">Configs</a>
+        <a class={isActive("/manager/editor") + " ms-2"} href="/manager/editor">Editor</a>
+        <a class={isActive("/manager/secrets") + " ms-2"} href="/manager/secrets">Secrets</a>
+        <a class={isActive("/manager/systems") + " ms-2"} href="/manager/systems">Systems</a>
     </div>
-    <div class="m-2">
-        <slot name="manager">
-            <h1>Manager Dashboard</h1>
-            <p>Manager Dashboard of Config Manager</p>
-        </slot>
-    </div>
+
+    <slot name="manager">
+        <h1>Manager Dashboard</h1>
+        <p>Manager Dashboard of Config Manager</p>
+    </slot>
 </IndexLayout>
