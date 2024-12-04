@@ -7,9 +7,11 @@ const isActive = (path: string, alternative = "") => (pathname === path ? "activ
 <IndexLayout title="Manager Page" description="Manager Page of Config Manager">
     <div class="flex flex-col items-stretch my-2 gap-1" slot="sidebar">
         <a class={isActive("/manager") + " ms-2"} href="/manager">Manager Dashboard</a>
+        <a class={isActive("/manager/projects") + " ms-2"} href="/manager/projects">Projects</a>
         <a class={isActive("/manager/configs") + " ms-2"} href="/manager/configs">Configs</a>
         <a class={isActive("/manager/editor") + " ms-2"} href="/manager/editor">Editor</a>
         <a class={isActive("/manager/secrets") + " ms-2"} href="/manager/secrets">Secrets</a>
+        <a class={isActive("/manager/environment") + " ms-2"} href="/manager/environment">Environment</a>
         <a class={isActive("/manager/systems") + " ms-2"} href="/manager/systems">Systems</a>
     </div>
 
