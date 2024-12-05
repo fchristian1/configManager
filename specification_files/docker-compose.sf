@@ -18,7 +18,7 @@
 
 {{yaml:docker-compose}}:
     services:
-        <NAME:TEXT>:
+        [<NAME:TEXT>:]
             build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
                 context: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
                 dockerfile: <PATH:TEXT>
