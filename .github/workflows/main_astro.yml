@@ -31,7 +31,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd frontend
-          zip release.zip ./* -r \
+          zip release.zip -r \
             dist \
             package.json \
             package-lock.json \
