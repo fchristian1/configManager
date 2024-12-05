@@ -35,7 +35,7 @@ jobs:
             dist \
             package.json \
             package-lock.json \
-            astro.config.* \
+            astro.config.mjs \
             public
 
       - name: Upload artifact for deployment job
