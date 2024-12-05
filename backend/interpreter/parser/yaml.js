@@ -1,5 +1,6 @@
 import { Parser } from "./parser.js";
-
+// tasks:
+// parser anpassen auf neue sf links anpassen 
 export class YAMLParser extends Parser {
     constructor(systemname, systemtype, content) {
         super(systemname, systemtype, content);
