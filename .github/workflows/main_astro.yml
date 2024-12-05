@@ -29,7 +29,7 @@ jobs:
           npm run test --if-present
 
       - name: Zip artifact for deployment
-        run:  |
+        run: |
           cd frontend
           zip release.zip ./* -r
 
@@ -45,7 +45,7 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -54,7 +54,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip frontend/release.zip
-      
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -63,3 +63,8 @@ jobs:
           slot-name: 'Production'
           package: frontend
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B860F13ADC23474B848D3BFDBE56C7A9 }}
+
+      - name: Start application
+        run: |
+          cd frontend
+          npm run start
