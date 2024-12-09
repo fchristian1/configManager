@@ -1,16 +1,16 @@
 # CONFIG MANAGER SPECIFICATION FILE
 # DOCKER COMPOSE
 
-# LEGEND(:)
-#{{{config_system:system_name}}}: //the name of the system that the configuration is for
+# LEGEND
+#{{{config_system:system_name}}} //the name of the system that the configuration is for
 #TAB(s) in front of a line, means that the line is a child of the line above
-#Tabs must be spaces, not tabs
+#Tabs must be spaces, not tabs. the number of spaces is not important, but must be the same for all lines.
 #section_name: // the name of the section_name
 #<NAME:TYPE:LIMIT>: //it is a section that name must be defined
 #<LABEL:TYPE:LIMIT> elements to define with a value. LABLE is a short description of the element, TYPE is the type of the element
 #() must have char for names or values
 #{ | } must have elements with chosen element or value
-#{{linkname}} link to the other part of the documentation
+#{{linkname}} link to the other part of the documentation and the end of the chain of elements, an new element must be stay a tab backward
 #[] element, values or passages are repeated
 #\ its for chars that represenst normaly a special char
 #+ path to the element are must have to be defined
@@ -20,68 +20,68 @@
 
 
 {{{yaml:docker-compose}}}
-    services(:)
+    services:
         {{docker-compose.services}}
-    networks(:)
+    networks:
         {{docker-compose.networks}}
-    volumes(:)
+    volumes:
         {{docker-compose.volumes}}
 
 {{{yaml:docker-compose.services}}}
-    [{<NAME:TEXT>}(:)]
-        build(:) {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>|{{this.childrens}}}
-            context(:) {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
-            dockerfile(:) {<PATH:TEXT>}
-            dockerfil_inline(:) {(|)}
+    [{<NAME:TEXT>}:]
+        build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>|{{this.childrens}}}
+            context: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}
+            dockerfile: {<PATH:TEXT>}
+            dockerfil_inline: {(|)}
                 {<DOCKERFILE_CONTENT:MTEXT>}
-            args(:)
-                [{(- )<ARG_NAME:TEXT>(: )<ARG_VALUE:TEXT>}]
-            ssh(:)
-                [{(- ){"default"|<SSH_KEY_NAME:TEXT>}(: )<SSH_KEY_PATH:TEXT>}]
-            cache_from(:)
+            args:
+                [{(- )<ARG_NAME:TEXT>(:)<ARG_VALUE:TEXT>}]
+            ssh:
+                [{(- ){"default"|<SSH_KEY_NAME:TEXT>}(:)<SSH_KEY_PATH:TEXT>}]
+            cache_from:
                 [{(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]}]
-            cache_to(:)
+            cache_to:
                 [{(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]}]
-            additional_contexts(:)
+            additional_contexts:
                 [{(- )<CONTEXT_NAME>(=){<CONTEXT_PATH>|<CONTEXT_NAME>}(=)<TYPE>(://)<VALUE>}]
-            entitlements(:)
+            entitlements:
                 [{(- )(")<name>(.)<value>(")}]
-            extra_hosts(:)
+            extra_hosts:
                 [{(- )(")<HOST_NAME>(=|:){<HOST_IP>|[<HOST_IP>]}(")}]
-            isolation(:) {<ISOLATION>}
-            privileged(:) {<BOOL>}
-            labels(:)
+            isolation: {<ISOLATION>}
+            privileged: {<BOOL>}
+            labels:
                 [{(- )(")<LABEL_NAME[(.)<NAME>]>(=)LABEL_VALUE(")}]
-            no_cache(:) {<BOOL>}
-            pull(:) {<BOOL>}
-            network(:) {<NETWORK_NAME>|none}
-            shm_size(:) {<SIZE>("){b|kb|mb|gb}(")}
+            no_cache: {<BOOL>}
+            pull: {<BOOL>}
+            network: {<NETWORK_NAME>|none}
+            shm_size: {<SIZE>("){b|kb|mb|gb}(")}
             target: {<TARGET>}
             secrets: {<SECRET_NAME>}
-            tags(:)
+            tags:
                 [{(- )(")<TAG_NAME>(:)TAG_VALUE(")}]
-            ulimits(:)
+            ulimits:
                 nproc: {<LIMIT>}
                 nofile: 
                     soft: {<LIMIT>}
                     hard: {<LIMIT>}
             platform: {<PLATFORM>}
-        blkio_config(:)
+        blkio_config:
             weight: {<WEIGHT>}
-            weight_device(:)
-                (- )path: {<PATH>}
+            weight_device:
+                (- )path(:) {<PATH>}
                     weight: {<WEIGHT:10-10000>}
-            device_read_bps(:)
-                (- )path: {<PATH>}
+            device_read_bps:
+                (- )path(:) {<PATH>}
                     rate: {(')<RATE>("){b|kb|mb|gb}(")(')}
-            device_read_iops(:)
-                (- )path: {<PATH>}
+            device_read_iops:
+                (- )path(:) {<PATH>}
                     rate: {<RATE>}
-            device_write_bps(:)
-                (- )path: {<PATH>}
+            device_write_bps:
+                (- )path(:) {<PATH>}
                     rate: {(')<RATE>("){b|k|m|g}(")(')}
-            device_write_iops(:)
-                (- )path: {<PATH>}
+            device_write_iops:
+                (- )path(:) {<PATH>}
                     rate: {<RATE>}
         cpu_count: {<INT>}
         cpu_percent: {<PERCENT>}
@@ -92,46 +92,46 @@
         cpu_rt_period: {<MICROSECONDS>:<DURATION>}
         cpus: <FLOAT>={services.this.deploy.resources.cpus}
         cpuset: {<INT>(-)<INT>|<INT>[(,<INT>)]}
-        cap_add(:)
+        cap_add:
             [{(- )<CAPABILITY>}]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''
-        cap_drop(:)
+        cap_drop:
             [{(- )<CAPABILITY>}]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''
         cgroup: {<STRING|private}
         cgroup_parent: {<STRING>}'''https://man7.org/linux/man-pages/man7/cgroups.7.html'''
         command: {<COMMAND>|["<COMMAND>"]}
-        {configs(:)
+        {configs:
             [{(- )<CONFIGNAME>}]+configs
         |
-        configs(:)
-            [{(- )source: <CONFIGNAME>+configs}]
+        configs:
+            [{(- )source(:) <CONFIGNAME>+configs}]
                 target: <PATH>
                 uid: (")<UID>(")
                 gid: (")<GID>(")
                 mode: <CHMOD>
         }
         container_name: {<STRING>}
-        credential_spec(:)
+        credential_spec:
             file: {<STRING>}
             registry: {<STRING>}
-        depends_on(:)
+        depends_on:
             [{(- )<SERVICE>}]|
-            [{<SERVICE>}](:)
+            [{<SERVICE>}]:
                 condition: {service_started|service_healthy|service_completed_successfully}
                 restart: {<BOOL>}
                 required: {<BOOL>}
         deploy:'''https://github.com/compose-spec/compose-spec/blob/main/deploy.md'''
         develop:'''https://github.com/compose-spec/compose-spec/blob/main/develop.md'''
-        device_cgroup_rules(:)
+        device_cgroup_rules:
             [{(- )(')<RULE:TEXT>(')}]
-        devices(:)
+        devices:
             [{(- )(")<HOST_PATH>:<CONTAINER_PATH>[:<CGROUP_PERMISSIONS>](")}]
-        dns(:)
+        dns:
             [{(- )<DNS_SERVER>}]
 
         // here work on
-        ports(:)
+        ports:
             {(- )[{<HOST_PORT>|<HOST_PORT_RANGE>"{/tcp|/udp}"}(:){<CONTAINER_PORT>|<CONTAINER_PORT_RANGE>}]}|
-            [{(- )name: <NAME>}]
+            [{(- )name(:) <NAME>}]
                 target: {<CONTAINER_PORT>}
                 host_ip: {<HOST_IP>}
                 published: {<HOST_PORT>}
@@ -140,20 +140,20 @@
                 mode: {host|ingress}
             
         
-        post_start(:)
-            (- )comamnd: {<COMMAND>}
+        post_start:
+            (- )comamnd(:) {<COMMAND>}
                 user: {<USER>}
                 privileged: {<BOOL>}
-                environment(:)
+                environment:
                     [{(- )<ENV_NAME>(=)ENV_VALUE}]
-        pre_stop(:)
-            (- )comamnd: <COMMAND>
+        pre_stop:
+            (- )comamnd(:) <COMMAND>
                 user: <USER>
                 privileged: <BOOL>
-                environment(:)
+                environment:
                     [{(- )<ENV_NAME>(=)ENV_VALUE}]
         privileged: <BOOL>
-        profiles(:)
+        profiles:
             [{(- )<PROFILE_NAME>}]
         pull_policy: {always|never|missing|build}
         read_only: {<BOOL>}
@@ -162,7 +162,8 @@
         scale: {<SCALE>+services.this.deploy.replicas}
 
 {{{yaml:docker-compose.networks}}}
-    [{<NAME:TEXT>}(:)]
+    [{<NAME:TEXT>}:]
+
     
 {{{yaml:docker-compose.volumes}}}
-    [{<NAME:TEXT>}(:)]
+    [{<NAME:TEXT>}:]

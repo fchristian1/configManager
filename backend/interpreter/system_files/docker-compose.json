@@ -1,277 +1,240 @@
 {
   "name": "docker-compose",
-  "hash": "d3b86cb8e0cc1e1f50307d16c7efe30dfbc83ce74a1c3270533630c1c521729e",
-  "content": {
-    "docker-compose": {
-      "sections": [
-        {
-          "id": "1.1",
-          "col": 1,
-          "row": 1,
-          "section": "services:",
-          "childrens": [
+  "hash": "714d605abb2a86562e8ee9dca0c2d7bfd20590f49b4955f507f202c2e065d045",
+  "content": [
+    [
+      {
+        "docker-compose": {
+          "id": "1",
+          "sections": [
             {
-              "id": "1.1-2.1",
-              "col": 2,
-              "row": 1,
+              "id": "1.1",
+              "section": "services:",
+              "childrens": [
+                {
+                  "id": "1.1.1",
+                  "section": "{{docker-compose.services}}",
+                  "childrens": []
+                }
+              ]
+            },
+            {
+              "id": "1.2",
+              "section": "networks:",
+              "childrens": [
+                {
+                  "id": "1.2.1",
+                  "section": "{{docker-compose.networks}}",
+                  "childrens": []
+                }
+              ]
+            },
+            {
+              "id": "1.3",
+              "section": "volumes:",
+              "childrens": [
+                {
+                  "id": "1.3.1",
+                  "section": "{{docker-compose.volumes}}",
+                  "childrens": []
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "docker-compose.services": {
+          "id": "2",
+          "sections": [
+            {
+              "id": "2.1",
               "section": "[{<NAME:TEXT>}:]",
               "childrens": [
                 {
-                  "id": "1.1-2.1-3.1",
-                  "col": 3,
-                  "row": 1,
-                  "section": "build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>|{{childrens}}}",
+                  "id": "2.1.1",
+                  "section": "build: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>|{{this.childrens}}}",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.1-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.1.1",
                       "section": "context: {<PATH:TEXT>|<GIT_URL:URL>(#)<BRANCH_OT_TAG:TEXT>(:)<SUBDIR:TEXT>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.2",
-                      "col": 4,
-                      "row": 2,
+                      "id": "2.1.1.2",
                       "section": "dockerfile: {<PATH:TEXT>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.3",
-                      "col": 4,
-                      "row": 3,
+                      "id": "2.1.1.3",
                       "section": "dockerfil_inline: {(|)}",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.3-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.3.1",
                           "section": "{<DOCKERFILE_CONTENT:MTEXT>}",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.4",
-                      "col": 4,
-                      "row": 4,
+                      "id": "2.1.1.4",
                       "section": "args:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.4-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "[{(- )<ARG_NAME:TEXT>(: )<ARG_VALUE:TEXT>}]",
+                          "id": "2.1.1.4.1",
+                          "section": "[{(- )<ARG_NAME:TEXT>(:)<ARG_VALUE:TEXT>}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.5",
-                      "col": 4,
-                      "row": 5,
+                      "id": "2.1.1.5",
                       "section": "ssh:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.5-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "[{(- ){\"default\"|<SSH_KEY_NAME:TEXT>}(: )<SSH_KEY_PATH:TEXT>}]",
+                          "id": "2.1.1.5.1",
+                          "section": "[{(- ){\"default\"|<SSH_KEY_NAME:TEXT>}(:)<SSH_KEY_PATH:TEXT>}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.6",
-                      "col": 4,
-                      "row": 6,
+                      "id": "2.1.1.6",
                       "section": "cache_from:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.6-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.6.1",
                           "section": "[{(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.7",
-                      "col": 4,
-                      "row": 7,
+                      "id": "2.1.1.7",
                       "section": "cache_to:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.7-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.7.1",
                           "section": "[{(- ){<NAME>|type}(=)<TYPE>[(,)<KEY>(=)<VALUE>]}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.8",
-                      "col": 4,
-                      "row": 8,
+                      "id": "2.1.1.8",
                       "section": "additional_contexts:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.8-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.8.1",
                           "section": "[{(- )<CONTEXT_NAME>(=){<CONTEXT_PATH>|<CONTEXT_NAME>}(=)<TYPE>(://)<VALUE>}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.9",
-                      "col": 4,
-                      "row": 9,
+                      "id": "2.1.1.9",
                       "section": "entitlements:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.9-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.9.1",
                           "section": "[{(- )(\")<name>(.)<value>(\")}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.10",
-                      "col": 4,
-                      "row": 10,
+                      "id": "2.1.1.10",
                       "section": "extra_hosts:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.10-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.10.1",
                           "section": "[{(- )(\")<HOST_NAME>(=|:){<HOST_IP>|[<HOST_IP>]}(\")}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.11",
-                      "col": 4,
-                      "row": 11,
+                      "id": "2.1.1.11",
                       "section": "isolation: {<ISOLATION>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.12",
-                      "col": 4,
-                      "row": 12,
+                      "id": "2.1.1.12",
                       "section": "privileged: {<BOOL>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.13",
-                      "col": 4,
-                      "row": 13,
+                      "id": "2.1.1.13",
                       "section": "labels:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.13-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.13.1",
                           "section": "[{(- )(\")<LABEL_NAME[(.)<NAME>]>(=)LABEL_VALUE(\")}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.14",
-                      "col": 4,
-                      "row": 14,
+                      "id": "2.1.1.14",
                       "section": "no_cache: {<BOOL>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.15",
-                      "col": 4,
-                      "row": 15,
+                      "id": "2.1.1.15",
                       "section": "pull: {<BOOL>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.16",
-                      "col": 4,
-                      "row": 16,
+                      "id": "2.1.1.16",
                       "section": "network: {<NETWORK_NAME>|none}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.17",
-                      "col": 4,
-                      "row": 17,
+                      "id": "2.1.1.17",
                       "section": "shm_size: {<SIZE>(\"){b|kb|mb|gb}(\")}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.18",
-                      "col": 4,
-                      "row": 18,
+                      "id": "2.1.1.18",
                       "section": "target: {<TARGET>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.19",
-                      "col": 4,
-                      "row": 19,
+                      "id": "2.1.1.19",
                       "section": "secrets: {<SECRET_NAME>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.20",
-                      "col": 4,
-                      "row": 20,
+                      "id": "2.1.1.20",
                       "section": "tags:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.20-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.20.1",
                           "section": "[{(- )(\")<TAG_NAME>(:)TAG_VALUE(\")}]",
                           "childrens": []
                         }
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.21",
-                      "col": 4,
-                      "row": 21,
+                      "id": "2.1.1.21",
                       "section": "ulimits:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.1-4.21-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.1.21.1",
                           "section": "nproc: {<LIMIT>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.1-4.21-5.2",
-                          "col": 5,
-                          "row": 2,
+                          "id": "2.1.1.21.2",
                           "section": "nofile:",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.1-4.21-5.2-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.1.21.2.1",
                               "section": "soft: {<LIMIT>}",
                               "childrens": []
                             },
                             {
-                              "id": "1.1-2.1-3.1-4.21-5.2-6.2",
-                              "col": 6,
-                              "row": 2,
+                              "id": "2.1.1.21.2.2",
                               "section": "hard: {<LIMIT>}",
                               "childrens": []
                             }
@@ -280,43 +243,31 @@
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.1-4.22",
-                      "col": 4,
-                      "row": 22,
+                      "id": "2.1.1.22",
                       "section": "platform: {<PLATFORM>}",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.2",
-                  "col": 3,
-                  "row": 2,
+                  "id": "2.1.2",
                   "section": "blkio_config:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.2-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.2.1",
                       "section": "weight: {<WEIGHT>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.2-4.2",
-                      "col": 4,
-                      "row": 2,
+                      "id": "2.1.2.2",
                       "section": "weight_device:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.2-4.2-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "(- )path: {<PATH>}",
+                          "id": "2.1.2.2.1",
+                          "section": "(- )path(:) {<PATH>}",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.2-4.2-5.1-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.2.2.1.1",
                               "section": "weight: {<WEIGHT:10-10000>}",
                               "childrens": []
                             }
@@ -325,21 +276,15 @@
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.2-4.3",
-                      "col": 4,
-                      "row": 3,
+                      "id": "2.1.2.3",
                       "section": "device_read_bps:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.2-4.3-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "(- )path: {<PATH>}",
+                          "id": "2.1.2.3.1",
+                          "section": "(- )path(:) {<PATH>}",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.2-4.3-5.1-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.2.3.1.1",
                               "section": "rate: {(')<RATE>(\"){b|kb|mb|gb}(\")(')}",
                               "childrens": []
                             }
@@ -348,21 +293,15 @@
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.2-4.4",
-                      "col": 4,
-                      "row": 4,
+                      "id": "2.1.2.4",
                       "section": "device_read_iops:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.2-4.4-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "(- )path: {<PATH>}",
+                          "id": "2.1.2.4.1",
+                          "section": "(- )path(:) {<PATH>}",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.2-4.4-5.1-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.2.4.1.1",
                               "section": "rate: {<RATE>}",
                               "childrens": []
                             }
@@ -371,21 +310,15 @@
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.2-4.5",
-                      "col": 4,
-                      "row": 5,
+                      "id": "2.1.2.5",
                       "section": "device_write_bps:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.2-4.5-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "(- )path: {<PATH>}",
+                          "id": "2.1.2.5.1",
+                          "section": "(- )path(:) {<PATH>}",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.2-4.5-5.1-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.2.5.1.1",
                               "section": "rate: {(')<RATE>(\"){b|k|m|g}(\")(')}",
                               "childrens": []
                             }
@@ -394,21 +327,15 @@
                       ]
                     },
                     {
-                      "id": "1.1-2.1-3.2-4.6",
-                      "col": 4,
-                      "row": 6,
+                      "id": "2.1.2.6",
                       "section": "device_write_iops:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.2-4.6-5.1",
-                          "col": 5,
-                          "row": 1,
-                          "section": "(- )path: {<PATH>}",
+                          "id": "2.1.2.6.1",
+                          "section": "(- )path(:) {<PATH>}",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.2-4.6-5.1-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.2.6.1.1",
                               "section": "rate: {<RATE>}",
                               "childrens": []
                             }
@@ -419,178 +346,128 @@
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.3",
-                  "col": 3,
-                  "row": 3,
+                  "id": "2.1.3",
                   "section": "cpu_count: {<INT>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.4",
-                  "col": 3,
-                  "row": 4,
+                  "id": "2.1.4",
                   "section": "cpu_percent: {<PERCENT>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.5",
-                  "col": 3,
-                  "row": 5,
+                  "id": "2.1.5",
                   "section": "cpu_shares: {<INT>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.6",
-                  "col": 3,
-                  "row": 6,
+                  "id": "2.1.6",
                   "section": "cpu_period: {<INT>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.7",
-                  "col": 3,
-                  "row": 7,
+                  "id": "2.1.7",
                   "section": "cpu_quota: {<INT>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.8",
-                  "col": 3,
-                  "row": 8,
+                  "id": "2.1.8",
                   "section": "cpu_rt_runtime: {<MICROSECONDS>:<DURATION>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.9",
-                  "col": 3,
-                  "row": 9,
+                  "id": "2.1.9",
                   "section": "cpu_rt_period: {<MICROSECONDS>:<DURATION>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.10",
-                  "col": 3,
-                  "row": 10,
+                  "id": "2.1.10",
                   "section": "cpus: <FLOAT>={services.this.deploy.resources.cpus}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.11",
-                  "col": 3,
-                  "row": 11,
+                  "id": "2.1.11",
                   "section": "cpuset: {<INT>(-)<INT>|<INT>[(,<INT>)]}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.12",
-                  "col": 3,
-                  "row": 12,
+                  "id": "2.1.12",
                   "section": "cap_add:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.12-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.12.1",
                       "section": "[{(- )<CAPABILITY>}]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.13",
-                  "col": 3,
-                  "row": 13,
+                  "id": "2.1.13",
                   "section": "cap_drop:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.13-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.13.1",
                       "section": "[{(- )<CAPABILITY>}]'''https://man7.org/linux/man-pages/man7/capabilities.7.html'''",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.14",
-                  "col": 3,
-                  "row": 14,
+                  "id": "2.1.14",
                   "section": "cgroup: {<STRING|private}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.15",
-                  "col": 3,
-                  "row": 15,
+                  "id": "2.1.15",
                   "section": "cgroup_parent: {<STRING>}'''https://man7.org/linux/man-pages/man7/cgroups.7.html'''",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.16",
-                  "col": 3,
-                  "row": 16,
+                  "id": "2.1.16",
                   "section": "command: {<COMMAND>|[\"<COMMAND>\"]}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.17",
-                  "col": 3,
-                  "row": 17,
+                  "id": "2.1.17",
                   "section": "{configs:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.17-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.17.1",
                       "section": "[{(- )<CONFIGNAME>}]+configs",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.18",
-                  "col": 3,
-                  "row": 18,
+                  "id": "2.1.18",
                   "section": "|",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.19",
-                  "col": 3,
-                  "row": 19,
+                  "id": "2.1.19",
                   "section": "configs:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.19-4.1",
-                      "col": 4,
-                      "row": 1,
-                      "section": "[{(- )source: <CONFIGNAME>+configs}]",
+                      "id": "2.1.19.1",
+                      "section": "[{(- )source(:) <CONFIGNAME>+configs}]",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.19-4.1-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.19.1.1",
                           "section": "target: <PATH>",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.19-4.1-5.2",
-                          "col": 5,
-                          "row": 2,
+                          "id": "2.1.19.1.2",
                           "section": "uid: (\")<UID>(\")",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.19-4.1-5.3",
-                          "col": 5,
-                          "row": 3,
+                          "id": "2.1.19.1.3",
                           "section": "gid: (\")<GID>(\")",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.19-4.1-5.4",
-                          "col": 5,
-                          "row": 4,
+                          "id": "2.1.19.1.4",
                           "section": "mode: <CHMOD>",
                           "childrens": []
                         }
@@ -599,78 +476,56 @@
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.20",
-                  "col": 3,
-                  "row": 20,
+                  "id": "2.1.20",
                   "section": "}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.21",
-                  "col": 3,
-                  "row": 21,
+                  "id": "2.1.21",
                   "section": "container_name: {<STRING>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.22",
-                  "col": 3,
-                  "row": 22,
+                  "id": "2.1.22",
                   "section": "credential_spec:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.22-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.22.1",
                       "section": "file: {<STRING>}",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.22-4.2",
-                      "col": 4,
-                      "row": 2,
+                      "id": "2.1.22.2",
                       "section": "registry: {<STRING>}",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.23",
-                  "col": 3,
-                  "row": 23,
+                  "id": "2.1.23",
                   "section": "depends_on:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.23-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.23.1",
                       "section": "[{(- )<SERVICE>}]|",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.23-4.2",
-                      "col": 4,
-                      "row": 2,
+                      "id": "2.1.23.2",
                       "section": "[{<SERVICE>}]:",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.23-4.2-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.23.2.1",
                           "section": "condition: {service_started|service_healthy|service_completed_successfully}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.23-4.2-5.2",
-                          "col": 5,
-                          "row": 2,
+                          "id": "2.1.23.2.2",
                           "section": "restart: {<BOOL>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.23-4.2-5.3",
-                          "col": 5,
-                          "row": 3,
+                          "id": "2.1.23.2.3",
                           "section": "required: {<BOOL>}",
                           "childrens": []
                         }
@@ -679,129 +534,93 @@
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.24",
-                  "col": 3,
-                  "row": 24,
+                  "id": "2.1.24",
                   "section": "deploy:'''https://github.com/compose-spec/compose-spec/blob/main/deploy.md'''",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.25",
-                  "col": 3,
-                  "row": 25,
+                  "id": "2.1.25",
                   "section": "develop:'''https://github.com/compose-spec/compose-spec/blob/main/develop.md'''",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.26",
-                  "col": 3,
-                  "row": 26,
+                  "id": "2.1.26",
                   "section": "device_cgroup_rules:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.26-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.26.1",
                       "section": "[{(- )(')<RULE:TEXT>(')}]",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.27",
-                  "col": 3,
-                  "row": 27,
+                  "id": "2.1.27",
                   "section": "devices:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.27-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.27.1",
                       "section": "[{(- )(\")<HOST_PATH>:<CONTAINER_PATH>[:<CGROUP_PERMISSIONS>](\")}]",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.28",
-                  "col": 3,
-                  "row": 28,
+                  "id": "2.1.28",
                   "section": "dns:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.28-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.28.1",
                       "section": "[{(- )<DNS_SERVER>}]",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.29",
-                  "col": 3,
-                  "row": 29,
+                  "id": "2.1.29",
                   "section": "// here work on",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.30",
-                  "col": 3,
-                  "row": 30,
+                  "id": "2.1.30",
                   "section": "ports:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.30-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.30.1",
                       "section": "{(- )[{<HOST_PORT>|<HOST_PORT_RANGE>\"{/tcp|/udp}\"}(:){<CONTAINER_PORT>|<CONTAINER_PORT_RANGE>}]}|",
                       "childrens": []
                     },
                     {
-                      "id": "1.1-2.1-3.30-4.2",
-                      "col": 4,
-                      "row": 2,
-                      "section": "[{(- )name: <NAME>}]",
+                      "id": "2.1.30.2",
+                      "section": "[{(- )name(:) <NAME>}]",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.30-4.2-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.30.2.1",
                           "section": "target: {<CONTAINER_PORT>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.30-4.2-5.2",
-                          "col": 5,
-                          "row": 2,
+                          "id": "2.1.30.2.2",
                           "section": "host_ip: {<HOST_IP>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.30-4.2-5.3",
-                          "col": 5,
-                          "row": 3,
+                          "id": "2.1.30.2.3",
                           "section": "published: {<HOST_PORT>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.30-4.2-5.4",
-                          "col": 5,
-                          "row": 4,
+                          "id": "2.1.30.2.4",
                           "section": "protocol: {tcp|udp}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.30-4.2-5.5",
-                          "col": 5,
-                          "row": 5,
+                          "id": "2.1.30.2.5",
                           "section": "app_protocol: {<APP_PROTOCOL>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.30-4.2-5.6",
-                          "col": 5,
-                          "row": 6,
+                          "id": "2.1.30.2.6",
                           "section": "mode: {host|ingress}",
                           "childrens": []
                         }
@@ -810,41 +629,29 @@
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.31",
-                  "col": 3,
-                  "row": 31,
+                  "id": "2.1.31",
                   "section": "post_start:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.31-4.1",
-                      "col": 4,
-                      "row": 1,
-                      "section": "(- )comamnd: {<COMMAND>}",
+                      "id": "2.1.31.1",
+                      "section": "(- )comamnd(:) {<COMMAND>}",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.31-4.1-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.31.1.1",
                           "section": "user: {<USER>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.31-4.1-5.2",
-                          "col": 5,
-                          "row": 2,
+                          "id": "2.1.31.1.2",
                           "section": "privileged: {<BOOL>}",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.31-4.1-5.3",
-                          "col": 5,
-                          "row": 3,
+                          "id": "2.1.31.1.3",
                           "section": "environment:",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.31-4.1-5.3-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.31.1.3.1",
                               "section": "[{(- )<ENV_NAME>(=)ENV_VALUE}]",
                               "childrens": []
                             }
@@ -855,41 +662,29 @@
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.32",
-                  "col": 3,
-                  "row": 32,
+                  "id": "2.1.32",
                   "section": "pre_stop:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.32-4.1",
-                      "col": 4,
-                      "row": 1,
-                      "section": "(- )comamnd: <COMMAND>",
+                      "id": "2.1.32.1",
+                      "section": "(- )comamnd(:) <COMMAND>",
                       "childrens": [
                         {
-                          "id": "1.1-2.1-3.32-4.1-5.1",
-                          "col": 5,
-                          "row": 1,
+                          "id": "2.1.32.1.1",
                           "section": "user: <USER>",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.32-4.1-5.2",
-                          "col": 5,
-                          "row": 2,
+                          "id": "2.1.32.1.2",
                           "section": "privileged: <BOOL>",
                           "childrens": []
                         },
                         {
-                          "id": "1.1-2.1-3.32-4.1-5.3",
-                          "col": 5,
-                          "row": 3,
+                          "id": "2.1.32.1.3",
                           "section": "environment:",
                           "childrens": [
                             {
-                              "id": "1.1-2.1-3.32-4.1-5.3-6.1",
-                              "col": 6,
-                              "row": 1,
+                              "id": "2.1.32.1.3.1",
                               "section": "[{(- )<ENV_NAME>(=)ENV_VALUE}]",
                               "childrens": []
                             }
@@ -900,97 +695,75 @@
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.33",
-                  "col": 3,
-                  "row": 33,
+                  "id": "2.1.33",
                   "section": "privileged: <BOOL>",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.34",
-                  "col": 3,
-                  "row": 34,
+                  "id": "2.1.34",
                   "section": "profiles:",
                   "childrens": [
                     {
-                      "id": "1.1-2.1-3.34-4.1",
-                      "col": 4,
-                      "row": 1,
+                      "id": "2.1.34.1",
                       "section": "[{(- )<PROFILE_NAME>}]",
                       "childrens": []
                     }
                   ]
                 },
                 {
-                  "id": "1.1-2.1-3.35",
-                  "col": 3,
-                  "row": 35,
+                  "id": "2.1.35",
                   "section": "pull_policy: {always|never|missing|build}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.36",
-                  "col": 3,
-                  "row": 36,
+                  "id": "2.1.36",
                   "section": "read_only: {<BOOL>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.37",
-                  "col": 3,
-                  "row": 37,
+                  "id": "2.1.37",
                   "section": "restart: {always|(\")no(\")|on-failure|unless-stopped}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.38",
-                  "col": 3,
-                  "row": 38,
+                  "id": "2.1.38",
                   "section": "runtime: {<RUNTIME>}",
                   "childrens": []
                 },
                 {
-                  "id": "1.1-2.1-3.39",
-                  "col": 3,
-                  "row": 39,
+                  "id": "2.1.39",
                   "section": "scale: {<SCALE>+services.this.deploy.replicas}",
                   "childrens": []
                 }
               ]
             }
           ]
-        },
-        {
-          "id": "1.2",
-          "col": 1,
-          "row": 2,
-          "section": "networks:",
-          "childrens": [
+        }
+      },
+      {
+        "docker-compose.networks": {
+          "id": "3",
+          "sections": [
             {
-              "id": "1.2-2.1",
-              "col": 2,
-              "row": 1,
-              "section": "[{<NAME:TEXT>}:]",
-              "childrens": []
-            }
-          ]
-        },
-        {
-          "id": "1.3",
-          "col": 1,
-          "row": 3,
-          "section": "volumes:",
-          "childrens": [
-            {
-              "id": "1.3-2.1",
-              "col": 2,
-              "row": 1,
+              "id": "3.1",
               "section": "[{<NAME:TEXT>}:]",
               "childrens": []
             }
           ]
         }
-      ]
-    }
-  }
+      },
+      {
+        "docker-compose.volumes": {
+          "id": "4",
+          "sections": [
+            {
+              "id": "4.1",
+              "section": "[{<NAME:TEXT>}:]",
+              "childrens": []
+            }
+          ]
+        }
+      }
+    ]
+  ]
 }
