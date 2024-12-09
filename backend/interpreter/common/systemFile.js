@@ -1,23 +1,26 @@
+import { console } from "inspector";
 
 export function getSystemName(fileContent) {
     const lines = fileContent.split('\n');
     //console.log("lines", lines);
-    const contextLine = lines.find(line => line.trim().startsWith('{{') && line.includes('}}:'));
+    const contextLine = lines.find(line => line.trim().startsWith('{{{') && line.includes('}}}'));
+    console.log("contextLine", contextLine);
     if (!contextLine) {
         return null;
     }
-    const name = contextLine.match(/{{(.*?):(.*?)}}:/);
+    const name = contextLine.match(/^{{{(.*?):(.*?)}}}$/);
     //console.log("name", name[1]);
     return name[2];
 }
 export function getSystemType(fileContent) {
     const lines = fileContent.split('\n');
-    //console.log("lines", lines);
-    const contextLine = lines.find(line => line.trim().startsWith('{{') && line.includes('}}:'));
+
+    const contextLine = lines.find(line => line.trim().startsWith('{{{') && line.includes('}}}'));
+    console.log("contextLine", contextLine);
     if (!contextLine) {
         return null;
     }
-    const name = contextLine.match(/{{(.*?):(.*?)}}:/);
+    const name = contextLine.match(/^{{{(.*?):(.*?)}}}$/);
     //console.log("name", name[1]);
     return name[1];
 }

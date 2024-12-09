@@ -6,7 +6,11 @@ export class YAMLParser extends Parser {
         super(systemname, systemtype, content);
     }
     parseContent() {
+        //console.log("content", this.content);
+
         const tabLength = this.getTabLength();
+        //console.log("tabLength", tabLength);
+
         this.contentParsed = {
             [this.systemname]: {
                 sections: this.getNextElements(tabLength, 1, this.content)
@@ -18,6 +22,7 @@ export class YAMLParser extends Parser {
         const contentElements = this.getNextContent(tabLength, col, content);
         //console.log("contentElements", contentElements.length);
         let elements = contentElements.map((contentElement, i) => {
+            console.log("contentElement", contentElement);
             const block = {
                 id: id + col + "." + (i + 1).toString(),
                 col,
@@ -25,7 +30,9 @@ export class YAMLParser extends Parser {
                 section: contentElement[0].trim(),
                 childrens: this.getNextElements(tabLength, col + 1, contentElement, id + col + "." + (i + 1).toString() + "-")
             };
+            //console.log("block", block);
             return block;
+
         });
         return elements;
     }
@@ -62,7 +69,7 @@ export class YAMLParser extends Parser {
         while (status) {
             let allRowsEmpty = true;
             this.content.forEach((line, i) => {
-                if (i == 0) return;
+                if (line[0] != " ") return;
                 if (line[row] != " ") {
                     allRowsEmpty = false;
                     tabLength = row;

@@ -18,11 +18,14 @@ export default class Interpreter {
         this.systemsSF = filesSF.map((filename) => {
             const fileContent = getFileContent(`./system_files/${filename}`);
             const name = getSystemName(fileContent);
+            //console.log(1, "name", name);
             const type = getSystemType(fileContent);
+            //console.log(1, "type", type);
             const content = getSystemContent(fileContent);
+            //console.log(1, "content", content);
             const parser = new parserClassMap[type](name, type, content);
             const hash = crypto.createHash('sha256').update(fileContent).digest('hex');
-            console.log(hash);
+            //console.log(hash);
             return {
                 name,
                 type,
@@ -33,7 +36,7 @@ export default class Interpreter {
         });
         const filesSFJSON = getListOfFiles('./system_files', '.json');
 
-        let systems = this.getAllSystems();
+        let systems = this.getSystems();
         let systemsJSON = systems.map(system => {
             let systemJson = {
                 name: system,
@@ -43,12 +46,12 @@ export default class Interpreter {
             fs.writeFileSync(`./system_files/${system}.json`, JSON.stringify(systemJson, " ", 2));
             return systemJson;
         });
-        console.log(systemsJSON);
+        //console.log(systemsJSON);
 
 
     }
 
-    getAllSystems() {
+    getSystems() {
         return this.systemsSF.map(system => system.name);
     }
     getElementsFromParent(system, parent, parentPosition) { }
