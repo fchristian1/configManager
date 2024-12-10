@@ -9,7 +9,7 @@ export class YAMLParser extends Parser {
         //console.log("content", this.content);
         //console.log("tabLength", tabLength);
 
-        this.contentParsed = [
+        this.contentParsed =
             this.getAnkers(this.content).map((anker, i) => {
                 const id = i + 1;
                 anker.id = id;
@@ -20,7 +20,7 @@ export class YAMLParser extends Parser {
                     }
                 }
             })
-        ]
+
         return this.contentParsed;
     }
     getAnkers(content) {
@@ -84,6 +84,7 @@ export class YAMLParser extends Parser {
                 sections.push({
                     id,
                     section: line.trim(),
+                    options: { hasChildrens },
                     childrens,
                 });
                 idI++;
