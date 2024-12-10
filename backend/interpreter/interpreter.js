@@ -8,7 +8,7 @@ import fs from 'node:fs';
 export default class Interpreter {
     constructor() {
         this.systemsSF = [];
-        this.systemsSFJSON = [];
+        this.systemsJSON = [];
         this.init();
     }
     init() {
@@ -37,7 +37,7 @@ export default class Interpreter {
         const filesSFJSON = getListOfFiles('./system_files', '.json');
 
         let systems = this.getSystems();
-        let systemsJSON = systems.map(system => {
+        this.systemsJSON = systems.map(system => {
             let systemJson = {
                 name: system,
                 hash: this.systemsSF.find(systemObj => systemObj.name === system).hash,
@@ -54,10 +54,71 @@ export default class Interpreter {
     getSystems() {
         return this.systemsSF.map(system => system.name);
     }
-    getElementsFromParent(system, parent, parentPosition) { }
-    getRootElements(systemName) {
-        const systemObj = this.systemsSF.find(systemObj => systemObj.name === systemName);
-        return systemObj.parser.getRootElements();
+    getElementsFromId(systemName, id) {
+        if (id.includes("..")) {
+            let idB = id.split("..")[0];
+            let idD = id.split("..")[1];
+            let systemsBlocks = this.systemsJSON.find(system => system.name === systemName).content.map(block => Object.keys(block)[0]);
+            let finding = systemsBlocks.map(blockName => {
+                return this.findId(id, this.systemsJSON
+                    .find(system => system.name === systemName).content.filter(block => block[blockName])[0][blockName].sections, 1)
+            })
+            console.log(1, finding.find(f => f !== null));
+            let r = finding.find(f => f !== null);
+            return r?.childrens.map(elm => {
+                let e = { id: idB + ".." + elm.id, section: elm.section, options: elm.options };
+                return e;
+            }) ?? [];
+        } else {
+            return this.findId(id, this.systemsJSON
+                .find(system => system.name === systemName).content[0][systemName].sections, 1)?.childrens ?? [];
+        }
+    }
+    findId(id, sections, i) {
+        let finding = null;
+        sections.forEach(section => {
+            if (id.split("..").length > 1) {
+                if (section.id === id.split("..")[1]) {
+                    finding = section;
+                }
+            } else {
+                if (section.id === id) {
+                    finding = section;
+                    section.childrens.map(child => {
+                        if (child.section.match(/{{.*\..*}}/)) {
+                            let systemName = child.section.match(/{{(.*\..*?)}}/)[1];
+                            let linkElement = this.getRootElements(systemName, child.id);
+                            finding.childrens = linkElement;
+                        }
+                    });
+                }
+            }
+        });
+        if (finding === null) {
+            sections.forEach(section => {
+                if (section.childrens?.length > 0) {
+                    finding = this.findId(id, section.childrens, i + 1);
+                } else { return null; }
+            });
+        }
+        return finding;
+    }
+    getRootElements(systemName, id = "") {
+        if (systemName.split(".").length > 1) {
+            return this.systemsJSON
+                .find(system => system.name === systemName.split(".")[0])?.content
+                .filter(element => element[systemName] != null)[0][systemName].sections
+                .map(section => {
+                    return { id: id + ".." + section.id, section: section.section, options: section.options }
+                })
+        } else {
+            return this.systemsJSON
+                .find(system => system.name === systemName).content
+                .filter(element => element[systemName] != null)[0][systemName].sections
+                .map(section => {
+                    return { id: section.id, section: section.section, options: section.options }
+                });
+        }
     }
     getParser(systemName) {
         const systemObj = this.systemsSF.find(systemObj => systemObj.name === systemName);
