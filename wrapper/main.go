@@ -64,5 +64,5 @@ func connectAndListen() error {
 		secondsWithoutConnections = 0
 	}
 	<-done
-	return nil
+	return nil 
 }
