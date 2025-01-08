@@ -1,0 +1,10 @@
+<aside id="aside" class="">
+    <h4>Manager</h4>
+    <div class="btn-group-vertical">
+        <button class="btn btn-light text-start" hx-get="/manager/dash" hx-target="#secmain">Daschboard</button>
+        <button class="btn btn-light text-start" href="#" hx-get="/manager/projects" hx-target="#secmain">Projects</button>
+        <button class="btn btn-light text-start" href="#" hx-get="/manager/servers" hx-target="#secmain">Servers</button>
+        <button class="btn btn-light text-start" href="#" hx-get="/manager/files" hx-target="#secmain">Files</button>
+    </div>
+</aside>
+<main id="secmain" class="d-flex me-auto w-100" hx-get="/manager/dash" hx-trigger="load"></main>

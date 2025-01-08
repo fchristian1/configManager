@@ -1,0 +1,36 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "license": "AGPL-version-3.0",
+  "private": false,
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": "",
+  "keywords": [],
+  "author": {
+    "name": "",
+    "email": "fchristian1@gmx.net",
+    "url": "https://froechte.de"
+  },
+  "contributors": [],
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "@types/ws": "^8.5.13",
+    "express": "^4.21.2",
+    "ws": "^8.18.0"
+  }
+}

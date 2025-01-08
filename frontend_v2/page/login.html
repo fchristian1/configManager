@@ -1,0 +1,21 @@
+<div class="d-flex flex-column gap-2 justify-content-center align-items-center w-100">
+    <h2>Login</h2>
+    <form hx-post="/login">
+        <div class="input-group mb-3">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup1" name="username" placeholder="Username" />
+                <label for="floatingInputGroup1">Username</label>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingInputGroup1" name="password" placeholder="Password" />
+                <label for="floatingInputGroup1">Password</label>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-dark">Login</button>
+            <button class="btn btn-light" hx-get="/" hx-target="#main">Cancel</button>
+        </div>
+    </form>
+</div>
