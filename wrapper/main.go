@@ -3,9 +3,11 @@ package main
 import (
 	"log"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -16,6 +18,12 @@ const (
 var secondsWithoutConnections int = 0
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Fehler beim Laden der .env-Datei")
+	}
+	connection_data := os.Getenv("CONNECTION_DATA")
+
 	for {
 		// Versuche, eine Verbindung zum Server herzustellen
 		err := connectAndListen()
@@ -64,5 +72,5 @@ func connectAndListen() error {
 		secondsWithoutConnections = 0
 	}
 	<-done
-	return nil 
+	return nil
 }
