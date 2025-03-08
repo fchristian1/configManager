@@ -14,4 +14,12 @@ services:
         volumes:
             - ./frontend_v3:/app
         ports:
-            - "5174:5173"
+            - "5174:5174"
+    frontend_devtodo:
+        build: ./frontend_v3/devtodo
+        container_name: frontend_devtodo
+        restart: always
+        volumes:
+            - ./frontend_v3:/app
+        ports:
+            - "5175:5175"

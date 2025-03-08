@@ -1,15 +1,10 @@
 {
-  "name": "configmanager.dev-frontend_v3",
+  "name": "devtodo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "author": {
-    "name": "Christian Fröchtenicht",
-    "email": "fchristian1@gmx.net",
-    "url": "https://froechte.de"
-  },
   "scripts": {
-    "dev": "vite --port 5174 --host 0.0.0.0",
+    "dev": "vite --port 5175 --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -17,8 +12,7 @@
   "dependencies": {
     "@ayatkyo/vite-plugin-html-import": "^0.1.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router": "^7.3.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
