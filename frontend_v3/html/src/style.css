@@ -1,0 +1,211 @@
+@import "tailwindcss";
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+}
+nav ul li {
+    margin-right: 20px;
+}
+nav ul:last-child li {
+    margin-right: 0;
+}
+nav ul li a {
+    text-decoration: none;
+    color: black;
+}
+nav ul li a:hover {
+    color: #ffa52e;
+}
+nav ul li a.active {
+    color: #ffa52e;
+}
+nav ul li a.active::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #ffa52e;
+    transition: width 0.3s;
+}
+nav ul li a.active:hover::after {
+    width: 100%;
+}
+nav ul li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #ffa52e;
+    transition: width 0.3s;
+}
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+}
+main aside {
+    width: 20%;
+    border-right: 1px solid #ccc;
+    padding: 8px 16px;
+    min-width: 200px;
+    transition: all 0.3s;
+}
+#asideMenuIcon {
+    display: none;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: 0;
+    z-index: 100;
+    border: 1px solid black;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (max-width: 768px) {
+    #asideMenuIcon {
+        display: flex;
+        left: 230px;
+        background-color: #999999;
+        cursor: pointer;
+    }
+    #asideMenuIcon:hover {
+        background-color: #666666;
+    }
+    main aside {
+        position: fixed;
+        left: -250px;
+        background-color: #ccc;
+        min-width: 250px;
+        height: 100%;
+    }
+    main aside.open {
+        left: 0;
+    }
+}
+main aside div {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+main aside div a:hover {
+    background-color: #ccc;
+}
+main aside div a {
+    text-decoration: none;
+    color: black;
+    border: 1px solid #999999;
+    border-radius: 4px;
+    padding: 8px 16px;
+    transition: background-color 0.1s;
+}
+
+main > div {
+    padding: 8px 16px;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.col {
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.gap-1 {
+    gap: 4px;
+}
+.gap-2 {
+    gap: 8px;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+button:hover {
+    border-color: #888;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus {
+    border-color: #555;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+button,
+.button,
+input[type="submit"] {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+button,
+.button,
+input[type="submit"] {
+    background-color: #ebebeb;
+    color: #b36500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover,
+.button:hover,
+input[type="submit"]:hover {
+    background-color: #b36500;
+    color: white;
+}

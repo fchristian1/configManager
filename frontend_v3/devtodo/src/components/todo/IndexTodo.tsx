@@ -1,4 +1,14 @@
-import { useState } from "react";
+import { JSX, useState } from "react";
+import { TodoItem } from "./TodoItem";
+import { TodoAdd } from "./TodoAdd";
+
+export type Todo = {
+    id: number;
+    parent: number;
+    title: string;
+    done: boolean;
+};
+
 export function IndexTodo() {
     const [todos, setTodos] = useState([
         { id: 1, parent: 0, title: "Todo 1", done: false },
@@ -10,6 +20,28 @@ export function IndexTodo() {
         { id: 7, parent: 2, title: "Todo 7", done: false },
         { id: 8, parent: 7, title: "Todo 8", done: false },
         { id: 9, parent: 8, title: "Todo 9", done: false },
-    ]);
-    return <>TodoListe</>;
+    ] as Todo[]);
+    const getTodosByParentId = (parent: number) => {
+        return todos.filter((todo) => todo.parent === parent);
+    };
+    const showTodos = (parent: number, level: number): JSX.Element => {
+        const todos = getTodosByParentId(parent);
+        return (
+            <>
+                {todos.map((t) => {
+                    const childes = showTodos(t.id, level + 1);
+                    return (
+                        <div key={t.id}>
+                            <div className="row" style={{ marginLeft: level * 16, display: "flex", alignItems: "center" }}>
+                                <TodoAdd></TodoAdd>
+                                <TodoItem todo={t}></TodoItem>
+                            </div>
+                            {childes}
+                        </div>
+                    );
+                })}
+            </>
+        );
+    };
+    return <div className="border border-gray-300 rounded min-w-[768px]">{showTodos(0, 0)}</div>;
 }

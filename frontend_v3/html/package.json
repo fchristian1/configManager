@@ -1,0 +1,13 @@
+{
+    "name": "tailwind-nginx-site",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "npx @tailwindcss/cli -i ./src/style.css -o /usr/share/nginx/html/style/main.css --minify",
+        "dev": "npx @tailwindcss/cli -i ./src/style.css -o /usr/share/nginx/html/style/main.css --watch"
+    },
+    "dependencies": {
+        "@tailwindcss/postcss": "^4.0.12",
+        "postcss": "^8.5.3",
+        "tailwindcss": "^4.0.12"
+    }
+}

@@ -7,6 +7,7 @@ services:
             - "5173:80"
         volumes:
             - ./frontend_v3/html/site:/usr/share/nginx/html/
+            - ./frontend_v3/html:/app/
     frontend_manager:
         build: ./frontend_v3/manager
         container_name: frontend_manager
