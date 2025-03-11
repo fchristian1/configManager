@@ -1,7 +1,7 @@
 services:
     frontend_html:
         build: ./frontend_v3/html
-        container_name: frontend
+        container_name: frontend_html
         restart: always
         ports:
             - "5173:80"
@@ -24,3 +24,12 @@ services:
             - ./frontend_v3:/app
         ports:
             - "5175:5175"
+    backend_todos:
+        build: ./backend/todos
+        container_name: backend_todos
+        restart: always
+        volumes:
+            - ./backend/todos:/app
+            - ./data:/app/data
+        ports:
+            - "3010:3000"
