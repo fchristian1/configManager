@@ -2,3 +2,4 @@ note_modules
 data
 dist
 build
+backend/todos/node_modules/
