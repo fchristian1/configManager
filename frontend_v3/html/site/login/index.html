@@ -12,9 +12,9 @@
             <main class="center">
                 <div class="col center">
                     <h1>configManager.dev - Login</h1>
-                    <form action="#" method="post" class="col">
-                        <input type="text" name="username" placeholder="Username" required />
-                        <input type="password" name="password" placeholder="Password" required />
+                    <form id="loginForm" class="col">
+                        <input type="email" id="email" name="email" placeholder="Email" required />
+                        <input type="password" id="password" name="password" placeholder="Password" required />
                         <input type="submit" value="Login" />
                     </form>
                 </div>
@@ -22,5 +22,29 @@
         </div>
         <!--#include virtual="/components/footertag.html" -->
         <!--#include virtual="/components/scripttag.html" -->
+        <script>
+            document.getElementById("loginForm").addEventListener("submit", async function (event) {
+                event.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                const response = await fetch("http://localhost:3000/api/v1/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Login successful:", data);
+                    localStorage.setItem("token", data.token);
+                    window.location.href = "/";
+                } else {
+                    console.error("Login failed");
+                }
+            });
+        </script>
     </body>
 </html>

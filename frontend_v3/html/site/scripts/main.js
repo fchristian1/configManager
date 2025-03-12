@@ -1,4 +1,4 @@
-if (document.querySelector('main aside') != null) {
+if (document.querySelector('#asideMenuIcon') != null) {
     const asideMenuIcon = document.querySelector('#asideMenuIcon');
     const asideMenu = document.querySelector('main aside');
 
@@ -7,3 +7,11 @@ if (document.querySelector('main aside') != null) {
         asideMenu.classList.toggle('normal');
     });
 }
+if (document.querySelector('#logout') != null) {
+    document.querySelector('#logout').addEventListener('click', () => {
+        localStorage.removeItem('token');
+
+        window.location.href = '/login/';
+    });
+}
+

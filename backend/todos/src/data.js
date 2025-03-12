@@ -8,11 +8,17 @@ if (!fs.existsSync(dataPath)) {
     fs.writeFileSync(dataPath, '[]');
 }
 
-export const getAll = () => {
+export const getAll = (userId) => {
     const data = fs.readFileSync(dataPath, 'utf8');
-    return JSON.parse(data);
+    const todos = JSON.parse(data);
+    return todos.filter(todo => todo.userId === userId);
 };
 
-export const saveAll = (data) => {
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+export const saveAll = (data, userId) => {
+
+    const allData = fs.readFileSync(dataPath, 'utf8');
+    const allTodos = JSON.parse(allData);
+    const newTodos = allTodos.filter(todo => todo.userId !== userId);
+    newTodos.push(...data);
+    fs.writeFileSync(dataPath, JSON.stringify(newTodos, null, 2));
 }

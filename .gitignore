@@ -3,3 +3,5 @@ data
 dist
 build
 backend/todos/node_modules/
+backend/gateway/node_modules/
+backend/auth/node_modules/

@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useRef } from "react";
 // @ts-ignore
 import navTag from "../../../../html/site/components/navtag.html";
 // @ts-ignore
-import scriptTag from "../../../../html/site/components/scripttag.html";
 interface MainLayoutProps {
     children: ReactNode;
 }

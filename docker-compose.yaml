@@ -24,6 +24,21 @@ services:
             - ./frontend_v3:/app
         ports:
             - "5175:5175"
+    backend_gateway:
+        build: ./backend/gateway
+        container_name: backend_gateway
+        restart: always
+        volumes:
+            - ./backend/gateway:/app
+        ports:
+            - "3000:3000"
+    backend_auth:
+        build: ./backend/auth
+        container_name: backend_auth
+        restart: always
+        volumes:
+            - ./backend/auth:/app
+            - ./data:/app/data
     backend_todos:
         build: ./backend/todos
         container_name: backend_todos
@@ -31,5 +46,28 @@ services:
         volumes:
             - ./backend/todos:/app
             - ./data:/app/data
+
+    backend_mongo:
+        #connectionstrinig: mongodb://admin:admin@backend_mongo:27017
+        image: mongo
+        container_name: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
+        volumes:
+            - ./data/mongo:/data/db
+    backend_mongo-express:
+        image: mongo-express
+        container_name: mongo-express
+        restart: always
         ports:
-            - "3010:3000"
+            - 8081:8081
+        environment:
+            ME_CONFIG_MONGODB_SERVER: backend_mongo
+            ME_CONFIG_MONGODB_PORT: 27017
+            ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+            ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+            ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+            ME_CONFIG_BASICAUTH_USERNAME: admin
+            ME_CONFIG_BASICAUTH_PASSWORD: admin

@@ -16,6 +16,7 @@ export type Todo = {
     done: boolean;
     open: boolean;
     position: number;
+    userId: string;
 };
 
 export function IndexTodo() {
@@ -62,6 +63,7 @@ export function IndexTodo() {
     const handleNewTodo = (parentId: any) => {
         const newTodo = {
             id: uuid(),
+            userId: "1",
             parent: parentId,
             title: "New Todo",
             done: false,
