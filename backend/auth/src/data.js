@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-
 export const dataPath = path.join("./data/", 'user.json');
 if (!fs.existsSync(dataPath)) {
     fs.mkdirSync(path.dirname(dataPath), { recursive: true });

@@ -5,23 +5,21 @@ import { v4 as UUID } from 'uuid';
 
 const SECRET = 'secret';
 
-let users = [];
-users = getAll();
-const newUser = {
-    userId: UUID(),
-    email: "",
-    passwordHash: "",
-    createdAt: "",
-    updatedAt: "",
-}
+let users = getAll();
 
 export const createUser = (email, password) => {
     if (getUser(email)) {
-        return
+        return;
     }
     const createdAt = Date.now();
     const updatedAt = createdAt;
-    const user = { ...newUser, createdAt, updatedAt, email, passwordHash: hashPassword(password, createdAt, SECRET) };
+    const user = {
+        userId: UUID(),
+        email,
+        passwordHash: hashPassword(password, createdAt, SECRET),
+        createdAt,
+        updatedAt
+    };
     users.push(user);
     saveAll(users);
     return user;

@@ -26,6 +26,10 @@ app.post("/api/v1/auth/login", (req, res) => {
 });
 
 app.post("/api/v1/auth/token", (req, res) => {
+    if (!req.headers.authorization) {
+        res.status(401).json({ message: "no token" });
+        return;
+    }
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
         res.status(401).json({ message: "no token" });
@@ -40,8 +44,11 @@ app.post("/api/v1/auth/token", (req, res) => {
 });
 
 app.get("/api/v1/auth/getuseridfromtoken", (req, res) => {
+    if (!req.headers.authorization) {
+        res.status(401).json({ message: "no token" });
+        return;
+    }
     const token = req.headers.authorization.split(" ")[1];
-    console.log(token);
     if (!token) {
         res.status(401).json({ message: "no token" });
         return;
@@ -53,7 +60,6 @@ app.get("/api/v1/auth/getuseridfromtoken", (req, res) => {
     }
     res.json({ message: "ok", userId: payload.userId });
 });
-
 
 createUser("fchristian1@gmx.net", "123456");
 app.listen(3000, () => {
