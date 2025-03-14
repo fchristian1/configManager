@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import "../../html/site/style/main.css";
+import "./tailwind.css";
 import App from "./App.tsx";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
