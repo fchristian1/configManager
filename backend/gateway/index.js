@@ -13,25 +13,38 @@ app.use(express.json());
 
 
 app.all('/api/v*/*', async (req, res) => {
-    const { apiname, apiversion, apipath } = urlParser(req.url);
-    const request = { type: 'request', message: { apiname, apiversion, apipath, headers: req.headers, method: req.method, body: req.body } };
-    log('request', request, request.message.method, req.url);
-    if (req.method === "HEAD" || req.method === "GET") {
-        const response = apifetch(apiname, apiversion, apipath, res, { method: req.method, headers: req.headers });
-        response.then(data => {
-            const response = { type: 'response', message: { apiname, apiversion, apipath, data } };
-            log('response', response, req.method, req.url);
-            res.json(data);
-        });
-    }
-    else {
+    try {
+        const { apiname, apiversion, apipath } = urlParser(req.url);
+        const request = { type: 'request', message: { apiname, apiversion, apipath, headers: req.headers, method: req.method, body: req.body } };
+        log('request', request, request.message.method, req.url);
+        if (req.method === "HEAD" || req.method === "GET") {
+            const response = apifetch(apiname, apiversion, apipath, res, { method: req.method, headers: req.headers });
+            if (response instanceof Error) {
+                res.status(500).json({ message: 'Internal server error' });
+                return;
+            }
+            response.then(data => {
+                const response = { type: 'response', message: { apiname, apiversion, apipath, data } };
+                log('response', response, req.method, req.url);
+                res.json(data);
+            });
+        }
+        else {
 
-        const response = apifetch(apiname, apiversion, apipath, res, { method: req.method, headers: req.headers, body: JSON.stringify(req.body) });
-        response.then(data => {
-            const response = { type: 'response', message: { apiname, apiversion, apipath, data } };
-            log('response', response, req.method, req.url);
-            res.json(data);
-        });
+            const response = apifetch(apiname, apiversion, apipath, res, { method: req.method, headers: req.headers, body: JSON.stringify(req.body) });
+            if (response instanceof Error) {
+                res.status(500).json({ message: 'Internal server error' });
+                return;
+            }
+            response.then(data => {
+                const response = { type: 'response', message: { apiname, apiversion, apipath, data } };
+                log('response', response, req.method, req.url);
+                res.json(data);
+            });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 

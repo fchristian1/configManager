@@ -4,6 +4,8 @@ import { SideMenu } from "./SideMenu/IndexSideMenu";
 
 import { FolderSystemsList } from "./SideMenu/FolderManager/FolderSystemsList";
 
+import { MainView } from "./SideMenu/MainViews/MainView";
+
 export type TypeData = {
     type: string;
     name: string;
@@ -42,7 +44,10 @@ export type SetMain = {
     setSystems: (id?: string) => void;
     setSystem: (id: string) => void;
 };
-export function findType(typeData: TypeData[], type: string): TypeData | null {
+export function findType(
+    typeData: TypeData[],
+    type: string
+): TypeData | null {
     for (const item of typeData) {
         if (item.type === type) {
             return item;
@@ -66,7 +71,10 @@ export function Manager() {
                     type: "systems",
                     name: "Systems",
                     singularName: "System",
-                    link: { all: "setSystems", one: "setSystem" },
+                    link: {
+                        all: "setSystems",
+                        one: "setSystem",
+                    },
                 },
             ],
         },
@@ -80,21 +88,27 @@ export function Manager() {
             type: "software",
             name: "Software",
             singularName: "Software",
-            link: { all: "setSoftwares", one: "setSoftware" },
+            link: {
+                all: "setSoftwares",
+                one: "setSoftware",
+            },
         },
     ];
-    const [viewUserData, setViewStatusData] = useState<ViewUserData | null>(
-        null
-    );
-    const [mainView, setMainView] = useState<{ type: string; id: string }>({
+    const [viewUserData, setViewStatusData] =
+        useState<ViewUserData | null>(null);
+    const [mainView, setMainView] = useState<{
+        type: string;
+        id: string;
+    }>({
         type: "projects",
         id: "",
     });
 
-    const [managerUserData, setManagerData] = useState<ManagerUserData>({
-        userId: "",
-        data: [],
-    });
+    const [managerUserData, setManagerData] =
+        useState<ManagerUserData>({
+            userId: "",
+            data: [],
+        });
     const setMain: SetMain = {
         setProjects: (id?: string) => {
             setMainView({ type: "projects", id: id ?? "" });
@@ -103,7 +117,10 @@ export function Manager() {
             setMainView({ type: "project", id: id });
         },
         setSoftwares: (id?: string) => {
-            setMainView({ type: "softwares", id: id ?? "" });
+            setMainView({
+                type: "softwares",
+                id: id ?? "",
+            });
         },
         setSoftware: (id: string) => {
             setMainView({ type: "software", id: id });
@@ -132,15 +149,15 @@ export function Manager() {
                         },
                     ],
                 },
-                {
-                    type: "oss",
-                    data: [
-                        {
-                            id: "ce962769-bebd-4b2e-b6af-201965320628",
-                            name: "OSS 1",
-                        },
-                    ],
-                },
+                // {
+                //     type: "oss",
+                //     data: [
+                //         {
+                //             id: "ce962769-bebd-4b2e-b6af-201965320628",
+                //             name: "OSS 1",
+                //         },
+                //     ],
+                // },
                 {
                     type: "software",
                     data: [
@@ -154,7 +171,8 @@ export function Manager() {
                     type: "systems",
                     data: [
                         {
-                            parentId: "6653b8af-a8fb-498c-b0b5-131260cbb67d",
+                            parentId:
+                                "6653b8af-a8fb-498c-b0b5-131260cbb67d",
                             id: "3dacc65e-4445-4830-af44-386969571181",
                             name: "System 1",
                         },
@@ -189,7 +207,7 @@ export function Manager() {
                 </FolderManager>
             </SideMenu>
             <div>
-                Type: {mainView.type}, Id: {mainView.id}
+                <MainView mainView={mainView}></MainView>
             </div>
         </>
     );

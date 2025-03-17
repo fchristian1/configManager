@@ -9,21 +9,21 @@ export async function apifetch(apiname, apiversion, apipath, res, req) {
     const api = apis.find(api => api.name === apiname);
     if (!api) {
         console.error(`API ${apiname} not found`);
-        return;
+        return Error(`API ${apiname} not found`);
     }
     if (api.token) {
         const token = req.headers.authorization;
         if (!token) {
             console.error('No token');
             res.status(401).json({ message: "no token" });
-            return;
+            return Error('No token');
         }
 
         const tokenCheck = await tokenCheckFetch(token);
         if (!tokenCheck) {
             console.error('Token check failed');
             res.status(401).json({ message: "nok" });
-            return;
+            return Error('Token check failed');
         }
     }
     const url = `${api.url}/api/${apiversion}/${apiname}${apipath}`;
