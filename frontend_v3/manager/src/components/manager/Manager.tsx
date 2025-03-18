@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { FolderManager } from "./SideMenu/FolderManager/IndexFolderManager";
 import { SideMenu } from "./SideMenu/IndexSideMenu";
 
-import { MainView } from "./SideMenu/MainViews/MainView";
+import { MainView } from "./MainViews/MainView";
 import { getAll } from "../../services/data";
 import { FolderInstancesList } from "./SideMenu/FolderManager/FolderInstancesList";
+import { data } from "react-router";
 
 export type TypeData = {
     type: string;
@@ -25,6 +26,7 @@ export type ManagerDataData = {
 export type ManagerDataDataData = {
     id: string;
     name: string;
+    description: string;
     parentId?: string;
 };
 export type ViewUserData = {
@@ -51,6 +53,13 @@ export function findType(
     typeData: TypeData[],
     type: string
 ): TypeData | null {
+    console.log(
+        "findType",
+        "typeData",
+        typeData,
+        "type",
+        type
+    );
     for (const item of typeData) {
         if (item.type === type) {
             return item;
@@ -100,8 +109,8 @@ export function Manager() {
         type: "projects",
         id: "",
     });
-
-    const [managerUserData, setManagerData] =
+    const [dataChanged, setDataChanged] = useState(false);
+    const [managerUserData, setManagerUserData] =
         useState<ManagerUserData>({
             userId: "",
             data: [],
@@ -147,54 +156,52 @@ export function Manager() {
             data: [
                 {
                     type: "projects",
-                    data: [
-                        {
-                            id: "6653b8af-a8fb-498c-b0b5-131260cbb67d",
-                            name: "Project 1",
-                        },
-                        {
-                            id: "5fd649ee-ac11-48b1-ba71-58abf0c32712",
-                            name: "Project 2",
-                        },
-                    ],
+                    data: [],
                 },
                 {
                     type: "softwares",
-                    data: [
-                        {
-                            id: "3dacc65e-4445-4830-af44-386969571181",
-                            name: "Software 1",
-                        },
-                    ],
+                    data: [],
                 },
                 {
                     type: "instances",
-                    data: [
-                        {
-                            parentId:
-                                "6653b8af-a8fb-498c-b0b5-131260cbb67d",
-                            id: "3dacc65e-4445-4830-af44-386969571181",
-                            name: "Instance 1",
-                        },
-                    ],
+                    data: [],
                 },
             ],
         };
-        getManagerData.data.forEach(async (item) => {
-            const dataFromApi = await getAll(item.type);
-            item.data = dataFromApi ?? [];
-        });
+
+        // Hole die Daten asynchron und aktualisiere die Kopie
+        const updatedData = await Promise.all(
+            getManagerData.data.map(async (item) => {
+                const dataFromApi = await getAll(item.type);
+                return {
+                    ...item,
+                    data: dataFromApi ?? [],
+                };
+            })
+        );
+
+        // Aktualisiere den Zustand mit neuen Daten
+        const updatedManagerData = {
+            ...getManagerData,
+            data: updatedData,
+        };
+
         const viewStatusData: ViewUserData = {
-            userId: getManagerData.userId,
+            userId: updatedManagerData.userId,
             data: [],
         };
+
         setViewStatusData(viewStatusData);
-        setManagerData(getManagerData);
+        setManagerUserData(updatedManagerData);
     };
 
     useEffect(() => {
         fetchData();
     }, []);
+    useEffect(() => {
+        fetchData();
+    }, [dataChanged]);
+
     return (
         <>
             <SideMenu>
@@ -211,7 +218,13 @@ export function Manager() {
                 </FolderManager>
             </SideMenu>
             <div>
-                <MainView mainView={mainView}></MainView>
+                <MainView
+                    managerUserData={managerUserData}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
+                    mainView={mainView}
+                    setMainView={setMainView}
+                ></MainView>
             </div>
         </>
     );

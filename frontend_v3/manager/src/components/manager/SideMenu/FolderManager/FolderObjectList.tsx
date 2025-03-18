@@ -108,6 +108,7 @@ export function FolderObjectList({
                 <div
                     style={{ cursor: "pointer" }}
                     onClick={() => {
+                        console.log(td?.link.one + "New");
                         setMain[
                             (td?.link.one +
                                 "New") as keyof typeof setMain

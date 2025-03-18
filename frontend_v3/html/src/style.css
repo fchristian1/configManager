@@ -210,3 +210,6 @@ input[type="submit"]:hover {
 footer {
     padding: 4px;
 }
+.tabelInput > tr > td {
+    padding: 4px;
+}

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { controllerProjects } from "./controller/projects.js";
-import { controllerInstances } from "./controller/systems.js";
+import { controllerInstances } from "./controller/instances.js";
 import { controllerSoftwares } from "./controller/softwares.js";
 
 export const routerManager = Router();

@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3000/api/v1/manager";
+const apiUrl = "http://localhost:3000/api/v1/manager/";
 
 export const fetcher = async (
     url: string,

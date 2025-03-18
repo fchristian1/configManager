@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ManagerUserData } from "../../../Manager";
+import { ManagerUserData } from "../../Manager";
 
 type SideMenuProps = { token: string };
 export function MainViewProjects({ token }: SideMenuProps) {

@@ -8,18 +8,32 @@ import { MainViewInstances } from "./Instances/MainViewInstances";
 import { MainViewProjectNew } from "./Projects/MainViewProjectNew";
 import { MainViewSoftwareNew } from "./Softwares/MainViewSoftwareNew";
 import { MainViewInstanceNew } from "./Instances/MainViewProjectNew";
+import { ManagerUserData } from "../Manager";
 
 type SideMenuProps = {
     mainView: { type: string; id: string };
+    setMainView: (mainView: {
+        type: string;
+        id: string;
+    }) => void;
+    dataChanged: boolean;
+    setDataChanged: (dataChanged: boolean) => void;
+    managerUserData: ManagerUserData;
 };
-export function MainView({ mainView }: SideMenuProps) {
+export function MainView({
+    mainView,
+    setMainView,
+    dataChanged,
+    setDataChanged,
+    managerUserData,
+}: SideMenuProps) {
     const [token, setToken] = useState<string>("");
     useEffect(() => {
         setToken(localStorage.getItem("token") ?? "");
     }, []);
     return (
         <div>
-            {mainView.type}
+            {/* {mainView.type} */}
             {mainView.type === "projects" && (
                 <MainViewProjects
                     token={token}
@@ -27,12 +41,21 @@ export function MainView({ mainView }: SideMenuProps) {
             )}
             {mainView.type === "project" && (
                 <MainViewProject
+                    mainView={mainView}
+                    setMainView={setMainView}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
+                    managerUserData={managerUserData}
                     token={token}
                 ></MainViewProject>
             )}
             {mainView.type === "projectNew" && (
                 <MainViewProjectNew
                     token={token}
+                    mainView={mainView}
+                    setMainView={setMainView}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
                 ></MainViewProjectNew>
             )}
             {mainView.type === "software" && (

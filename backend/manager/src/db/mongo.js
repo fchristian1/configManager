@@ -29,6 +29,7 @@ export async function insertOne(userId, collection, id, data) {
     //insert or update data in collection with id
     try {
         data.userId = userId;
+        delete data._id;
         await db.collection(collection).updateOne({ id: id, userId: userId }, { $set: data }, { upsert: true });
     }
     catch (err) {
@@ -47,7 +48,9 @@ export async function deleteOne(userId, collection, id) {
 export async function findOne(userId, collection, id) {
     //find data in collection with id
     try {
-        return await db.collection(collection).findOne({ id, userId }) ?? {};
+        const data = await db.collection(collection).findOne({ id, userId });
+        delete data._id;
+        return data;
     }
     catch (err) {
         console.error(err);
@@ -56,7 +59,9 @@ export async function findOne(userId, collection, id) {
 export async function find(userId, collection) {
     //find all data in collection
     try {
-        return await db.collection(collection).find({ userId }).toArray() ?? [];
+        const datas = await db.collection(collection).find({ userId }).toArray() ?? [];
+        datas.forEach(data => delete data._id);
+        return datas;
     }
     catch (err) {
         console.error(err);
