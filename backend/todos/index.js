@@ -5,7 +5,10 @@ import { getAll, saveAll } from "./src/data.js";
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong!" });
+});
 app.get("/api/v1/todos", async (req, res) => {
     const token = req.headers.authorization;
     if (!token) {

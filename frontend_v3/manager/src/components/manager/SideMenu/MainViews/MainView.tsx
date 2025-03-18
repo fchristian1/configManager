@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { MainViewProject } from "./MainViewProject";
-import { MainViewProjects } from "./MainViewProjects";
-import { MainViewSoftware } from "./MainViewSoftware";
-import { MainViewSoftwares } from "./MainViewSoftwares";
-import { MainViewSystem } from "./MainViewSystem";
-import { MainViewSystems } from "./MainViewSystems";
+import { MainViewProject } from "./Projects/MainViewProject";
+import { MainViewProjects } from "./Projects/MainViewProjects";
+import { MainViewSoftware } from "./Softwares/MainViewSoftware";
+import { MainViewSoftwares } from "./Softwares/MainViewSoftwares";
+import { MainViewInstance } from "./Instances/MainViewInstance";
+import { MainViewInstances } from "./Instances/MainViewInstances";
+import { MainViewProjectNew } from "./Projects/MainViewProjectNew";
+import { MainViewSoftwareNew } from "./Softwares/MainViewSoftwareNew";
+import { MainViewInstanceNew } from "./Instances/MainViewProjectNew";
 
 type SideMenuProps = {
     mainView: { type: string; id: string };
@@ -16,6 +19,7 @@ export function MainView({ mainView }: SideMenuProps) {
     }, []);
     return (
         <div>
+            {mainView.type}
             {mainView.type === "projects" && (
                 <MainViewProjects
                     token={token}
@@ -25,6 +29,11 @@ export function MainView({ mainView }: SideMenuProps) {
                 <MainViewProject
                     token={token}
                 ></MainViewProject>
+            )}
+            {mainView.type === "projectNew" && (
+                <MainViewProjectNew
+                    token={token}
+                ></MainViewProjectNew>
             )}
             {mainView.type === "software" && (
                 <MainViewSoftware
@@ -36,15 +45,25 @@ export function MainView({ mainView }: SideMenuProps) {
                     token={token}
                 ></MainViewSoftwares>
             )}
-            {mainView.type === "systems" && (
-                <MainViewSystems
+            {mainView.type === "softwareNew" && (
+                <MainViewSoftwareNew
                     token={token}
-                ></MainViewSystems>
+                ></MainViewSoftwareNew>
             )}
-            {mainView.type === "system" && (
-                <MainViewSystem
+            {mainView.type === "instances" && (
+                <MainViewInstances
                     token={token}
-                ></MainViewSystem>
+                ></MainViewInstances>
+            )}
+            {mainView.type === "instance" && (
+                <MainViewInstance
+                    token={token}
+                ></MainViewInstance>
+            )}
+            {mainView.type === "instanceNew" && (
+                <MainViewInstanceNew
+                    token={token}
+                ></MainViewInstanceNew>
             )}
         </div>
     );

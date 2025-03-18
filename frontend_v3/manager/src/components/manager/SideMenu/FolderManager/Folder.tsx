@@ -9,7 +9,7 @@ import {
     ViewUserData,
 } from "../../Manager";
 import { FolderObjectList } from "./FolderObjectList";
-import { FolderSystemsList } from "./FolderSystemsList";
+import { FolderInstancesList } from "./FolderInstancesList";
 
 type SideMenuProps = {
     folderName: string;
@@ -35,7 +35,8 @@ export function Folder({
     setMain,
     setMainFunction,
 }: SideMenuProps) {
-    const [openClose, setOpenClose] = useState<boolean>(false);
+    const [openClose, setOpenClose] =
+        useState<boolean>(false);
     return (
         <div>
             <div className="items-center row">
@@ -68,28 +69,38 @@ export function Folder({
             </div>
             <div className="ml-5">
                 {/* {JSON.stringify(managerDataDataDatas)} */}
-                {openClose && comeFrom === "FolderSystemList" && (
-                    <FolderObjectList
-                        managerDataData={managerDataData}
-                        viewUserData={viewUserData}
-                        typeData={typeData}
-                        type={type}
-                        managerUserData={managerUserData}
-                        parentId={parentId}
-                        setMain={setMain}
-                    ></FolderObjectList>
-                )}
-                {openClose && comeFrom === "FolderObjectList" && (
-                    <FolderSystemsList
-                        managerDataData={managerDataData}
-                        viewUserData={viewUserData}
-                        typeData={typeData}
-                        type={type}
-                        managerUserData={managerUserData}
-                        parentId={parentId}
-                        setMain={setMain}
-                    ></FolderSystemsList>
-                )}
+                {openClose &&
+                    comeFrom === "FolderSystemList" && (
+                        <FolderObjectList
+                            managerDataData={
+                                managerDataData
+                            }
+                            viewUserData={viewUserData}
+                            typeData={typeData}
+                            type={type}
+                            managerUserData={
+                                managerUserData
+                            }
+                            parentId={parentId}
+                            setMain={setMain}
+                        ></FolderObjectList>
+                    )}
+                {openClose &&
+                    comeFrom === "FolderObjectList" && (
+                        <FolderInstancesList
+                            managerDataData={
+                                managerDataData
+                            }
+                            viewUserData={viewUserData}
+                            typeData={typeData}
+                            type={type}
+                            managerUserData={
+                                managerUserData
+                            }
+                            parentId={parentId}
+                            setMain={setMain}
+                        ></FolderInstancesList>
+                    )}
             </div>
         </div>
     );

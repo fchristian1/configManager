@@ -207,3 +207,6 @@ input[type="submit"]:hover {
     background-color: #b36500;
     color: white;
 }
+footer {
+    padding: 4px;
+}

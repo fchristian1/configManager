@@ -15,9 +15,9 @@ type SideMenuProps = {
     parentId: string | null;
     setMain: SetMain;
 };
-export function FolderSystemsList({
+export function FolderInstancesList({
     managerUserData,
-
+    managerDataData,
     viewUserData,
     typeData,
     type,
@@ -31,11 +31,15 @@ export function FolderSystemsList({
                 const setMainFunction =
                     parentId && parentId.length > 0
                         ? () =>
-                              setMain[t.link.all as keyof typeof setMain](
-                                  parentId
-                              )
+                              setMain[
+                                  t.link
+                                      .all as keyof typeof setMain
+                              ](parentId)
                         : () =>
-                              setMain[t.link.all as keyof typeof setMain]("1");
+                              setMain[
+                                  t.link
+                                      .all as keyof typeof setMain
+                              ]("1");
 
                 return (
                     <Folder

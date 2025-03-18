@@ -5,7 +5,10 @@ import { checkPassword, createJWT, createUser, getUser, verifyJWT } from './src/
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong!" });
+});
 app.get("/api/v1/auth/", (req, res) => {
     res.json({ message: "API-Auth running" });
 });

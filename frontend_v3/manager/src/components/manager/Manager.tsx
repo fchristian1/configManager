@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { FolderManager } from "./SideMenu/FolderManager/IndexFolderManager";
 import { SideMenu } from "./SideMenu/IndexSideMenu";
 
-import { FolderSystemsList } from "./SideMenu/FolderManager/FolderSystemsList";
-
 import { MainView } from "./SideMenu/MainViews/MainView";
+import { getAll } from "../../services/data";
+import { FolderInstancesList } from "./SideMenu/FolderManager/FolderInstancesList";
 
 export type TypeData = {
     type: string;
@@ -39,10 +39,13 @@ export type ViewData = {
 export type SetMain = {
     setProjects: (id?: string) => void;
     setProject: (id: string) => void;
+    setProjectNew: (id: string) => void;
     setSoftwares: (id?: string) => void;
     setSoftware: (id: string) => void;
-    setSystems: (id?: string) => void;
-    setSystem: (id: string) => void;
+    setSoftwareNew: (id: string) => void;
+    setInstances: (id?: string) => void;
+    setInstance: (id: string) => void;
+    setInstanceNew: (id: string) => void;
 };
 export function findType(
     typeData: TypeData[],
@@ -68,24 +71,18 @@ export function Manager() {
             link: { all: "setProjects", one: "setProject" },
             childrens: [
                 {
-                    type: "systems",
-                    name: "Systems",
-                    singularName: "System",
+                    type: "instances",
+                    name: "Instances",
+                    singularName: "Instance",
                     link: {
-                        all: "setSystems",
-                        one: "setSystem",
+                        all: "setInstances",
+                        one: "setInstance",
                     },
                 },
             ],
         },
-        // {
-        //     type: "oss",
-        //     name: "Operation Systems",
-        //     singularName: "Operation System",
-        //     link: { all: "setOss", one: "setOs" },
-        // },
         {
-            type: "software",
+            type: "softwares",
             name: "Software",
             singularName: "Software",
             link: {
@@ -116,6 +113,9 @@ export function Manager() {
         setProject: (id: string) => {
             setMainView({ type: "project", id: id });
         },
+        setProjectNew: (id: string) => {
+            setMainView({ type: "projectNew", id: id });
+        },
         setSoftwares: (id?: string) => {
             setMainView({
                 type: "softwares",
@@ -125,16 +125,25 @@ export function Manager() {
         setSoftware: (id: string) => {
             setMainView({ type: "software", id: id });
         },
-        setSystems: (id?: string) => {
-            setMainView({ type: "systems", id: id ?? "" });
+        setSoftwareNew: (id: string) => {
+            setMainView({ type: "softwareNew", id: id });
         },
-        setSystem: (id: string) => {
-            setMainView({ type: "system", id: id });
+        setInstances: (id?: string) => {
+            setMainView({
+                type: "instances",
+                id: id ?? "",
+            });
+        },
+        setInstance: (id: string) => {
+            setMainView({ type: "instance", id: id });
+        },
+        setInstanceNew: (id: string) => {
+            setMainView({ type: "instanceNew", id: id });
         },
     };
     const fetchData = async () => {
         const getManagerData: ManagerUserData = {
-            userId: "f86fba88-c7c9-46d7-b303-6f4c0bd468ad",
+            userId: localStorage.getItem("userId") ?? "",
             data: [
                 {
                     type: "projects",
@@ -149,17 +158,8 @@ export function Manager() {
                         },
                     ],
                 },
-                // {
-                //     type: "oss",
-                //     data: [
-                //         {
-                //             id: "ce962769-bebd-4b2e-b6af-201965320628",
-                //             name: "OSS 1",
-                //         },
-                //     ],
-                // },
                 {
-                    type: "software",
+                    type: "softwares",
                     data: [
                         {
                             id: "3dacc65e-4445-4830-af44-386969571181",
@@ -168,18 +168,22 @@ export function Manager() {
                     ],
                 },
                 {
-                    type: "systems",
+                    type: "instances",
                     data: [
                         {
                             parentId:
                                 "6653b8af-a8fb-498c-b0b5-131260cbb67d",
                             id: "3dacc65e-4445-4830-af44-386969571181",
-                            name: "System 1",
+                            name: "Instance 1",
                         },
                     ],
                 },
             ],
         };
+        getManagerData.data.forEach(async (item) => {
+            const dataFromApi = await getAll(item.type);
+            item.data = dataFromApi ?? [];
+        });
         const viewStatusData: ViewUserData = {
             userId: getManagerData.userId,
             data: [],
@@ -195,7 +199,7 @@ export function Manager() {
         <>
             <SideMenu>
                 <FolderManager>
-                    <FolderSystemsList
+                    <FolderInstancesList
                         managerDataData={null}
                         managerUserData={managerUserData}
                         viewUserData={viewUserData}
@@ -203,7 +207,7 @@ export function Manager() {
                         type={null}
                         parentId={null}
                         setMain={setMain}
-                    ></FolderSystemsList>
+                    ></FolderInstancesList>
                 </FolderManager>
             </SideMenu>
             <div>

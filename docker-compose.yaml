@@ -46,7 +46,13 @@ services:
         volumes:
             - ./backend/todos:/app
             - ./data:/app/data
-
+    backend_manager:
+        build: ./backend/manager
+        container_name: backend_manager
+        restart: always
+        volumes:
+            - ./backend/manager:/app
+            - ./data:/app/data
     backend_mongo:
         #connectionstrinig: mongodb://admin:admin@backend_mongo:27017
         image: mongo

@@ -14,4 +14,9 @@ if (document.querySelector('#logout') != null) {
         window.location.href = '/login/';
     });
 }
+if (document.querySelector('#token') != null) {
+
+    const token = localStorage.getItem('token');
+    document.querySelector('#token').innerText = token;
+}
 
