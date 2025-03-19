@@ -7,7 +7,7 @@ import { MainViewInstance } from "./Instances/MainViewInstance";
 import { MainViewInstances } from "./Instances/MainViewInstances";
 import { MainViewProjectNew } from "./Projects/MainViewProjectNew";
 import { MainViewSoftwareNew } from "./Softwares/MainViewSoftwareNew";
-import { MainViewInstanceNew } from "./Instances/MainViewProjectNew";
+import { MainViewInstanceNew } from "./Instances/MainViewInstanceNew";
 import { ManagerUserData } from "../Manager";
 
 type SideMenuProps = {
@@ -60,6 +60,11 @@ export function MainView({
             )}
             {mainView.type === "software" && (
                 <MainViewSoftware
+                    mainView={mainView}
+                    setMainView={setMainView}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
+                    managerUserData={managerUserData}
                     token={token}
                 ></MainViewSoftware>
             )}
@@ -71,6 +76,10 @@ export function MainView({
             {mainView.type === "softwareNew" && (
                 <MainViewSoftwareNew
                     token={token}
+                    mainView={mainView}
+                    setMainView={setMainView}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
                 ></MainViewSoftwareNew>
             )}
             {mainView.type === "instances" && (
@@ -81,11 +90,20 @@ export function MainView({
             {mainView.type === "instance" && (
                 <MainViewInstance
                     token={token}
+                    mainView={mainView}
+                    setMainView={setMainView}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
+                    managerUserData={managerUserData}
                 ></MainViewInstance>
             )}
             {mainView.type === "instanceNew" && (
                 <MainViewInstanceNew
                     token={token}
+                    mainView={mainView}
+                    setMainView={setMainView}
+                    dataChanged={dataChanged}
+                    setDataChanged={setDataChanged}
                 ></MainViewInstanceNew>
             )}
         </div>

@@ -41,25 +41,18 @@ export type ViewData = {
 export type SetMain = {
     setProjects: (id?: string) => void;
     setProject: (id: string) => void;
-    setProjectNew: (id: string) => void;
+    setProjectNew: (id: string, parentId?: string) => void;
     setSoftwares: (id?: string) => void;
     setSoftware: (id: string) => void;
-    setSoftwareNew: (id: string) => void;
+    setSoftwareNew: (id: string, parentId?: string) => void;
     setInstances: (id?: string) => void;
     setInstance: (id: string) => void;
-    setInstanceNew: (id: string) => void;
+    setInstanceNew: (id: string, parentId?: string) => void;
 };
 export function findType(
     typeData: TypeData[],
     type: string
 ): TypeData | null {
-    console.log(
-        "findType",
-        "typeData",
-        typeData,
-        "type",
-        type
-    );
     for (const item of typeData) {
         if (item.type === type) {
             return item;
@@ -105,6 +98,7 @@ export function Manager() {
     const [mainView, setMainView] = useState<{
         type: string;
         id: string;
+        parentId?: string;
     }>({
         type: "projects",
         id: "",
@@ -122,8 +116,12 @@ export function Manager() {
         setProject: (id: string) => {
             setMainView({ type: "project", id: id });
         },
-        setProjectNew: (id: string) => {
-            setMainView({ type: "projectNew", id: id });
+        setProjectNew: (id: string, parentId?: string) => {
+            setMainView({
+                type: "projectNew",
+                id: id,
+                parentId,
+            });
         },
         setSoftwares: (id?: string) => {
             setMainView({
@@ -134,8 +132,12 @@ export function Manager() {
         setSoftware: (id: string) => {
             setMainView({ type: "software", id: id });
         },
-        setSoftwareNew: (id: string) => {
-            setMainView({ type: "softwareNew", id: id });
+        setSoftwareNew: (id: string, parentId?: string) => {
+            setMainView({
+                type: "softwareNew",
+                id: id,
+                parentId,
+            });
         },
         setInstances: (id?: string) => {
             setMainView({
@@ -146,8 +148,12 @@ export function Manager() {
         setInstance: (id: string) => {
             setMainView({ type: "instance", id: id });
         },
-        setInstanceNew: (id: string) => {
-            setMainView({ type: "instanceNew", id: id });
+        setInstanceNew: (id: string, parentId?: string) => {
+            setMainView({
+                type: "instanceNew",
+                id: id,
+                parentId,
+            });
         },
     };
     const fetchData = async () => {

@@ -25,6 +25,8 @@ ENV PATH "$NVM_DIR/versions/node/v22.14.0/bin:$PATH"
 
 # Verify installation
 RUN node -v && npm -v
+RUN apt-get update && apt-get install -y supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /app
 
@@ -33,4 +35,5 @@ RUN npm install
 
 EXPOSE 80
 
-CMD ["sh", "-c", "npm run dev & nginx -g 'daemon off;'"]
+
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

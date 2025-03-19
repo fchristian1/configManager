@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-    ManagerDataDataData,
-    ManagerUserData,
-} from "../../Manager";
+import { ManagerDataDataData, ManagerUserData } from "../../Manager";
 import { fetcher } from "../../../../services/common/fetcher";
 
 type SideMenuProps = {
     token: string;
     mainView: { type: string; id: string };
-    setMainView: (mainView: {
-        type: string;
-        id: string;
-    }) => void;
+    setMainView: (mainView: { type: string; id: string }) => void;
     dataChanged: boolean;
     setDataChanged: (dataChanged: boolean) => void;
     managerUserData: ManagerUserData;
@@ -27,19 +21,13 @@ export function MainViewProject({
         const projects = managerUserData.data.find(
             (item) => item.type === "projects"
         );
-        const project = projects?.data.find(
-            (item) => item.id === mainView.id
-        );
-        console.log(JSON.stringify(project));
+        const project = projects?.data.find((item) => item.id === mainView.id);
         return project;
     };
     const deleteProject = async () => {
-        const response = await fetcher(
-            `projects/${mainView.id}`,
-            {
-                method: "DELETE",
-            }
-        );
+        const response = await fetcher(`projects/${mainView.id}`, {
+            method: "DELETE",
+        });
         return response;
     };
     const onclickDelete = async () => {
@@ -52,16 +40,13 @@ export function MainViewProject({
         }
     };
     const updateProject = async () => {
-        const response = await fetcher(
-            `projects/${mainView.id}`,
-            {
-                method: "PUT",
-                body: JSON.stringify(projectData),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        const response = await fetcher(`projects/${mainView.id}`, {
+            method: "PUT",
+            body: JSON.stringify(projectData),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         return response;
     };
     const onClickSave = async () => {
@@ -72,8 +57,9 @@ export function MainViewProject({
             console.log("error");
         }
     };
-    const [projectData, setProjectData] =
-        useState<ManagerDataDataData | null>(null);
+    const [projectData, setProjectData] = useState<ManagerDataDataData | null>(
+        null
+    );
     const [projectDataBeforEdit, setProjectDataBeforEdit] =
         useState<ManagerDataDataData | null>(null);
     const [showDelete, setShowDelete] = useState(false);
@@ -91,25 +77,18 @@ export function MainViewProject({
                     <tbody>
                         <tr>
                             <td>Name:</td>
-                            {!edit && (
-                                <td>{projectData?.name}</td>
-                            )}
+                            {!edit && <td>{projectData?.name}</td>}
                             {edit && (
                                 <td>
                                     <input
                                         type="text"
-                                        value={
-                                            projectData?.name ||
-                                            ""
-                                        }
+                                        value={projectData?.name || ""}
                                         onChange={(e) =>
                                             setProjectData(
                                                 (prev) =>
                                                     ({
                                                         ...prev,
-                                                        name: e
-                                                            .target
-                                                            .value,
+                                                        name: e.target.value,
                                                     } as ManagerDataDataData)
                                             )
                                         }
@@ -120,29 +99,19 @@ export function MainViewProject({
 
                         <tr>
                             <td>Description:</td>
-                            {!edit && (
-                                <td>
-                                    {
-                                        projectData?.description
-                                    }
-                                </td>
-                            )}
+                            {!edit && <td>{projectData?.description}</td>}
                             {edit && (
                                 <td>
                                     <input
                                         type="text"
-                                        value={
-                                            projectData?.description
-                                        }
+                                        value={projectData?.description}
                                         onChange={(e) =>
                                             setProjectData(
                                                 (prev) =>
                                                     ({
                                                         ...prev,
                                                         description:
-                                                            e
-                                                                .target
-                                                                .value,
+                                                            e.target.value,
                                                     } as ManagerDataDataData)
                                             )
                                         }
@@ -158,9 +127,7 @@ export function MainViewProject({
                     <button
                         onClick={() => {
                             setEdit(!edit);
-                            setProjectDataBeforEdit(
-                                projectData
-                            );
+                            setProjectDataBeforEdit(projectData);
                         }}
                         className="button"
                     >
@@ -172,9 +139,7 @@ export function MainViewProject({
                         <button
                             onClick={() => {
                                 setEdit(!edit);
-                                setProjectData(
-                                    projectDataBeforEdit
-                                );
+                                setProjectData(projectDataBeforEdit);
                             }}
                             className="button"
                         >
@@ -185,9 +150,7 @@ export function MainViewProject({
                                 setEdit(!edit);
                                 console.log(projectData);
                                 onClickSave();
-                                setProjectDataBeforEdit(
-                                    null
-                                );
+                                setProjectDataBeforEdit(null);
                             }}
                             className="button"
                         >
@@ -195,10 +158,7 @@ export function MainViewProject({
                         </button>
                     </>
                 )}
-                <button
-                    onClick={() => setShowDelete(true)}
-                    className="button"
-                >
+                <button onClick={() => setShowDelete(true)} className="button">
                     Delete
                 </button>
             </div>
@@ -207,15 +167,12 @@ export function MainViewProject({
                     <div className="flex justify-center items-center bg-gray-500 opacity-50 w-full h-full"></div>
                     <div className="top-0 right-0 bottom-0 left-0 absolute flex justify-center items-cente">
                         <div className="flex justify-center items-center col">
-                            {showDelete && (
-                                <p>Delete the Project?</p>
-                            )}
+                            {showDelete && <p>Delete the Project?</p>}
                             <p>
                                 &nbsp;
                                 {showDelete2 && (
                                     <>
-                                        Are you sure you
-                                        want to delete the
+                                        Are you sure you want to delete the
                                         Project?
                                     </>
                                 )}
@@ -223,36 +180,20 @@ export function MainViewProject({
                             <div className="row">
                                 <button
                                     onClick={() => {
-                                        showDelete &&
-                                            setShowDelete2(
-                                                true
-                                            );
-                                        showDelete2 &&
-                                            setShowDelete(
-                                                false
-                                            );
-                                        showDelete2 &&
-                                            onclickDelete();
-                                        showDelete2 &&
-                                            setShowDelete2(
-                                                false
-                                            );
+                                        showDelete && setShowDelete2(true);
+                                        showDelete2 && setShowDelete(false);
+                                        showDelete2 && onclickDelete();
+                                        showDelete2 && setShowDelete2(false);
                                     }}
                                     className="button"
                                 >
                                     Yes
                                 </button>
-                                {showDelete2 && (
-                                    <div className="mx-12"></div>
-                                )}
+                                {showDelete2 && <div className="mx-12"></div>}
                                 <button
                                     onClick={() => {
-                                        setShowDelete(
-                                            false
-                                        );
-                                        setShowDelete2(
-                                            false
-                                        );
+                                        setShowDelete(false);
+                                        setShowDelete2(false);
                                     }}
                                     className="button"
                                 >

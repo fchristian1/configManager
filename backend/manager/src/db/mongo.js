@@ -1,4 +1,4 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 const url = 'mongodb://admin:admin@backend_mongo:27017';
 const client = new MongoClient(url);
@@ -56,10 +56,33 @@ export async function findOne(userId, collection, id) {
         console.error(err);
     }
 }
+export async function findOneWithoutUserId(collection, id) {
+    //find data in collection with id
+    try {
+        const data = await db.collection(collection).findOne({ id });
+        delete data._id;
+        return data;
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
 export async function find(userId, collection) {
     //find all data in collection
     try {
         const datas = await db.collection(collection).find({ userId }).toArray() ?? [];
+        datas.forEach(data => delete data._id);
+        return datas;
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+
+export async function findWithoutUserId(collection) {
+    //find all data in collection
+    try {
+        const datas = await db.collection(collection).find().toArray() ?? [];
         datas.forEach(data => delete data._id);
         return datas;
     }

@@ -26,53 +26,41 @@ export function FolderObjectList({
     parentId,
     setMain,
 }: SideMenuProps) {
-    const td = findType(
-        typeData,
-        managerDataData?.type ?? ""
-    );
+    const td = findType(typeData, managerDataData?.type ?? "");
     if (td?.childrens) {
         return (
             <>
                 {managerDataData?.data.map((d, i) => {
                     const setMainFunction = () =>
-                        setMain[
-                            td.link
-                                .one as keyof typeof setMain
-                        ](d.id);
+                        setMain[td.link.one as keyof typeof setMain](d.id);
                     return (
                         <div key={i}>
                             <Folder
                                 key={d.id}
                                 folderName={d.name}
-                                managerDataData={
-                                    managerDataData
-                                }
+                                managerDataData={managerDataData}
                                 typeData={typeData}
                                 viewUserData={viewUserData}
                                 type={td?.childrens ?? null}
-                                managerUserData={
-                                    managerUserData
-                                }
+                                managerUserData={managerUserData}
                                 comeFrom="FolderObjectList"
                                 parentId={d.id}
                                 setMain={setMain}
-                                setMainFunction={
-                                    setMainFunction
-                                }
+                                setMainFunction={setMainFunction}
                             ></Folder>
                         </div>
                     );
                 })}
                 <div
                     style={{ cursor: "pointer" }}
+                    className="hover:bg-gray-200 px-1 rounded text-gray-400 hover:text-black whitespace-nowrap"
                     onClick={() =>
-                        setMain[
-                            (td?.link.one +
-                                "New") as keyof typeof setMain
-                        ]("")
+                        setMain[(td?.link.one + "New") as keyof typeof setMain](
+                            ""
+                        )
                     }
                 >
-                    Add a {type?.[0].singularName}
+                    Add a {type?.[0].singularName} ...
                 </div>
             </>
         );
@@ -80,23 +68,17 @@ export function FolderObjectList({
         return (
             <>
                 {managerDataData?.data.map((d) => {
-                    const td = findType(
-                        typeData,
-                        managerDataData?.type
-                    );
+                    const td = findType(typeData, managerDataData?.type);
 
                     if (d.parentId == parentId) {
                         const setMainFunction = () =>
-                            setMain[
-                                td?.link
-                                    .one as keyof typeof setMain
-                            ](d.id);
+                            setMain[td?.link.one as keyof typeof setMain](d.id);
                         return (
                             <div
                                 style={{
                                     cursor: "pointer",
                                 }}
-                                className="hover:bg-gray-200 px-1 rounded"
+                                className="bg-gray-100 hover:bg-gray-200 px-1 rounded font-mono"
                                 onClick={setMainFunction}
                                 key={d.id}
                             >
@@ -107,15 +89,16 @@ export function FolderObjectList({
                 })}
                 <div
                     style={{ cursor: "pointer" }}
+                    className="hover:bg-gray-200 px-1 rounded text-gray-400 hover:text-black whitespace-nowrap"
                     onClick={() => {
                         console.log(td?.link.one + "New");
-                        setMain[
-                            (td?.link.one +
-                                "New") as keyof typeof setMain
-                        ]("");
+                        setMain[(td?.link.one + "New") as keyof typeof setMain](
+                            "",
+                            parentId ?? ""
+                        );
                     }}
                 >
-                    Add a {type?.[0].singularName}
+                    Add a {type?.[0].singularName} ...
                 </div>
             </>
         );
