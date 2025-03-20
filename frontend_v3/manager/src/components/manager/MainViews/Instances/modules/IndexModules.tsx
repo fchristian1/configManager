@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { ManagerUserData } from "../../../Manager";
 import { fetcher } from "../../../../../services/common/fetcher";
-import { InstanceModule } from "./InstanceModule";
-import { RepositoryModule } from "./RepositoryModule";
-import { ScriptModule } from "./ScriptModule";
+import { Module } from "./Module";
 
 type SideMenuProps = {
     token: string;
@@ -17,6 +15,7 @@ export type ModulesConfigData = {
     id: string;
     title: string;
     type: string;
+    typeDescription: string;
     description: string;
     options: ModulesConfigDataOptions;
 };
@@ -31,12 +30,18 @@ export type ModulesData = {
     instanceId: string;
     [key: string]: any;
 };
-export function Modules({}: SideMenuProps) {
+export function Modules({ mainView }: SideMenuProps) {
     const [modulesConfigData, setModulesConfigData] = useState<
         ModulesConfigData[] | null
-    >();
+    >(null);
     const [modulesData, setModulesData] = useState<ModulesData[] | null>(null);
-    const [typesList, setTypesList] = useState<string[]>();
+    const [typesList, setTypesList] = useState<
+        {
+            type: string;
+            typeDescription: string;
+        }[]
+    >();
+    const [eventMenuOpen, setEventMenuOpen] = useState<number | null>(null);
     const getModulesConfigData = async () => {
         const response = await fetcher("modulesconfig", {
             method: "GET",
@@ -51,8 +56,22 @@ export function Modules({}: SideMenuProps) {
     };
     const createTypesList = () => {
         //create types list with no duplicates
-        const typesList = modulesConfigData?.map((item) => item.type) ?? [];
-        const uniqueTypesList = Array.from(new Set(typesList));
+        const typesList =
+            modulesConfigData?.map((item) => {
+                return {
+                    type: item.type,
+                    typeDescription: item.typeDescription,
+                };
+            }) ?? [];
+        const uniqueTypesList = typesList.filter(
+            (item, index, self) =>
+                index ===
+                self.findIndex(
+                    (t) =>
+                        t.type === item.type &&
+                        t.typeDescription === item.typeDescription
+                )
+        );
         setTypesList(uniqueTypesList);
     };
     useEffect(() => {
@@ -62,22 +81,26 @@ export function Modules({}: SideMenuProps) {
     useEffect(() => {
         createTypesList();
     }, [modulesConfigData]);
-    useEffect(() => {
-        console.log(typesList);
-    }, [typesList]);
+    useEffect(() => {}, [typesList]);
     return (
         <div className="flex flex-col gap-2 my-2">
-            {typesList?.map((type, i) => (
+            {typesList?.map((item, i) => (
                 <div key={i}>
-                    {type === "instanceModule" && (
-                        <InstanceModule modulesData={modulesData} />
-                    )}
-                    {type === "repositoryModule" && (
-                        <RepositoryModule modulesData={modulesData} />
-                    )}
-                    {type === "scriptModule" && (
-                        <ScriptModule modulesData={modulesData} />
-                    )}
+                    {
+                        <Module
+                            i={i}
+                            mainView={mainView}
+                            modulesConfigData={modulesConfigData}
+                            type={{
+                                type: item.type,
+                                typeDescription: item.typeDescription,
+                            }}
+                            modulesData={modulesData}
+                            setModulesData={setModulesData}
+                            eventMenuOpen={eventMenuOpen}
+                            setEventMenuOpen={setEventMenuOpen}
+                        />
+                    }
                 </div>
             ))}
         </div>
