@@ -1,4 +1,4 @@
-/*! tailwindcss v4.0.14 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.15 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
@@ -178,6 +178,7 @@ body {
   padding: 0;
   font-size: 16px;
   line-height: 1.5;
+  min-width: 440px;
 }
 ul {
   list-style: none;
@@ -240,10 +241,8 @@ main {
   flex-direction: row;
 }
 main aside {
-  width: 30%;
   border-right: 1px solid #ccc;
   padding: 8px 16px;
-  min-width: 200px;
   transition: all 0.3s;
 }
 #asideMenuIcon {
@@ -261,7 +260,7 @@ main aside {
 @media screen and (max-width: 768px) {
   #asideMenuIcon {
     display: flex;
-    left: 230px;
+    left: 420px;
     background-color: #999999;
     cursor: pointer;
   }
@@ -270,25 +269,25 @@ main aside {
   }
   main aside {
     position: fixed;
-    left: -250px;
+    left: -440px;
     background-color: #ccc;
-    min-width: 250px;
+    min-width: 440px;
     height: 100%;
   }
   main aside.open {
     left: 0;
   }
 }
-main aside div {
+main > aside > div {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-main aside div a:hover {
+main > aside > div a:hover {
   background-color: #ccc;
 }
-main aside div a {
+main > aside > div a {
   text-decoration: none;
   color: black;
   border: 1px solid #999999;
@@ -318,6 +317,9 @@ main > div {
 .gap-2 {
   gap: 8px;
 }
+.pointer {
+  cursor: pointer;
+}
 footer {
   display: flex;
   justify-content: center;
@@ -340,6 +342,14 @@ input[type="text"]:hover, input[type="password"]:hover, input[type="email"]:hove
 input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="number"]:focus {
   border-color: #555;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+button.active {
+  background-color: #b36500;
+  color: white;
+}
+button.active:hover {
+  background-color: #814900;
+  color: white;
 }
 .button, input[type="submit"] {
   padding: 10px 15px;

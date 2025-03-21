@@ -1,0 +1,332 @@
+{
+    "configData": {
+        "objects": [
+            {
+                "type": "object",
+                "link": "project",
+                "dbname": "projects",
+                "name": "Projects",
+                "singularName": "Project",
+                "tree": true,
+                "parent": "#object:root",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "title": "Description",
+                        "type": "multiline",
+                        "required": false
+                    },
+                    {
+                        "name": "status",
+                        "title": "Status",
+                        "type": "selection",
+                        "required": true,
+                        "values": [
+                            "Active",
+                            "Inactive"
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "object",
+                "link": "software",
+                "dbname": "softwares",
+                "name": "Software",
+                "singularName": "Software",
+                "tree": true,
+                "parent": "#object:root",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "title": "Description",
+                        "type": "multiline",
+                        "required": false
+                    },
+                    {
+                        "name": "status",
+                        "title": "Status",
+                        "type": "selection",
+                        "required": true,
+                        "values": [
+                            "Active",
+                            "Inactive"
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "object",
+                "link": "instance",
+                "dbname": "instances",
+                "name": "Instances",
+                "singularName": "Instance",
+                "tree": true,
+                "parent": "#object:project",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "title": "Description",
+                        "type": "multiline",
+                        "required": false
+                    },
+                    {
+                        "name": "status",
+                        "title": "Status",
+                        "type": "selection",
+                        "required": true,
+                        "values": [
+                            "Active",
+                            "Inactive"
+                        ]
+                    },
+                    {
+                        "type": "modules",
+                        "dbname": "instanceType",
+                        "title": "Instance Type",
+                        "modules": [
+                            "#module:aws-ec2",
+                            "#module:azure-vm",
+                            "#module:ssh-mashine"
+                        ]
+                    },
+                    {
+                        "type": "modules",
+                        "dbname": "repositoryType",
+                        "title": "Repository Type",
+                        "modules": [
+                            "#module:github"
+                        ]
+                    },
+                    {
+                        "type": "modules",
+                        "dbname": "scriptType",
+                        "title": "Script Type",
+                        "modules": [
+                            "#module:script-command",
+                            "#module:script"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "modules": [
+            {
+                "title": "AWS-EC2",
+                "link": "aws-ec2",
+                "name": "aws-ec2",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "instanceId",
+                        "title": "Instance ID",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "instanceType",
+                        "title": "Instance Type",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "region",
+                        "title": "Region",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "title": "Azure VM",
+                "link": "azure-vm",
+                "name": "azure-vm",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "instanceId",
+                        "title": "Instance ID",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "instanceType",
+                        "title": "Instance Type",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "region",
+                        "title": "Region",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "title": "SSH Mashine",
+                "link": "ssh-mashine",
+                "name": "ssh-mashine",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "ip",
+                        "title": "IP",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "port",
+                        "title": "Port",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "username",
+                        "title": "Username",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "keyname",
+                        "title": "Keyname",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "Title": "GitHub",
+                "link": "github",
+                "name": "github",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "url",
+                        "title": "URL",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "branch",
+                        "title": "Branch",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "title": "ScriptCommand",
+                "link": "script-command",
+                "name": "script-command",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "command",
+                        "title": "Command",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "title": "Script",
+                "link": "script",
+                "name": "script",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "script",
+                        "title": "Script",
+                        "type": "multiline",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    }
+}

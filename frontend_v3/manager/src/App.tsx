@@ -1,11 +1,14 @@
-import { Manager } from "./components/manager/Manager";
+import { Manager } from "./components/managerv2/Manager";
 import { MainLayout } from "./components/layout/MainLayout";
+import { ManagerProvider } from "./components/managerv2/ManagerProvider";
 
 function App() {
     return (
         <>
             <MainLayout>
-                <Manager></Manager>
+                <ManagerProvider>
+                    <Manager></Manager>
+                </ManagerProvider>
             </MainLayout>
         </>
     );

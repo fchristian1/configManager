@@ -26,8 +26,9 @@ export type ModulesConfigDataOptions = {
 };
 export type ModulesData = {
     id: string;
-    type: string;
+    type: string | null;
     instanceId: string;
+    moduleConfigId: string;
     [key: string]: any;
 };
 export function Modules({ mainView }: SideMenuProps) {
@@ -41,7 +42,10 @@ export function Modules({ mainView }: SideMenuProps) {
             typeDescription: string;
         }[]
     >();
-    const [eventMenuOpen, setEventMenuOpen] = useState<number | null>(null);
+    const [eventMenuOpen, setEventMenuOpen] = useState<{
+        i: number | null;
+        event: boolean;
+    }>({ i: null, event: false });
     const getModulesConfigData = async () => {
         const response = await fetcher("modulesconfig", {
             method: "GET",
@@ -103,6 +107,7 @@ export function Modules({ mainView }: SideMenuProps) {
                     }
                 </div>
             ))}
+            {JSON.stringify(modulesData, null, 2)}
         </div>
     );
 }

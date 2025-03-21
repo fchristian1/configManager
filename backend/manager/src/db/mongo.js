@@ -79,6 +79,18 @@ export async function find(userId, collection) {
     }
 }
 
+export async function findFilter(userId, collection, filter) {
+    //find all data in collection with filter
+    try {
+        const datas = await db.collection(collection).find({ userId, ...filter }).toArray() ?? [];
+        datas.forEach(data => delete data._id);
+        return datas;
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+
 export async function findWithoutUserId(collection) {
     //find all data in collection
     try {
