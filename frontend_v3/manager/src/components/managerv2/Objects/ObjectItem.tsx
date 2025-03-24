@@ -27,9 +27,10 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                 <div
                     className={
                         " text-nowrap pointer rounded px-1 " +
-                        (managerContext?.sideMenuSelected.split(":")[0] ===
+                        (managerContext?.mainView?.itemId?.split(":")[0] ===
                             uuid &&
-                        managerContext?.sideMenuSelected.split(":")[1] !== "new"
+                        managerContext?.mainView?.itemId?.split(":")[1] !==
+                            "new"
                             ? " bg-gray-300 hover:bg-gray-400 "
                             : " hover:bg-gray-200 ")
                     }
@@ -38,6 +39,7 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                             setMainView({
                                 managerContext,
                                 mainView: object.dbname,
+                                dbname: object.dbname,
                                 parentId,
                                 modus: "list",
                                 itemId: uuid,
@@ -56,9 +58,9 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                     <div
                         className={
                             " text-nowrap pointer rounded px-1 " +
-                            (managerContext?.sideMenuSelected.split(":")[0] ===
+                            (managerContext?.mainView?.itemId?.split(":")[0] ===
                                 uuid &&
-                            managerContext?.sideMenuSelected.split(":")[1] ===
+                            managerContext?.mainView?.itemId?.split(":")[1] ===
                                 "new"
                                 ? " bg-gray-300 hover:bg-gray-400 "
                                 : " hover:bg-gray-200 ")
@@ -68,6 +70,7 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                                 setMainView({
                                     managerContext,
                                     mainView: object.link,
+                                    dbname: object.dbname,
                                     parentId: parentId,
                                     itemId: uuid + ":new",
                                     modus: "new",

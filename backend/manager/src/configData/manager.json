@@ -42,10 +42,10 @@
             },
             {
                 "type": "object",
-                "link": "software",
-                "dbname": "softwares",
-                "name": "Software",
-                "singularName": "Software",
+                "link": "credentials",
+                "dbname": "credentials",
+                "name": "Credentials",
+                "singularName": "Credential",
                 "tree": true,
                 "parent": "#object:root",
                 "dataType": [
@@ -68,14 +68,11 @@
                         "required": false
                     },
                     {
-                        "name": "status",
-                        "title": "Status",
-                        "type": "selection",
-                        "required": true,
-                        "values": [
-                            "Active",
-                            "Inactive"
-                        ]
+                        "name": "keyvalue",
+                        "title": "Key- Value",
+                        "type": "stringstring",
+                        "required": false,
+                        "multiple": true
                     }
                 ]
             },
@@ -91,6 +88,12 @@
                     {
                         "name": "id",
                         "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "parentId",
+                        "title": "Parent ID",
                         "type": "uuid",
                         "required": true
                     },
@@ -117,8 +120,23 @@
                         ]
                     },
                     {
+                        "name": "informations",
+                        "title": "Informations",
+                        "type": "informations",
+                        "required": false,
+                        "dataType": [
+                            {
+                                "name": "ip",
+                                "title": "IP",
+                                "type": "string",
+                                "required": true
+                            }
+                        ]
+                    },
+                    {
                         "type": "modules",
                         "dbname": "instanceType",
+                        "name": "instanceType",
                         "title": "Instance Type",
                         "modules": [
                             "#module:aws-ec2",
@@ -129,6 +147,7 @@
                     {
                         "type": "modules",
                         "dbname": "repositoryType",
+                        "name": "repositoryType",
                         "title": "Repository Type",
                         "modules": [
                             "#module:github"
@@ -137,6 +156,7 @@
                     {
                         "type": "modules",
                         "dbname": "scriptType",
+                        "name": "scriptType",
                         "title": "Script Type",
                         "modules": [
                             "#module:script-command",
@@ -250,7 +270,7 @@
                 ]
             },
             {
-                "Title": "GitHub",
+                "title": "GitHub",
                 "link": "github",
                 "name": "github",
                 "type": "module",

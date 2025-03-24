@@ -24,9 +24,10 @@ export function Item({ item, object }: SideMenuProps) {
                 <div
                     className={
                         " text-nowrap pointer rounded px-1 " +
-                        (managerContext?.sideMenuSelected.split(":")[0] ===
+                        (managerContext?.mainView?.itemId?.split(":")[0] ===
                             item.id &&
-                        managerContext?.sideMenuSelected.split(":")[1] !== "new"
+                        managerContext?.mainView?.itemId?.split(":")[1] !==
+                            "new"
                             ? " bg-gray-300 hover:bg-gray-400 "
                             : " hover:bg-gray-200 ")
                     }
@@ -35,6 +36,7 @@ export function Item({ item, object }: SideMenuProps) {
                             setMainView({
                                 managerContext,
                                 mainView: object.link,
+                                dbname: object.dbname,
                                 itemId: item.id,
                                 parentId: item.parentId,
                                 modus: "item",

@@ -50,6 +50,7 @@ export async function findOne(userId, collection, id) {
     try {
         const data = await db.collection(collection).findOne({ id, userId });
         delete data._id;
+        delete data.userId;
         return data;
     }
     catch (err) {
@@ -61,6 +62,7 @@ export async function findOneWithoutUserId(collection, id) {
     try {
         const data = await db.collection(collection).findOne({ id });
         delete data._id;
+        delete data.userId;
         return data;
     }
     catch (err) {
@@ -71,7 +73,7 @@ export async function find(userId, collection) {
     //find all data in collection
     try {
         const datas = await db.collection(collection).find({ userId }).toArray() ?? [];
-        datas.forEach(data => delete data._id);
+        datas.forEach(data => { delete data._id; delete data.userId; return data; });
         return datas;
     }
     catch (err) {
@@ -83,7 +85,7 @@ export async function findFilter(userId, collection, filter) {
     //find all data in collection with filter
     try {
         const datas = await db.collection(collection).find({ userId, ...filter }).toArray() ?? [];
-        datas.forEach(data => delete data._id);
+        datas.forEach(data => { delete data._id; delete data.userId; return data; });
         return datas;
     }
     catch (err) {
@@ -95,7 +97,7 @@ export async function findWithoutUserId(collection) {
     //find all data in collection
     try {
         const datas = await db.collection(collection).find().toArray() ?? [];
-        datas.forEach(data => delete data._id);
+        datas.forEach(data => { delete data._id; delete data.userId; return data; });
         return datas;
     }
     catch (err) {

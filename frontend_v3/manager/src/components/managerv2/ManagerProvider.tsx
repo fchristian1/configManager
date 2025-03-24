@@ -1,9 +1,10 @@
-import { createContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useEffect, useState, ReactNode, useMemo } from "react";
 import { fetcher } from "../../services/common/fetcher";
 
 // Typen für den Context definieren
 type MainView = {
     link: string;
+    dbname?: string;
     itemId?: string;
     parentId?: string;
     modus: string;
@@ -12,6 +13,8 @@ type MainView = {
 export type ManagerContextType = {
     sideMenuSelected: string;
     setData: (data: ManagerContextType) => void;
+    reload: boolean;
+    setReload: (reload: boolean) => void;
     mainView: MainView;
     configData: any;
     debug: { showJSON: boolean; showDebug: boolean };
@@ -24,12 +27,14 @@ export const ManagerContext = createContext<ManagerContextType>(null);
 export const setMainView = ({
     managerContext,
     mainView,
+    dbname,
     itemId,
     parentId,
     modus,
 }: {
     managerContext: ManagerContextType;
     mainView: string;
+    dbname?: string;
     itemId?: string;
     parentId?: string;
     modus: string;
@@ -41,6 +46,7 @@ export const setMainView = ({
         sideMenuSelected: itemId ?? "",
         mainView: {
             link: mainView,
+            dbname,
             itemId,
             parentId,
             modus,
@@ -74,9 +80,9 @@ type ManagerProviderProps = {
 
 export const ManagerProvider = ({ children }: ManagerProviderProps) => {
     const [data, setData] = useState<ManagerContextType>(null);
-
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
+    const [reload, setReload] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -88,8 +94,11 @@ export const ManagerProvider = ({ children }: ManagerProviderProps) => {
                 setData({
                     sideMenuSelected: "",
                     setData,
+                    reload,
+                    setReload,
                     mainView: {
                         link: "projects",
+                        dbname: "projects",
                         parentId: "",
                         modus: "list",
                     },
@@ -107,12 +116,29 @@ export const ManagerProvider = ({ children }: ManagerProviderProps) => {
 
         fetchData();
     }, []);
+    const contextValue = useMemo(() => {
+        return {
+            ...data,
+            sideMenuSelected: "",
+            setData,
+            reload,
+            setReload,
+            mainView: data?.mainView ?? {
+                link: "projects",
+                dbname: "projects",
+                parentId: "",
+                modus: "list",
+            },
+            configData: data?.configData ?? {}, // Ensure configData is always provided
+            debug: data?.debug ?? { showJSON: false, showDebug: false },
+        };
+    }, [data, reload]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <ManagerContext.Provider value={data}>
+        <ManagerContext.Provider value={contextValue}>
             {children}
         </ManagerContext.Provider>
     );

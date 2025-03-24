@@ -1,11 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { ManagerContext, ManagerContextType } from "../ManagerProvider";
-import { Title } from "./DataTypes/Title";
-import { DTString } from "./DataTypes/String";
-import { DTSelection } from "./DataTypes/Selection";
-import { DTMultiline } from "./DataTypes/Multiline";
-import { DTModule } from "./DataTypes/Module";
 import { fetcher } from "../../../services/common/fetcher";
+import { ItemView } from "./Item/View";
+import { ItemEdit } from "./Item/Edit";
 type SideMenuProps = {};
 export function Item({}: SideMenuProps) {
     const managerContext = useContext<ManagerContextType>(ManagerContext);
@@ -13,15 +10,22 @@ export function Item({}: SideMenuProps) {
         (o: any) => o.link === managerContext?.mainView.link
     );
     const [data, setData] = useState<any>(null); // Zustand für die geladenen Daten
+    const [show, setShow] = useState<string>("view"); // Zustand für die Anzeige des Editiermodus
+    useEffect(() => {
+        setShow("view");
+    }, []);
+    useEffect(() => {
+        setShow("view");
+    }, [data]);
     useEffect(() => {
         const fetchData = async () => {
             const fetchedData = await Promise.all([
                 fetcher(
-                    `/data/${object.dbname}/id/${managerContext?.mainView.itemId}`
+                    `data/${object.dbname}/id/${managerContext?.mainView.itemId}`
                 ),
             ]);
 
-            setData(fetchedData); // Geladene Daten in den Zustand setzen
+            setData(fetchedData[0]); // Geladene Daten in den Zustand setzen
         };
 
         fetchData();
@@ -31,44 +35,34 @@ export function Item({}: SideMenuProps) {
             <div>
                 {object.singularName} {data?.name}
             </div>
-
-            <div className="flex flex-col gap-2">
-                {managerContext?.configData.objects
-                    .find((o: any) => o.link === managerContext?.mainView.link)
-                    .dataType.map((dt: any, i: number) => {
-                        return (
-                            <div key={i}>
-                                {!(dt.type === "uuid" || dt.type === "id") && (
-                                    <Title>{dt.title}:</Title>
-                                )}
-
-                                {dt.type === "string" && (
-                                    <DTString
-                                        value={data?.[0]?.[dt.name]}
-                                    ></DTString>
-                                )}
-                                {dt.type === "multiline" && (
-                                    <DTMultiline
-                                        value={data?.[0]?.[dt.name]}
-                                    ></DTMultiline>
-                                )}
-                                {dt.type === "selection" && (
-                                    <DTSelection
-                                        values={dt.values}
-                                    ></DTSelection>
-                                )}
-                                {dt.type === "modules" && (
-                                    <DTModule modules={dt.modules}></DTModule>
-                                )}
-                            </div>
-                        );
-                    })}
-                <button className="button">Save</button>
-                <button className="button">Cancel</button>
-            </div>
+            <button
+                className={" button " + (show === "edit" ? " active " : "")}
+                onClick={() => {
+                    if ("view" === show) {
+                        setShow("edit");
+                    }
+                    if ("edit" === show) {
+                        setShow("view");
+                    }
+                }}
+            >
+                Edit
+            </button>
+            {show === "view" && <ItemView data={data}></ItemView>}
+            {show === "edit" && (
+                <ItemEdit
+                    data={data}
+                    setData={setData}
+                    show={show}
+                    setShow={setShow}
+                ></ItemEdit>
+            )}
 
             {managerContext?.debug.showJSON && (
                 <>
+                    <pre id="json" className="text-xs">
+                        {JSON.stringify({ data: data }, null, 2)}
+                    </pre>
                     <pre id="json" className="text-xs">
                         {JSON.stringify(
                             {
@@ -80,9 +74,6 @@ export function Item({}: SideMenuProps) {
                             null,
                             2
                         )}
-                    </pre>
-                    <pre id="json" className="text-xs">
-                        {JSON.stringify({ data: data }, null, 2)}
                     </pre>
                 </>
             )}

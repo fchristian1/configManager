@@ -59,6 +59,11 @@ export function Manager({}: SideMenuProps) {
             </aside>
             <div className="w-full">
                 <Main></Main>
+                {managerContext.debug.showDebug && (
+                    <pre className="text-xs">
+                        {JSON.stringify(managerContext, null, 2)}
+                    </pre>
+                )}
             </div>
         </>
     );

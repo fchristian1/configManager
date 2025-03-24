@@ -1,7 +1,12 @@
-type SideMenuProps = { values: string[] };
-export function DTSelection({ values }: SideMenuProps) {
+type SideMenuProps = {
+    onChange: any;
+    values: string[];
+    data: any;
+    name: string;
+};
+export function DTSelection({ onChange, values, data, name }: SideMenuProps) {
     return (
-        <select>
+        <select onChange={onChange} value={data} name={name}>
             {values.map((v: string, i: number) => {
                 return (
                     <option key={i} value={v}>

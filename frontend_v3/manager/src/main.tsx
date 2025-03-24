@@ -7,7 +7,7 @@ import App from "./App.tsx";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 createRoot(document.getElementById("root")!).render(
-    <>
+    <StrictMode>
         <BrowserRouter>
             <Routes>
                 <Route path="manager" element={<App />}>
@@ -45,5 +45,5 @@ createRoot(document.getElementById("root")!).render(
                 </Route>
             </Routes>
         </BrowserRouter>
-    </>
+    </StrictMode>
 );
