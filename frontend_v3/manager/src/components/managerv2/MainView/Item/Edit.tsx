@@ -48,7 +48,7 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
             return;
         }
         const res = await fetcher(
-            `data/${managerContext?.mainView.link}s/${managerContext?.mainView.itemId}`,
+            `data/${managerContext?.mainView.dbname}/${managerContext?.mainView.itemId}`,
             {
                 method: "PUT",
                 headers: {

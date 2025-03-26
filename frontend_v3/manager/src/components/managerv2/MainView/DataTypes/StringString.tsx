@@ -39,7 +39,7 @@ export function DTStringString({ onChange, value, data, name }: SideMenuProps) {
                                             }
                                         );
                                         setEditData(newEditData);
-                                        onChange(e, name, editData);
+                                        onChange(e, name, newEditData);
                                     }}
                                 ></input>
                                 <input
@@ -62,7 +62,7 @@ export function DTStringString({ onChange, value, data, name }: SideMenuProps) {
                                         console.log(newEditData);
 
                                         setEditData(newEditData);
-                                        onChange(e, name, editData);
+                                        onChange(e, name, newEditData);
                                     }}
                                 ></input>
                                 <button

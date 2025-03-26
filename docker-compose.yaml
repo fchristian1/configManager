@@ -1,3 +1,6 @@
+x-backend-env: &backend-env
+    MONGO_CONNECTION_STRING: mongodb://admin:admin@backend_mongo:27017/?replicaSet=rs0&authSource=admin
+
 services:
     frontend_html:
         build: ./frontend_v3/html
@@ -8,6 +11,7 @@ services:
         volumes:
             - ./frontend_v3/html/site:/usr/share/nginx/html/
             - ./frontend_v3/html:/app/
+
     frontend_manager:
         build: ./frontend_v3/manager
         container_name: frontend_manager
@@ -16,6 +20,7 @@ services:
             - ./frontend_v3:/app
         ports:
             - "5174:5174"
+
     frontend_devtodo:
         build: ./frontend_v3/devtodo
         container_name: frontend_devtodo
@@ -24,6 +29,7 @@ services:
             - ./frontend_v3:/app
         ports:
             - "5175:5175"
+
     backend_gateway:
         build: ./backend/gateway
         container_name: backend_gateway
@@ -32,6 +38,9 @@ services:
             - ./backend/gateway:/app
         ports:
             - "3000:3000"
+        environment:
+            <<: *backend-env
+
     backend_auth:
         build: ./backend/auth
         container_name: backend_auth
@@ -39,6 +48,9 @@ services:
         volumes:
             - ./backend/auth:/app
             - ./data:/app/data
+        environment:
+            <<: *backend-env
+
     backend_todos:
         build: ./backend/todos
         container_name: backend_todos
@@ -46,6 +58,9 @@ services:
         volumes:
             - ./backend/todos:/app
             - ./data:/app/data
+        environment:
+            <<: *backend-env
+
     backend_manager:
         build: ./backend/manager
         container_name: backend_manager
@@ -53,16 +68,35 @@ services:
         volumes:
             - ./backend/manager:/app
             - ./data:/app/data
+        environment:
+            <<: *backend-env
+
+    backend_commander:
+        build: ./backend/commander
+        container_name: backend_commander
+        restart: always
+        volumes:
+            - ./backend/commander:/app
+            - ./data:/app/data
+        environment:
+            <<: *backend-env
     backend_mongo:
-        #connectionstrinig: mongodb://admin:admin@backend_mongo:27017
         image: mongo
-        container_name: mongo
+        container_name: backend_mongo
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: admin
             MONGO_INITDB_ROOT_PASSWORD: admin
+        command: >
+            --replSet rs0
+            --bind_ip_all
+            --auth
+            --keyFile /data/security/mongodb.key
         volumes:
             - ./data/mongo:/data/db
+            - ./data/security/mongodb.key:/data/security/mongodb.key:ro
+            - ./data/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
     backend_mongo-express:
         image: mongo-express
         container_name: mongo-express

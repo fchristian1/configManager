@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const url = 'mongodb://admin:admin@backend_mongo:27017';
+const url = 'mongodb://admin:admin@backend_mongo:27017/?replicaSet=rs0&authSource=admin';
 const client = new MongoClient(url);
 const dbName = 'internal';
 
@@ -30,7 +30,9 @@ export async function insertOne(userId, collection, id, data) {
     try {
         data.userId = userId;
         delete data._id;
-        await db.collection(collection).updateOne({ id: id, userId: userId }, { $set: data }, { upsert: true });
+        console.log(JSON.stringify(data));
+        const dbres = await db.collection(collection).updateOne({ id: id, userId: userId }, { $set: data }, { upsert: true });
+        console.log(dbres);
     }
     catch (err) {
         console.error(err);

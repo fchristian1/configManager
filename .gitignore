@@ -6,3 +6,4 @@ backend/todos/node_modules/
 backend/gateway/node_modules/
 backend/auth/node_modules/
 backend/manager/node_modules/
+backend/commander/node_modules/

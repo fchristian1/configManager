@@ -29,7 +29,11 @@ export function ItemView({ data }: SideMenuProps) {
                                     {data?.keyvalue?.data?.map(
                                         (d: any, i: number) => (
                                             <div key={i}>
-                                                {d.key}: ... <br />
+                                                {d.key}:{" "}
+                                                {d.value &&
+                                                    d.value != "" &&
+                                                    "..."}{" "}
+                                                <br />
                                             </div>
                                         )
                                     )}
