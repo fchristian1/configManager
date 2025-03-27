@@ -1,0 +1,51 @@
+---
+- name: Clone GitHub repository and return cloned path
+  hosts: web
+  vars:
+      repo_url: "{{ repository_url }}" # Diese Variable muss beim Aufruf übergeben werden
+      branch: "{{ repository_branch }}" # Diese Variable muss beim Aufruf übergeben werden
+  tasks:
+      - name: Test connectivity and gather Ansible connection details
+        debug:
+            msg: |
+                Connected to {{ inventory_hostname }}
+                Ansible user: {{ ansible_user | default('not set') }}
+                SSH User: {{ ansible_ssh_user | default('not set') }}
+        tags: connection_test
+
+      - name: Update package cache
+        apt:
+            update_cache: yes
+        when: ansible_os_family == "Debian"
+        become: true
+
+      - name: Ensure git is installed
+        apt:
+            name: git
+            state: present
+        when: ansible_os_family == "Debian"
+        become: true
+
+      - name: Ensure /app directory exists with correct permissions
+        file:
+            path: /app
+            state: directory
+            owner: ubuntu
+            group: ubuntu
+            mode: "0755"
+        become: true
+
+      - name: Extract repository name from URL
+        set_fact:
+            repo_name: "{{ repo_url | regex_replace('^.*/([^/]+?)(\\.git)?$', '\\1') }}"
+
+      - name: Clone repository into /app directory
+        git:
+            repo: "{{ repo_url }}"
+            dest: "/app/{{ repo_name }}"
+            version: "{{ branch | default('main') }}"
+            force: yes
+
+      - name: Return cloned directory path
+        debug:
+            msg: "Repository cloned to /app/{{ repo_name }}"

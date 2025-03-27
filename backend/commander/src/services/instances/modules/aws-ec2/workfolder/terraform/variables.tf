@@ -22,3 +22,4 @@ variable "id" {
   description = "ID of the instance"
   type        = string
 }
+

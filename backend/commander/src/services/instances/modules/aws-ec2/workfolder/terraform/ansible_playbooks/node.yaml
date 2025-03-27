@@ -1,0 +1,106 @@
+---
+- name: Install Node.js via NVM
+  hosts: web
+  become: true
+  vars:
+      node_version: "" # z. B. "20.11.0" – wenn leer, wird LTS genommen
+      nvm_user: ubuntu
+      nvm_dir: "/home/ubuntu/.nvm"
+
+  tasks:
+      - name: Install dependencies
+        apt:
+            name: [curl, ca-certificates, build-essential]
+            state: present
+            update_cache: yes
+        when: ansible_os_family == "Debian"
+
+      - name: Ensure .bashrc exists
+        file:
+            path: "/home/{{ nvm_user }}/.bashrc"
+            state: touch
+            owner: "{{ nvm_user }}"
+            group: "{{ nvm_user }}"
+
+      - name: Install nvm
+        become_user: "{{ nvm_user }}"
+        shell: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+        args:
+            executable: /bin/bash
+            creates: "{{ nvm_dir }}"
+
+      - name: Load NVM and install Node.js
+        become_user: "{{ nvm_user }}"
+        shell: |
+            export NVM_DIR="{{ nvm_dir }}"
+            source "$NVM_DIR/nvm.sh"
+            nvm install {{ (node_version | length > 0) | ternary(node_version, '--lts') }}
+        args:
+            executable: /bin/bash
+
+      - name: Ensure Node.js is in PATH on login
+        lineinfile:
+            path: "/home/{{ nvm_user }}/.bashrc"
+            line: 'export NVM_DIR="{{ nvm_dir }}"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+            create: yes
+            state: present
+            owner: "{{ nvm_user }}"
+            group: "{{ nvm_user }}"
+            mode: "0644"
+
+      - name: Display installed Node.js version
+        become_user: "{{ nvm_user }}"
+        shell: |
+            export NVM_DIR="{{ nvm_dir }}"
+            source "$NVM_DIR/nvm.sh"
+            node -v
+        args:
+            executable: /bin/bash
+        register: node_version_output
+      - name: Set default Node.js version with nvm
+        become_user: "{{ nvm_user }}"
+        shell: |
+            export NVM_DIR="{{ nvm_dir }}"
+            source "$NVM_DIR/nvm.sh"
+            nvm alias default {{ (node_version | length > 0) | ternary(node_version, 'lts/*') }}
+            nvm use default
+        args:
+            executable: /bin/bash
+      - name: Ensure NVM loads in bashrc and default Node.js is used
+        lineinfile:
+            path: "/home/{{ nvm_user }}/.bashrc"
+            line: |
+                export NVM_DIR="{{ nvm_dir }}"
+                [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                nvm use default >/dev/null
+            create: yes
+            state: present
+            owner: "{{ nvm_user }}"
+            group: "{{ nvm_user }}"
+            mode: "0644"
+      - name: Get current Node.js version installed via NVM
+        shell: "ls -1 /home/{{ nvm_user }}/.nvm/versions/node/"
+        register: node_versions
+
+      - name: Set fact for current node version
+        set_fact:
+            current_node_version: "{{ node_versions.stdout_lines[0] }}"
+
+      - name: Find all binaries in Node.js bin folder (including symlinks)
+        find:
+            paths: "/home/{{ nvm_user }}/.nvm/versions/node/{{ current_node_version }}/bin"
+            file_type: any
+        register: node_binaries
+
+      - name: Create symlinks for node binaries
+        file:
+            src: "{{ item.path }}"
+            dest: "/usr/local/bin/{{ item.path | basename }}"
+            state: link
+            force: yes
+        with_items: "{{ node_binaries.files }}"
+
+      - name: Show installed version
+        debug:
+            msg: "Installed Node.js version: {{ node_version_output.stdout }}"

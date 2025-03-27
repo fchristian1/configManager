@@ -26,7 +26,7 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
 
                 <div
                     className={
-                        " text-nowrap pointer rounded px-1 " +
+                        " font-bold text-nowrap pointer rounded px-1 " +
                         (managerContext?.mainView?.itemId?.split(":")[0] ===
                             uuid &&
                         managerContext?.mainView?.itemId?.split(":")[1] !==
@@ -47,17 +47,17 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                         }
                     }}
                 >
-                    {object.name}
+                    {object.name === "" ? "noname" : object.name}
                 </div>
             </div>
             {open && (
-                <div className="ml-6">
+                <div className="ml-5">
                     {data.map((item: any) => (
                         <Item key={item.id} item={item} object={object}></Item>
                     ))}
                     <div
                         className={
-                            " text-nowrap pointer rounded px-1 " +
+                            " text-gray-500 text-nowrap pointer rounded px-1 " +
                             (managerContext?.mainView?.itemId?.split(":")[0] ===
                                 uuid &&
                             managerContext?.mainView?.itemId?.split(":")[1] ===

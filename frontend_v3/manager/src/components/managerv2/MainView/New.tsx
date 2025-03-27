@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { ManagerContext, ManagerContextType } from "../ManagerProvider";
 import { Title } from "./DataTypes/Title";
 import { DTString } from "./DataTypes/String";
@@ -6,7 +6,6 @@ import { DTSelection } from "./DataTypes/Selection";
 import { DTMultiline } from "./DataTypes/Multiline";
 import { DTModule } from "./DataTypes/Module";
 import { fetcher } from "../../../services/common/fetcher";
-import { data } from "react-router";
 import { DTStringString } from "./DataTypes/StringString";
 
 type SideMenuProps = {};
@@ -15,34 +14,64 @@ export function New({}: SideMenuProps) {
     const name = managerContext?.configData.objects.find(
         (o: any) => o.link === managerContext?.mainView.link
     ).singularName;
+
     const [newData, setNewData] = useState<any>({});
+    const updateQueue = useRef<any[]>([]); // Warteschlange für Updates
+    const isProcessing = useRef(false); // Status, ob gerade verarbeitet wird
+
+    const processQueue = () => {
+        if (isProcessing.current || updateQueue.current.length === 0) return;
+
+        isProcessing.current = true;
+        const nextUpdate = updateQueue.current.shift(); // Nächsten Eintrag aus der Warteschlange holen
+
+        setNewData((prevData: any) => {
+            const updatedData = nextUpdate(prevData);
+            isProcessing.current = false;
+            processQueue(); // Nächsten Eintrag verarbeiten
+            return updatedData;
+        });
+    };
+
     const handleOnChange = (e: any) => {
-        setNewData({
-            ...newData,
+        const updateFunction = (prevData: any) => ({
+            ...prevData,
             [e.target.name]: e.target.value,
             parentId: managerContext?.mainView.parentId,
         });
+
+        updateQueue.current.push(updateFunction); // Update in die Warteschlange einfügen
+        processQueue(); // Verarbeitung starten
     };
-    const handleOnCangeModule = async (
+
+    const handleOnChangeModule = async (
         e: any,
         typeName: any,
         moduleData: any
     ) => {
-        setNewData({
-            ...newData,
-            [typeName]: { ...newData[typeName], ...moduleData },
+        const updateFunction = (prevData: any) => ({
+            ...prevData,
+            [typeName]: { ...prevData[typeName], ...moduleData },
         });
+
+        updateQueue.current.push(updateFunction);
+        processQueue();
     };
+
     const handleOnCangeStringString = async (
         e: any,
         typeName: any,
         data: any
     ) => {
-        setNewData({
-            ...newData,
-            [typeName]: { ...newData[typeName], data },
+        const updateFunction = (prevData: any) => ({
+            ...prevData,
+            [typeName]: { ...prevData[typeName], data },
         });
+
+        updateQueue.current.push(updateFunction);
+        processQueue();
     };
+
     const handleSave = async () => {
         const res = await fetcher(`data/${managerContext?.mainView.dbname}`, {
             method: "POST",
@@ -111,13 +140,14 @@ export function New({}: SideMenuProps) {
                                     <DTSelection
                                         name={dt.name}
                                         values={dt.values}
+                                        defaultValue={dt.default}
                                         data={newData?.[dt.name]}
                                         onChange={handleOnChange}
                                     ></DTSelection>
                                 )}
                                 {dt.type === "modules" && (
                                     <DTModule
-                                        onChange={handleOnCangeModule}
+                                        onChange={handleOnChangeModule}
                                         name={dt.name}
                                         data={newData}
                                         moduleData={newData?.[dt.name]}

@@ -44,7 +44,7 @@ export function Item({ item, object }: SideMenuProps) {
                         }
                     }}
                 >
-                    {item.name}
+                    {item.name === "" ? "noname" : item.name}
                 </div>
             </div>
             {open &&
@@ -52,7 +52,7 @@ export function Item({ item, object }: SideMenuProps) {
                     .filter((o: any) => o.parent === `#object:${object.link}`)
                     .map((_: any, i: number) => {
                         return (
-                            <div key={i} className="ml-6">
+                            <div key={i} className="ml-5">
                                 <ObjectList
                                     parent={`#object:${object.link}`}
                                     parentId={item.id}

@@ -1,12 +1,11 @@
 provider "aws" {
-  region = "eu-central-1"
+  region = var.region
 }
-
 
 module "key_pair" {
   source   = "./modules/aws_key_pair"
-  key_path = "./${var.id}my_key.pem"
-  key_name = "${var.id}my_aws_key"
+  key_path = "./${var.id}_my_key.pem"
+  key_name = "${var.id}_my_aws_key"
 }
 module "sg" {
   source   = "./modules/aws_sg"
@@ -45,7 +44,7 @@ data "external" "generate_inventory" {
     INVENTORY_FILE="./ansible_playbooks/inventory"
     echo "[web:vars]" > $INVENTORY_FILE
     echo "ansible_ssh_user=ubuntu" >> $INVENTORY_FILE
-    echo "ansible_ssh_private_key_file=./../my_key.pem" >> $INVENTORY_FILE
+    echo "ansible_ssh_private_key_file=./../${var.id}_my_key.pem" >> $INVENTORY_FILE
     echo "" >> $INVENTORY_FILE
     echo "[web]" >> $INVENTORY_FILE
 

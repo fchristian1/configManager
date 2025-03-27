@@ -114,6 +114,7 @@
                         "title": "Status",
                         "type": "selection",
                         "required": true,
+                        "default": "Inactive",
                         "values": [
                             "Active",
                             "Inactive"
@@ -178,6 +179,14 @@
                         "title": "id",
                         "type": "uuid",
                         "required": true
+                    },
+                    {
+                        "name": "credentials",
+                        "title": "Credentials",
+                        "type": "selection",
+                        "link": "#object:credentials",
+                        "required": true,
+                        "values": []
                     },
                     {
                         "name": "instanceId",
@@ -311,6 +320,12 @@
                         "name": "id",
                         "title": "id",
                         "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "path",
+                        "title": "Path",
+                        "type": "string",
                         "required": true
                     },
                     {

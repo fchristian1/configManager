@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ManagerContext, ManagerContextType } from "../../ManagerProvider";
 import { fetcher } from "../../../../services/common/fetcher";
-import { data } from "react-router";
 
 type SideMenuProps = {
     modules: any[];
@@ -50,8 +49,22 @@ export function DTModule({
                                     moduleData.link?.split(":")[1] || ""
                         )
                         ?.dataType?.map((dt: any, i: number) => {
+                            if (dt.type === "selection" && dt.link) {
+                                const collection = dt.link.split(":")[1];
+                                fetcher(`data/${collection}`, {
+                                    method: "GET",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                }).then((res) => {
+                                    dt.values = [
+                                        { name: "---", id: "" },
+                                        ...res,
+                                    ];
+                                });
+                            }
                             return (
-                                dt.type === "string" && (
+                                (dt.type === "string" && (
                                     <div className="" key={i}>
                                         <div>{dt.title}</div>
                                         <input
@@ -67,7 +80,35 @@ export function DTModule({
                                             value={moduleData[dt.name]}
                                         />
                                     </div>
-                                )
+                                )) ||
+                                (dt.type == "selection" && (
+                                    <div className="" key={i}>
+                                        <div>{dt.title}</div>
+                                        <select
+                                            onChange={(e) =>
+                                                onChange(e, name, {
+                                                    [e.target.name]:
+                                                        e.target.value,
+                                                })
+                                            }
+                                            name={dt.name}
+                                            value={moduleData[dt.name]}
+                                        >
+                                            {dt.values.map(
+                                                (v: any, i: number) => {
+                                                    return (
+                                                        <option
+                                                            key={i}
+                                                            value={v.id}
+                                                        >
+                                                            {v.name}
+                                                        </option>
+                                                    );
+                                                }
+                                            )}
+                                        </select>
+                                    </div>
+                                ))
                             );
                         })}
                 </div>

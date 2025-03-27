@@ -137,6 +137,7 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                                     values={dt.values}
                                     data={editData?.[dt.name]}
                                     name={dt.name}
+                                    defaultValue={""}
                                 ></DTSelection>
                             )}
                             {dt.type === "modules" && (

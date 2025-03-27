@@ -25,7 +25,11 @@ export async function startWatching(services) {
             const collection = db.collection(name);
             const changeStream = collection.watch();
 
-            changeStream.on('change', handler);
+            changeStream.on('change', async (c) => {
+                //await services.updateData();
+                handler(c);
+            }
+            );
 
             changeStream.on('error', (error) => {
                 console.error(`Fehler im Change Stream von "${name}":`, error);
