@@ -16,3 +16,9 @@
         delay: 5
       - name: Ping-Check (funktioniert nur wenn Ansible Verbindung klappt)
         ping:
+      - name: Install Git
+        apt:
+            name: git
+            state: present
+            update_cache: yes
+        become: true

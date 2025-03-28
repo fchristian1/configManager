@@ -7,6 +7,8 @@ import { DTSelection } from "../DataTypes/Selection";
 import { DTModule } from "../DataTypes/Module";
 import { fetcher } from "../../../../services/common/fetcher";
 import { DTStringString } from "../DataTypes/StringString";
+import { DTFile } from "../DataTypes/File";
+import { DTObject } from "../DataTypes/Object";
 
 type SideMenuProps = { data: any; setData: any; show: any; setShow: any };
 export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
@@ -31,12 +33,23 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
             [typeName]: { ...editData[typeName], ...moduleData },
         });
     };
+    const handleOnChangeFile = async (e: any, typeName: any, data: any) => {
+        setEditData({
+            ...editData,
+            [typeName]: { ...editData[typeName], data },
+        });
+    };
     const handleOnChangeStringString = async (
         e: any,
         typeName: any,
         data: any
     ) => {
-        console.log(data);
+        setEditData({
+            ...editData,
+            [typeName]: { ...editData[typeName], data },
+        });
+    };
+    const handleOnChangeObject = async (e: any, typeName: any, data: any) => {
         setEditData({
             ...editData,
             [typeName]: { ...editData[typeName], data },
@@ -105,9 +118,11 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                 .dataType.map((dt: any, i: number) => {
                     return (
                         <div key={i}>
-                            {!(dt.type === "uuid" || dt.type === "id") && (
-                                <Title>{dt.title}:</Title>
-                            )}
+                            {!(
+                                dt.type === "uuid" ||
+                                dt.type === "id" ||
+                                dt.type === "informations"
+                            ) && <Title>{dt.title}:</Title>}
 
                             {dt.type === "string" && (
                                 <DTString
@@ -120,9 +135,26 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                                 <DTStringString
                                     onChange={handleOnChangeStringString}
                                     value={editData?.[dt.name] ?? ""}
-                                    data={editData?.keyvalue?.data}
+                                    data={editData?.[dt.name]?.data}
                                     name={dt.name}
                                 ></DTStringString>
+                            )}
+                            {dt.type === "file" && (
+                                <DTFile
+                                    onChange={handleOnChangeFile}
+                                    value={editData?.[dt.name] ?? ""}
+                                    data={editData?.[dt.name]?.data}
+                                    name={dt.name}
+                                ></DTFile>
+                            )}
+                            {dt.type === "object" && (
+                                <DTObject
+                                    onChange={handleOnChangeObject}
+                                    dataType={dt}
+                                    value={editData?.[dt.name] ?? ""}
+                                    data={editData?.[dt.name]?.data}
+                                    name={dt.name}
+                                ></DTObject>
                             )}
                             {dt.type === "multiline" && (
                                 <DTMultiline

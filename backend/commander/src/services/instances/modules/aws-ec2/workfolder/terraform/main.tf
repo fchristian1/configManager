@@ -17,7 +17,7 @@ module "aws-instances" {
   source             = "./modules/aws_instance"
   instance_name      = "${var.id}_${var.instance_name}-${count.index}"
   instance_type      = var.instance_type
-  count              = 1
+  count              = tonumber(var.instance_count)
   key_name           = module.key_pair.name
   security_group_ids = values(module.sg.sg_ids)
   providers = {
@@ -60,7 +60,7 @@ data "external" "ips_file" {
   depends_on = [module.aws-instances]
 
   program = ["bash", "-c", <<EOT
-    INVENTORY_FILE="./ansible_playbooks/ips"
+    INVENTORY_FILE="./ips"
     echo -n > $INVENTORY_FILE
     for ip in ${join(" ", module.aws-instances[*].public_ip)}; do
       echo "$ip" >> $INVENTORY_FILE

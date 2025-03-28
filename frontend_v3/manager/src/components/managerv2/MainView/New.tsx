@@ -7,6 +7,8 @@ import { DTMultiline } from "./DataTypes/Multiline";
 import { DTModule } from "./DataTypes/Module";
 import { fetcher } from "../../../services/common/fetcher";
 import { DTStringString } from "./DataTypes/StringString";
+import { DTFile } from "./DataTypes/File";
+import { DTObject } from "./DataTypes/Object";
 
 type SideMenuProps = {};
 export function New({}: SideMenuProps) {
@@ -71,7 +73,24 @@ export function New({}: SideMenuProps) {
         updateQueue.current.push(updateFunction);
         processQueue();
     };
+    const handleOnChangeObject = async (e: any, typeName: any, data: any) => {
+        const updateFunction = (prevData: any) => ({
+            ...prevData,
+            [typeName]: { ...prevData[typeName], data },
+        });
 
+        updateQueue.current.push(updateFunction);
+        processQueue();
+    };
+
+    const handleOnChangeFile = async (e: any, typeName: any, data: any) => {
+        const updateFunction = (prevData: any) => ({
+            ...prevData,
+            [typeName]: { ...prevData[typeName], data },
+        });
+        updateQueue.current.push(updateFunction);
+        processQueue();
+    };
     const handleSave = async () => {
         const res = await fetcher(`data/${managerContext?.mainView.dbname}`, {
             method: "POST",
@@ -110,10 +129,11 @@ export function New({}: SideMenuProps) {
                     .dataType.map((dt: any, i: number) => {
                         return (
                             <div key={i}>
-                                {!(dt.type === "uuid" || dt.type === "id") && (
-                                    <Title>{dt.title}:</Title>
-                                )}
-
+                                {!(
+                                    dt.type === "uuid" ||
+                                    dt.type === "id" ||
+                                    dt.type === "informations"
+                                ) && <Title>{dt.title}:</Title>}
                                 {dt.type === "string" && (
                                     <DTString
                                         name={dt.name}
@@ -128,6 +148,23 @@ export function New({}: SideMenuProps) {
                                         data={newData.data}
                                         name={dt.name}
                                     ></DTStringString>
+                                )}
+                                {dt.type === "file" && (
+                                    <DTFile
+                                        onChange={handleOnChangeFile}
+                                        value={newData?.[dt.name] ?? ""}
+                                        data={newData.data}
+                                        name={dt.name}
+                                    ></DTFile>
+                                )}
+                                {dt.type === "object" && (
+                                    <DTObject
+                                        onChange={handleOnChangeObject}
+                                        dataType={dt}
+                                        value={newData?.[dt.name] ?? ""}
+                                        data={newData?.[dt.name]?.data}
+                                        name={dt.name}
+                                    ></DTObject>
                                 )}
                                 {dt.type === "multiline" && (
                                     <DTMultiline

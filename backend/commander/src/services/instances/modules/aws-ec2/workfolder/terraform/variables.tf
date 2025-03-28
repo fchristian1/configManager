@@ -17,7 +17,11 @@ variable "instance_type" {
   type        = string
   default     = "t2.micro"
 }
-
+variable "instance_count" {
+  description = "Number of instances to create"
+  type        = string
+  default     = 1
+}
 variable "id" {
   description = "ID of the instance"
   type        = string

@@ -121,6 +121,15 @@
                         ]
                     },
                     {
+                        "name": "software",
+                        "title": "Software",
+                        "type": "object",
+                        "link": "#object:software",
+                        "required": false,
+                        "onlyOne": true,
+                        "multiple": true
+                    },
+                    {
                         "name": "informations",
                         "title": "Informations",
                         "type": "informations",
@@ -165,6 +174,79 @@
                         ]
                     }
                 ]
+            },
+            {
+                "type": "object",
+                "link": "software",
+                "dbname": "software",
+                "name": "Software",
+                "singularName": "Software",
+                "tree": true,
+                "parent": "#object:root",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "title": "Description",
+                        "type": "multiline",
+                        "required": false
+                    },
+                    {
+                        "name": "version",
+                        "title": "Version",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "command",
+                        "title": "Command",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "path",
+                        "title": "Path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "variables",
+                        "title": "Variables",
+                        "type": "stringstring",
+                        "required": false,
+                        "multiple": true
+                    },
+                    {
+                        "name": "file",
+                        "title": "File",
+                        "type": "file",
+                        "required": false,
+                        "multiple": true
+                    },
+                    {
+                        "name": "url",
+                        "title": "URL",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "githuburl",
+                        "title": "GitHub-URL",
+                        "type": "string",
+                        "required": false
+                    }
+                ]
             }
         ],
         "modules": [
@@ -197,6 +279,12 @@
                     {
                         "name": "instanceType",
                         "title": "Instance Type",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "instanceCount",
+                        "title": "Instance Count",
                         "type": "string",
                         "required": true
                     },

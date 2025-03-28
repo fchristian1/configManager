@@ -39,6 +39,31 @@ export function ItemView({ data }: SideMenuProps) {
                                     )}
                                 </div>
                             )}
+                            {dt.type === "object" && (
+                                <div>
+                                    {data?.[dt.name]?.data?.map(
+                                        (d: any, i: number) => {
+                                            return (
+                                                <div key={i}>
+                                                    {d.name}
+                                                    {i + 1 <
+                                                        data?.[dt.name]?.data
+                                                            ?.length && ", "}
+                                                </div>
+                                            );
+                                        }
+                                    )}
+                                </div>
+                            )}
+                            {dt.type === "file" && (
+                                <div>
+                                    {data?.file?.data?.map(
+                                        (d: any, i: number) => (
+                                            <div key={i}>{d.filename}</div>
+                                        )
+                                    )}
+                                </div>
+                            )}
 
                             {dt.type === "modules" && (
                                 <div>
@@ -55,7 +80,12 @@ export function ItemView({ data }: SideMenuProps) {
                             {dt.type === "informations" && (
                                 <ul>
                                     {dt.dataType.map((d: any, i: number) => (
-                                        <li key={i}>{d.title}</li>
+                                        <li key={i}>
+                                            {d.title}
+                                            {d.name === "ip" && (
+                                                <span> {data?.ips}</span>
+                                            )}
+                                        </li>
                                     ))}
                                 </ul>
                             )}

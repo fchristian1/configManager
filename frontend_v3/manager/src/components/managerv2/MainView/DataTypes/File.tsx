@@ -8,7 +8,7 @@ type SideMenuProps = {
     data: any;
     name: string;
 };
-export function DTStringString({ onChange, value, data, name }: SideMenuProps) {
+export function DTFile({ onChange, value, data, name }: SideMenuProps) {
     const managerContext = useContext<ManagerContextType>(ManagerContext);
     const [editData, setEditData] = useState<any[]>([...(data ?? [])]);
     return (
@@ -16,20 +16,25 @@ export function DTStringString({ onChange, value, data, name }: SideMenuProps) {
             <div className="flex flex-col gap-2 p-1 border border-gray-300 rounded-md">
                 {editData
                     ?.sort((a, b) => a.pos - b.pos)
-                    .map((kv: any, i) => {
+                    .map((file: any, i) => {
                         return (
-                            <div className="flex gap-2" key={i}>
+                            <div
+                                className="flex flex-col gap-2 p-2 border border-gray-500 rounded"
+                                key={i}
+                            >
+                                <label>Filename:</label>
                                 <input
                                     type="text"
-                                    name={kv?.id}
-                                    value={kv?.key}
+                                    name={file?.id}
+                                    value={file?.filename}
                                     onChange={(e) => {
                                         const newEditData = editData.map(
                                             (ed) => {
-                                                if (ed.id === kv.id) {
+                                                if (ed.id === file.id) {
                                                     return {
                                                         ...ed,
-                                                        key: e.target.value,
+                                                        filename:
+                                                            e.target.value,
                                                     };
                                                 }
                                                 return ed;
@@ -39,34 +44,34 @@ export function DTStringString({ onChange, value, data, name }: SideMenuProps) {
                                         onChange(e, name, newEditData);
                                     }}
                                 ></input>
-                                <input
-                                    type="text"
-                                    name={kv?.id}
-                                    //value htmlescaped
-                                    value={kv?.value}
-                                    onChange={(e) => {
-                                        const newEditData = editData.map(
-                                            (ed) => {
-                                                if (ed.id === kv.id) {
-                                                    return {
-                                                        ...ed,
-                                                        value: e.target.value,
-                                                    };
-                                                }
-                                                return ed;
-                                            }
-                                        );
-                                        console.log(newEditData);
+                                <label>File content:</label>
 
+                                <textarea
+                                    name={file?.id}
+                                    value={file?.filecontent}
+                                    onChange={(e) => {
+                                        const newEditData = editData.map(
+                                            (ed) => {
+                                                if (ed.id === file.id) {
+                                                    return {
+                                                        ...ed,
+                                                        filecontent:
+                                                            e.target.value,
+                                                    };
+                                                }
+                                                return ed;
+                                            }
+                                        );
                                         setEditData(newEditData);
                                         onChange(e, name, newEditData);
                                     }}
-                                ></input>
+                                ></textarea>
+
                                 <button
                                     className="button"
                                     onClick={() => {
                                         const newEditData = editData
-                                            .filter((ed) => ed.id !== kv.id)
+                                            .filter((ed) => ed.id !== file.id)
                                             .sort((a, b) => a.pos - b.pos)
                                             .map((ed, i) => {
                                                 return { ...ed, pos: i };
@@ -96,14 +101,14 @@ export function DTStringString({ onChange, value, data, name }: SideMenuProps) {
                             ...editData,
                             {
                                 id: UUID(),
-                                key: "",
-                                value: "",
+                                filename: "",
+                                filecontent: "",
                                 pos: editData.length,
                             },
                         ]);
                     }}
                 >
-                    Add new key value pair
+                    Add new file
                 </button>
             </div>
             {managerContext?.debug.showJSON && (
