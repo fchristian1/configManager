@@ -4,7 +4,7 @@ import { handleInstanceChange } from './controllers/handleInstanceChange.js';
 import { handleCredentialsChange } from './controllers/handleCredentialsChange.js';
 
 
-console.log("MONGO_CONNECTION_STRING", process.env.MONGO_CONNECTION_STRING);
+//console.log("MONGO_CONNECTION_STRING", process.env.MONGO_CONNECTION_STRING);
 
 const uri = process.env.MONGO_CONNECTION_STRING
 const dbName = 'internal';
@@ -17,7 +17,7 @@ export async function startWatching(services) {
     ];
     const client = new MongoClient(uri);
     await client.connect();
-    console.log('Mit MongoDB verbunden.');
+    console.log('ℹ️  Mit MongoDB verbunden.');
 
     const db = client.db(dbName);
     setTimeout(() => {
@@ -42,7 +42,7 @@ export async function startWatching(services) {
                 process.exit(0);
             });
 
-            console.log(`Watching collection: ${name}`);
+            console.log(`ℹ️  Watching collection: ${name}`);
         });
     }, 2000);
 }

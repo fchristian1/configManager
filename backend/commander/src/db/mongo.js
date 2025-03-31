@@ -10,18 +10,18 @@ export async function connectMongo() {
     try {
         await client.connect();
         db = client.db(dbName);
-        console.log("Connected to MongoDB");
+        console.log("🪧  Connected to MongoDB");
     } catch (err) {
-        console.error("Failed to connect to MongoDB", err);
+        console.error("❌ Failed to connect to MongoDB", err);
     }
 }
 
 export async function disconnectMongo() {
     try {
         await client.close();
-        console.log("Disconnected from MongoDB");
+        console.log("🪧  Disconnected from MongoDB");
     } catch (err) {
-        console.error("Failed to disconnect from MongoDB", err);
+        console.error("❌ Failed to disconnect from MongoDB", err);
     }
 }
 
@@ -29,7 +29,7 @@ export async function insertOne(collection, id, data) {
     //insert or update data in collection with id
     try {
         const dbres = await db.collection(collection).updateOne({ id: id }, { $set: data }, { upsert: true });
-        console.log(dbres);
+        //console.log(dbres);
     }
     catch (err) {
         console.error(err);

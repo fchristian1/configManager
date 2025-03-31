@@ -78,6 +78,8 @@ services:
         volumes:
             - ./backend/commander:/app
             - ./data:/app/data
+        ports:
+            - 8888:3000
         environment:
             <<: *backend-env
     backend_mongo:

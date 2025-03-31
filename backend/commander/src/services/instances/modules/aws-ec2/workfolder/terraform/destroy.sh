@@ -6,5 +6,6 @@ if [ -d ".terraform" ]; then
         -var instance_name="$2" \
         -var instance_type="$3" \
         -var region="$4" \
-        -var "sg_rules=ssh:22:22:tcp:0.0.0.0/0,http:8080:8080:tcp:0.0.0.0/0"
+        -var instance_count="$5" \
+        -var sg_rules="$6"
 fi

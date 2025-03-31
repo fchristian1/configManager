@@ -21,6 +21,17 @@ export const controllerData = {
         const data = await findOne(userFromToken(req), collectionName, id);
         res.json(data);
     },
+    async getOneState(req, res) {
+        const collectionName = req.params.collection;
+        const id = req.params.id;
+        const data = await findOne(userFromToken(req), collectionName, id);
+        if (data) {
+            res.json(data.state);
+        }
+        else {
+            res.status(404).json({ message: "not found" });
+        }
+    },
     async addOne(req, res) {
         try {
             const collectionName = req.params.collection;

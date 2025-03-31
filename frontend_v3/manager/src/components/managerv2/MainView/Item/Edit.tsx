@@ -75,6 +75,8 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
         setShow("view");
     };
     const handleDelete1 = async () => {
+        //scroll up in screen react
+        window.scrollTo(0, 0);
         setDeleteItem("delete1");
     };
 

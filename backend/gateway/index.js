@@ -15,6 +15,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Something went wrong!" });
 });
 
+
 app.all('/api/v*/*', async (req, res) => {
     try {
         const { apiname, apiversion, apipath } = urlParser(req.url);

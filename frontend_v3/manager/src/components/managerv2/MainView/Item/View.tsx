@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { ManagerContext, ManagerContextType } from "../../ManagerProvider";
-type SideMenuProps = { data: any };
-export function ItemView({ data }: SideMenuProps) {
+import { DTState } from "../DataTypes/State";
+type SideMenuProps = { data: any; setData: any; name: string };
+export function ItemView({ data, setData, name }: SideMenuProps) {
     const managerContext = useContext<ManagerContextType>(ManagerContext);
 
     return (
@@ -76,22 +77,10 @@ export function ItemView({ data }: SideMenuProps) {
                                     )?.title ?? ""}
                                 </div>
                             )}
-
-                            {dt.type === "informations" && (
-                                <ul>
-                                    {dt.dataType.map((d: any, i: number) => (
-                                        <li key={i}>
-                                            {d.title}
-                                            {d.name === "ip" && (
-                                                <span> {data?.ips}</span>
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
                         </div>
                     );
                 })}
+            <DTState data={data} setData={setData} name={name} />
         </div>
     );
 }

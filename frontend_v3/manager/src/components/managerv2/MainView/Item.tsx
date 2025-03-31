@@ -48,7 +48,13 @@ export function Item({}: SideMenuProps) {
             >
                 Edit
             </button>
-            {show === "view" && <ItemView data={data}></ItemView>}
+            {show === "view" && (
+                <ItemView
+                    data={data}
+                    setData={setData}
+                    name={object.link}
+                ></ItemView>
+            )}
             {show === "edit" && (
                 <ItemEdit
                     data={data}

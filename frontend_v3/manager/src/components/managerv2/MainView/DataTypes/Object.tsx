@@ -134,9 +134,8 @@ export function DTObject({
                                                             obj.id
                                                         }
                                                     >
-                                                        Name: {obj.name}
+                                                        Name: {obj.name} -
                                                         Version: {obj.version}
-                                                        Desc: {obj.description}
                                                     </option>
                                                 )}
                                             </>

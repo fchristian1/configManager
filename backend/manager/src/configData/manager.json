@@ -130,20 +130,6 @@
                         "multiple": true
                     },
                     {
-                        "name": "informations",
-                        "title": "Informations",
-                        "type": "informations",
-                        "required": false,
-                        "dataType": [
-                            {
-                                "name": "ip",
-                                "title": "IP",
-                                "type": "string",
-                                "required": true
-                            }
-                        ]
-                    },
-                    {
                         "type": "modules",
                         "dbname": "instanceType",
                         "name": "instanceType",
@@ -160,7 +146,8 @@
                         "name": "repositoryType",
                         "title": "Repository Type",
                         "modules": [
-                            "#module:github"
+                            "#module:github",
+                            "#module:url"
                         ]
                     },
                     {
@@ -293,6 +280,40 @@
                         "title": "Region",
                         "type": "string",
                         "required": true
+                    },
+                    {
+                        "name": "port",
+                        "title": "Port",
+                        "type": "complex",
+                        "dataType": [
+                            {
+                                "name": "name",
+                                "title": "Name",
+                                "type": "string"
+                            },
+                            {
+                                "name": "portin",
+                                "title": "PortStart",
+                                "type": "string"
+                            },
+                            {
+                                "name": "portout",
+                                "title": "PortEnd",
+                                "type": "string"
+                            },
+                            {
+                                "name": "protocol",
+                                "title": "Protocol",
+                                "type": "string"
+                            },
+                            {
+                                "name": "cidr",
+                                "title": "CIDR",
+                                "type": "string"
+                            }
+                        ],
+                        "required": true,
+                        "multiply": true
                     }
                 ]
             },
@@ -393,6 +414,32 @@
                     {
                         "name": "branch",
                         "title": "Branch",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "title": "URL - Download",
+                "link": "url",
+                "name": "url",
+                "type": "module",
+                "dataType": [
+                    {
+                        "name": "id",
+                        "title": "id",
+                        "type": "uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "title": "Name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "url",
+                        "title": "URL",
                         "type": "string",
                         "required": true
                     }

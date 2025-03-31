@@ -20,38 +20,37 @@ export class Services {
         await connectMongo();
         await this.getServicesData();
         await this.createServices();
-        //await this.removeFoldersFromNoServices();
+        await this.removeFoldersFromNoServices();
     }
     async updateData() {
         await this.getServicesData();
         await this.createServices();
-        //await this.removeFoldersFromNoServices();
+        await this.removeFoldersFromNoServices();
     }
 
     async getServicesData() {
         for (const service of this.serviceList) {
             const dbData = await find(service.dbName);
+
             service.dbdata = dbData;
         }
     }
     async removeFoldersFromNoServices() {
-        this.serviceList.forEach(service => {
-            const pathOfServies = path.join(this.dataProjectPath, service.dbName);
-            const services = service.services.map(service => service.getDbId && service.getDbId());
-            console.log("services", services);
-            fs.readdir(pathOfServies, (err, files) => {
-                if (err) {
-                    console.error("Error reading directory", err);
-                    return;
-                }
-                files.forEach(file => {
-                    if (!(services.includes(file))) {
-                        this.deleteFolderRecursive(path.join(pathOfServies, file));
-                    }
-                });
+        console.log("ℹ️  Start:Remove folders with no Services");
+        const instancesFolders = fs.readdirSync(path.join(this.dataProjectPath, "instances"));
+        //console.log("🍀🍀🍀🍀🍀🍀Folders", instancesFolders);
+        const instances = this.serviceList.find((s) => s.name === "Instances");
+        const instancesIds = instances.dbdata.map((i) => i.id.toString());
+        //console.log("🍀🍀🍀🍀🍀🍀Instances IDs", instancesIds);
+        for (const folder of instancesFolders) {
+            const folderPath = path.join(this.dataProjectPath, "instances", folder);
+            if (!instancesIds.includes(folder)) {
+                //console.log("🍀🍀🍀🍀🍀🍀Remove Folder", folderPath);
+                this.deleteFolderRecursive(folderPath);
             }
-            );
-        });
+        }
+        console.log("🔚 Finish:Remove folders with no Services");
+
     }
 
     deleteFolderRecursive(pathFolder) {
@@ -64,7 +63,7 @@ export class Services {
                     fs.unlinkSync(curPath);
                 }
             });
-            //fs.rmdirSync(pathFolder);
+            fs.rmdirSync(pathFolder);
         }
     }
     getService(name, _id) {

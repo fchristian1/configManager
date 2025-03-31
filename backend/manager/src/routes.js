@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { controllerData } from "./controller/data.js";
 import fs from "fs";
-import path from "path";
 
 const getConfigData = (type) => {
     const data = fs.readFileSync(`./src/configData/${type}.json`);
@@ -18,6 +17,7 @@ routerManager.get("/data/:collection", controllerData.getAll);
 routerManager.get("/data/:collection/parentid/:parentId", controllerData.getAllParentId);
 routerManager.post("/data/:collection", controllerData.addOne);
 routerManager.get("/data/:collection/id/:id", controllerData.getOne);
+routerManager.get("/data/:collection/state/:id", controllerData.getOneState);
 routerManager.put("/data/:collection/:id", controllerData.updateOne);
 routerManager.delete("/data/:collection/:id", controllerData.deleteOne);
 

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ManagerContext, ManagerContextType } from "../../ManagerProvider";
 import { fetcher } from "../../../../services/common/fetcher";
+import { DTComplex } from "./Complex";
 
 type SideMenuProps = {
     modules: any[];
@@ -19,6 +20,12 @@ export function DTModule({
     onChange,
 }: SideMenuProps) {
     const managerContext = useContext<ManagerContextType>(ManagerContext);
+    const onChangeComplex = (e: any, n: string, data: any) => {
+        const newData = { ...moduleData, [n]: data };
+
+        setEditData(newData);
+        onChange(e, name, newData);
+    };
     return (
         <div className="flex flex-col">
             <select
@@ -46,7 +53,8 @@ export function DTModule({
                         .find(
                             (module: any) =>
                                 module.link ===
-                                    moduleData.link?.split(":")[1] || ""
+                                    moduleData.link?.toString().split(":")[1] ||
+                                ""
                         )
                         ?.dataType?.map((dt: any, i: number) => {
                             if (dt.type === "selection" && dt.link) {
@@ -81,6 +89,18 @@ export function DTModule({
                                         />
                                     </div>
                                 )) ||
+                                (dt.type === "complex" && (
+                                    <div className="" key={i}>
+                                        <div>{dt.title}</div>
+                                        <DTComplex
+                                            onChange={onChangeComplex}
+                                            name={dt.name}
+                                            dataType={dt.dataType}
+                                            value={moduleData[dt.name]}
+                                            moduleData={moduleData}
+                                        ></DTComplex>
+                                    </div>
+                                )) ||
                                 (dt.type == "selection" && (
                                     <div className="" key={i}>
                                         <div>{dt.title}</div>
@@ -113,7 +133,9 @@ export function DTModule({
                         })}
                 </div>
             )}
-            {managerContext?.debug.showJSON && <pre></pre>}
+            {managerContext?.debug.showJSON && (
+                <pre>1{JSON.stringify(moduleData)}</pre>
+            )}
         </div>
     );
 }

@@ -32,7 +32,7 @@ export async function logMongo(data) {
     try {
         if (!collection) {
             console.error("MongoDB collection is not initialized");
-            return;
+            return Promise.reject("MongoDB collection is not initialized");
         }
         await collection.insertOne(data);
     } catch (err) {
