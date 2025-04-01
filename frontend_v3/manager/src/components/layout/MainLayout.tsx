@@ -13,30 +13,36 @@ export function MainLayout({ children }: MainLayoutProps) {
 
     useEffect(() => {
         if (scriptRef.current) {
-            const script = document.createElement("script");
-            script.src = "/scripts/nav.js"; // Falls du ein externes Skript hast
-            script.async = true;
-            scriptRef.current.appendChild(script);
-        }
-        if (scriptRef.current) {
-            const script = document.createElement("script");
-            script.src = "/scripts/main.js"; // Falls du ein externes Skript hast
-            script.async = true;
-            scriptRef.current.appendChild(script);
+            const navScript = document.createElement("script");
+            navScript.src = "/scripts/nav.js";
+            navScript.async = true;
+            scriptRef.current.appendChild(navScript);
+
+            const mainScript = document.createElement("script");
+            mainScript.src = "/scripts/main.js";
+            mainScript.async = true;
+            scriptRef.current.appendChild(mainScript);
         }
     }, []);
+
     return (
-        <>
+        <div className="flex flex-col min-h-screen">
+            {/* Navigation */}
+            <div dangerouslySetInnerHTML={{ __html: navTag }} />
+
+            {/* Hauptinhalt, wächst um den Platz zwischen Nav und Footer zu füllen */}
+            <main className="flex-1">{children}</main>
+
+            {/* Footer */}
             <div
-                dangerouslySetInnerHTML={{ __html: navTag }}
-            ></div>
-            <main>{children}</main>
-            <div
+                className="bg-gray-200 w-full"
                 dangerouslySetInnerHTML={{
                     __html: footerTag,
                 }}
-            ></div>
+            />
+
+            {/* Scripte */}
             <div ref={scriptRef}></div>
-        </>
+        </div>
     );
 }

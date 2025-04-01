@@ -15,7 +15,7 @@ export function Item({ item, object }: SideMenuProps) {
                     (o: any) => o.parent === `#object:${object.link}`
                 ).length > 0 && (
                     <div className="pointer" onClick={() => setOpen(!open)}>
-                        <div className="hover:bg-gray-500 rounded">
+                        <div className="hover:bg-amber-200 rounded">
                             {!open && <IconPlusSquare></IconPlusSquare>}
                             {open && <IconMinusSquare></IconMinusSquare>}
                         </div>
@@ -28,8 +28,8 @@ export function Item({ item, object }: SideMenuProps) {
                             item.id &&
                         managerContext?.mainView?.itemId?.split(":")[1] !==
                             "new"
-                            ? " bg-gray-300 hover:bg-gray-400 "
-                            : " hover:bg-gray-200 ")
+                            ? " bg-gray-300 hover:bg-amber-300 "
+                            : " hover:bg-amber-200 ")
                     }
                     onClick={() => {
                         if (managerContext) {

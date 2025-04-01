@@ -21,40 +21,45 @@ export function Manager({}: SideMenuProps) {
                 </span>
 
                 <div>
-                    <ObjectList
-                        parent="#object:root"
-                        parentId={""}
-                    ></ObjectList>
-                    <button
-                        className={
-                            "button " +
-                            (managerContext.debug.showJSON && " active ")
-                        }
-                        onClick={() =>
-                            setDebug({
-                                managerContext,
-                                showJSON: !managerContext.debug.showJSON,
-                                showDebug: managerContext.debug.showDebug,
-                            })
-                        }
-                    >
-                        ShowJSON
-                    </button>
-                    <button
-                        className={
-                            "button " +
-                            (managerContext.debug.showDebug && " active ")
-                        }
-                        onClick={() =>
-                            setDebug({
-                                managerContext,
-                                showJSON: managerContext.debug.showJSON,
-                                showDebug: !managerContext.debug.showDebug,
-                            })
-                        }
-                    >
-                        ShowDebug
-                    </button>
+                    <div className="flex flex-col gap-1 p-2 border border-gray-300 rounded">
+                        <ObjectList
+                            parent="#object:root"
+                            parentId={""}
+                        ></ObjectList>
+                    </div>
+                    <div className="flex flex-col gap-1 p-2 border border-gray-300 rounded">
+                        <div>Debug:</div>
+                        <button
+                            className={
+                                "button " +
+                                (managerContext.debug.showJSON && " active ")
+                            }
+                            onClick={() =>
+                                setDebug({
+                                    managerContext,
+                                    showJSON: !managerContext.debug.showJSON,
+                                    showDebug: managerContext.debug.showDebug,
+                                })
+                            }
+                        >
+                            ShowJSON
+                        </button>
+                        <button
+                            className={
+                                "button " +
+                                (managerContext.debug.showDebug && " active ")
+                            }
+                            onClick={() =>
+                                setDebug({
+                                    managerContext,
+                                    showJSON: managerContext.debug.showJSON,
+                                    showDebug: !managerContext.debug.showDebug,
+                                })
+                            }
+                        >
+                            ShowDebug
+                        </button>
+                    </div>
                 </div>
             </aside>
             <div className="w-full">

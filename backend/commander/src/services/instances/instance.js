@@ -37,7 +37,7 @@ export class Instance {
 
     async noError() {
         //console.log("☑️  noError", this.data.id);
-        if (this.data.state.error) {
+        if (this.data.state.error && this.data.state.error.length > 0) {
             //console.log("❌ noError", this.data.id, this.data.state.error);
             return false;
         }
@@ -55,6 +55,7 @@ export class Instance {
         this.data.state = this.data.state ?? {};
         this.data.state.commander = "running";
         this.data.state.output = {};
+        this.data.state.error = {};
         sendToClient('instance', this.data.id, this.data.state)
         await insertOne("instances", this.data.id, this.data) // Schreibe die Daten in die Datenbank
         //console.log("loadModules", 2, this.data);
@@ -64,19 +65,21 @@ export class Instance {
             let moduleName = this.data.instanceType?.link.split(":")[1];
             if (moduleName && moduleName == "aws-ec2") {
                 this.data = await this.instanceTypeAWSEC2(this.data, this.servicePath);
-                //TODO: hier drüberschauen das muß neben aws auch bei azur oder ssh laufen
+
 
             }
             if (this.data.status == "Active") {
+
                 if (await this.noError()) this.data = await this.instanceSoftware(this.data, this.servicePath);
-            }
-            moduleName = this.data.repositoryType?.link.split(":")[1];
-            if (moduleName && moduleName == "github" && this.data.status == "Active") {
-                if (await this.noError()) this.data = await this.repositoryTypeGithub(this.data, this.servicePath);
-            }
-            moduleName = this.data.scriptType?.link.split(":")[1];
-            if (moduleName && moduleName == "script-command" && this.data.status == "Active") {
-                if (await this.noError()) this.data = await this.scriptTypeScriptCommand(this.data, this.servicePath);
+
+                moduleName = this.data.repositoryType?.link.split(":")[1];
+                if (moduleName && moduleName == "github" && this.data.status == "Active") {
+                    if (await this.noError()) this.data = await this.repositoryTypeGithub(this.data, this.servicePath);
+                }
+                moduleName = this.data.scriptType?.link.split(":")[1];
+                if (moduleName && moduleName == "script-command" && this.data.status == "Active") {
+                    if (await this.noError()) this.data = await this.scriptTypeScriptCommand(this.data, this.servicePath);
+                }
             }
         }
         console.log("🔚 finish loadModules", this.data.id);
@@ -98,7 +101,7 @@ export class Instance {
                 //console.log("software", JSON.stringify(software, null, 2));
                 const theSoftware = await findOne("software", software.objectId);
                 //console.log("theSoftware", JSON.stringify(theSoftware, null, 2));
-                const softwareEnvVars = theSoftware.variables.data.map(data => ({ [data.key]: data.value }));
+                const softwareEnvVars = theSoftware?.variables?.data?.map(data => ({ [data.key]: data.value })) ?? [];
                 const envVars = {
                     ...process.env,
                     //variables
@@ -147,7 +150,7 @@ export class Instance {
                     //command  
                     //console.log("command");
                     if (theSoftware.command) {
-                        await this.commandOnTerminal(data, "software:command:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "'cd " + theSoftware.path + " && " + theSoftware.command + "'"], {
+                        await this.commandOnTerminal(data, "software:command:" + ip + ":" + theSoftware.path + ":" + theSoftware.command, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "'cd " + theSoftware.path + " && " + theSoftware.command + "'"], {
                             cwd: path.join(servicePath, 'terraform'), env: envVars
                         });
 
@@ -257,7 +260,7 @@ export class Instance {
                     ...process.env
                 };
                 console.log("🪧  start instance", data.id, servicePath);
-                await this.commandOnTerminal(data, "instance1", './create.sh', [data.id, instanceId, instanceType, instanceRegion, instanceCount, ports], {
+                await this.commandOnTerminal(data, "instance:create", './create.sh', [data.id, instanceId, instanceType, instanceRegion, instanceCount, ports], {
                     cwd: path.join(servicePath, 'terraform'), env: envVars
                 });
 
@@ -281,7 +284,7 @@ export class Instance {
                 console.log("🪧  start waiting for reaching", data.id, servicePath);
                 sendToClient('instance', data.id, data.state)
                 await insertOne("instances", data.id, data)
-                await this.commandOnTerminal(data, "instance2", 'ansible-playbook', ["-i", "inventory", "ping_wait.yaml"], {
+                await this.commandOnTerminal(data, "instance:check", 'ansible-playbook', ["-i", "inventory", "ping_wait.yaml"], {
                     cwd: path.join(servicePath, 'terraform/ansible_playbooks/'), env: envVars
                 });
 
@@ -293,7 +296,7 @@ export class Instance {
                 };
                 console.log("🪧  start instance inaktiv", data.id);
                 console.log("🪧  start instance", data.id, servicePath);
-                await this.commandOnTerminal(data, "instance1", './destroy.sh', [data.id, instanceId, instanceType, instanceRegion, instanceCount, ports], {
+                await this.commandOnTerminal(data, "instance:create", './destroy.sh', [data.id, instanceId, instanceType, instanceRegion, instanceCount, ports], {
                     cwd: path.join(servicePath, 'terraform'), env: envVars
                 });
 
@@ -392,7 +395,7 @@ export class Instance {
             child.stdout.on('data', (d) => {
                 const output = d.toString();
                 stdoutData.push(output); // Sammle stdout-Daten
-                data.state.output[type].normal.push(output);
+                data?.state?.output[type]?.normal?.push(output);
                 sendToClient('instance', data.id, data.state)
 
             });
@@ -400,7 +403,7 @@ export class Instance {
             child.stderr.on('data', (d) => {
                 const output = d.toString();
                 stderrData.push(output); // Sammle stderr-Daten
-                data.state.output[type].error.push(output);
+                data?.state?.output[type]?.error?.push(output);
                 sendToClient('instance', data.id, data.state)
             });
 

@@ -123,7 +123,8 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                             {!(
                                 dt.type === "uuid" ||
                                 dt.type === "id" ||
-                                dt.type === "informations"
+                                dt.type === "informations" ||
+                                dt.type === "toggle"
                             ) && <Title>{dt.title}:</Title>}
 
                             {dt.type === "string" && (

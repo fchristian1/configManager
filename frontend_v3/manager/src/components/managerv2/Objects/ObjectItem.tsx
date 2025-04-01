@@ -18,7 +18,7 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
         <>
             <div className="flex flex-row items-center gap-2">
                 <div className="pointer" onClick={() => setOpen(!open)}>
-                    <div className="hover:bg-gray-500 rounded">
+                    <div className="hover:bg-amber-200 rounded">
                         {!open && <IconPlusSquare></IconPlusSquare>}
                         {open && <IconMinusSquare></IconMinusSquare>}
                     </div>
@@ -31,8 +31,8 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                             uuid &&
                         managerContext?.mainView?.itemId?.split(":")[1] !==
                             "new"
-                            ? " bg-gray-300 hover:bg-gray-400 "
-                            : " hover:bg-gray-200 ")
+                            ? " bg-gray-300 hover:bg-amber-300 "
+                            : " hover:bg-amber-200 ")
                     }
                     onClick={() => {
                         if (managerContext) {
@@ -62,8 +62,8 @@ export function ObjectItem({ object, data, parentId }: SideMenuProps) {
                                 uuid &&
                             managerContext?.mainView?.itemId?.split(":")[1] ===
                                 "new"
-                                ? " bg-gray-300 hover:bg-gray-400 "
-                                : " hover:bg-gray-200 ")
+                                ? " bg-gray-300 hover:bg-amber-300 "
+                                : " hover:bg-amber-200 ")
                         }
                         onClick={() => {
                             if (managerContext) {

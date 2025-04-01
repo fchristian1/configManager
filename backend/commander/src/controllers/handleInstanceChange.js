@@ -12,7 +12,9 @@ export function handleInstanceChange(services) {
         if (fieldsInChange.length == 1 && fieldsInChange[0] == "state") return Promise.resolve();
 
         const instance = services.getService("Instances", change.documentKey?._id);
-        console.log('🪧  Instance-Änderung erkannt:');
+        console.log('🪧  Instance-Änderung erkannt!');
+
         await instance.loadModules({ data: data?.fields });
     }
-}
+
+} 

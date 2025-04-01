@@ -1,69 +1,72 @@
 import { useEffect, useRef, useState } from "react";
-import { ConsoleOutput } from "../../../common/ConsoleOutput";
-import { IconPlusSquare } from "../../../Icons/PlusSquare";
 import { IconMinusSquare } from "../../../Icons/MinusSquare";
+import { IconPlusSquare } from "../../../Icons/PlusSquare";
+import { ConsoleOutput } from "../../../common/ConsoleOutput";
 
-type SideMenuProps = { data: any; setData: any; name: string };
+interface SideMenuProps {
+    data: { id: string; state: any };
+    setData: (data: any) => void;
+    name: string;
+}
 
 export function DTState({ data, setData, name }: SideMenuProps) {
     const [state, setState] = useState<any>(data?.state);
-    const [show, setShow] = useState<any>({});
+    const [openKey, setOpenKey] = useState<string | null>(null);
+    const [accordionVisible, setAccordionVisible] = useState<boolean>(true);
+    const [hasNewData, setHasNewData] = useState(false);
+    const [newDataCount, setNewDataCount] = useState(0);
+
     const socketRef = useRef<WebSocket | null>(null);
     const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
+    const scrollRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
+    const contentScrollRef = useRef<HTMLDivElement | null>(null);
+    const topRef = useRef<HTMLDivElement>(null);
+    const fromSocketRef = useRef(false);
     const connectWebSocket = () => {
-        //console.log("Versuche, WebSocket-Verbindung herzustellen...");
         const socket = new WebSocket("ws://localhost:8888");
         socketRef.current = socket;
 
         socket.onopen = () => {
-            //console.log("Verbindung zum Server hergestellt");
             socket.send(JSON.stringify({ name, id: data.id }));
-            if (reconnectTimeoutRef.current) {
+            reconnectTimeoutRef.current &&
                 clearTimeout(reconnectTimeoutRef.current);
-                reconnectTimeoutRef.current = null;
-            }
         };
 
         socket.onmessage = (event) => {
             const msg = JSON.parse(event.data);
-            //console.log("ws:message:", msg.data);
-
-            // Aktualisiere den Zustand basierend auf der Nachricht
             if (msg.data) {
                 setState(msg.data);
+
+                const keys = Object.keys(msg.data?.output || {});
+                const latestKey = keys[keys.length - 1];
+
+                if (!accordionVisible) {
+                    setHasNewData(true);
+                    setNewDataCount((prev) => prev + 1);
+                    return;
+                }
+
+                fromSocketRef.current = true;
+                setOpenKey(latestKey);
             }
         };
 
-        socket.onerror = (error) => {
-            console.error("WebSocket-Fehler:", error);
-        };
-
         socket.onclose = () => {
-            //console.log("WebSocket-Verbindung geschlossen");
-            // Versuche, die Verbindung nach einer kurzen Verzögerung wiederherzustellen
             if (!reconnectTimeoutRef.current) {
-                reconnectTimeoutRef.current = setTimeout(() => {
-                    connectWebSocket();
-                }, 1000); // 1 Sekunde warten, bevor erneut versucht wird
+                reconnectTimeoutRef.current = setTimeout(
+                    connectWebSocket,
+                    1000
+                );
             }
         };
     };
 
     useEffect(() => {
-        // WebSocket-Verbindung herstellen
         connectWebSocket();
-
-        // Cleanup-Funktion: WebSocket-Verbindung schließen
         return () => {
-            if (socketRef.current) {
-                socketRef.current.close();
-                socketRef.current = null;
-            }
-            if (reconnectTimeoutRef.current) {
+            socketRef.current?.close();
+            reconnectTimeoutRef.current &&
                 clearTimeout(reconnectTimeoutRef.current);
-                reconnectTimeoutRef.current = null;
-            }
         };
     }, [data?.id, name]);
 
@@ -71,198 +74,123 @@ export function DTState({ data, setData, name }: SideMenuProps) {
         setState(data?.state);
     }, [data]);
 
+    // Scroll accordion title to top
     useEffect(() => {
-        //console.log("state:", state);
-    }, [state]);
+        if (
+            accordionVisible &&
+            openKey &&
+            fromSocketRef.current &&
+            scrollRefs.current[openKey]
+        ) {
+            scrollRefs.current[openKey]?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+            fromSocketRef.current = false; // zurücksetzen
+        }
+    }, [openKey, accordionVisible]);
+
+    // Scroll log content to bottom
+    useEffect(() => {
+        if (accordionVisible && contentScrollRef.current) {
+            contentScrollRef.current.scrollTo({
+                top: contentScrollRef.current.scrollHeight,
+                behavior: "smooth",
+            });
+        }
+    }, [state?.output, openKey, accordionVisible]);
 
     return (
         <>
-            {state && (
-                <>
-                    State:
-                    <ul>
-                        {state?.commander && (
-                            <li className="ml-2">Status: {state?.commander}</li>
-                        )}
-                        {state?.ips && (
-                            <li className="ml-2">
-                                IPs:
-                                <ul>
-                                    {state?.ips.map((ip: any) => (
-                                        <li className="ml-2" key={ip}>
-                                            {ip}
-                                        </li>
-                                    ))}
-                                    {state?.ips.length === 0 && (
-                                        <li className="ml-2">No IPs</li>
-                                    )}
-                                </ul>
-                            </li>
-                        )}
-                        {state?.error && (
-                            <li className="ml-2">
-                                Errors:
-                                <ul>
-                                    {Object.keys(state?.error).map((key) => (
-                                        <li className="ml-2" key={key}>
-                                            {key}:{state?.error[key].toString()}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
-                        )}
+            <div ref={topRef}></div>
+            <div className="flex gap-2 mb-2">
+                <button
+                    onClick={() =>
+                        topRef.current?.scrollIntoView({ behavior: "smooth" })
+                    }
+                    className="bg-gray-100 px-2 py-1 border rounded"
+                >
+                    ^ Scroll to top
+                </button>
+                <button
+                    onClick={() => setOpenKey(null)}
+                    className="bg-gray-100 px-2 py-1 border rounded"
+                >
+                    Close all
+                </button>
 
-                        {state?.output && (
-                            <li className="ml-2">
-                                <div className="flex items-center gap-1">
-                                    {(!show?.output ||
-                                        show?.output == false) && (
-                                        <div
-                                            onClick={() => {
-                                                setShow({
-                                                    ...show,
-                                                    output: true,
-                                                });
-                                            }}
-                                            className="pointer"
+                <button
+                    onClick={() => {
+                        setAccordionVisible(!accordionVisible);
+                        setHasNewData(false);
+                        setNewDataCount(0);
+                    }}
+                    className="relative bg-gray-100 px-2 py-1 border rounded"
+                >
+                    {accordionVisible ? "Hide output" : "Show output"}
+
+                    {!accordionVisible && (
+                        <span className="bg-red-600 ml-2 px-2 rounded-full text-white">
+                            {newDataCount}
+                        </span>
+                    )}
+                </button>
+            </div>
+
+            {accordionVisible && state?.output && (
+                <ul>
+                    {Object.keys(state.output).map((key, i) => (
+                        <li
+                            key={i}
+                            ref={(el) => {
+                                scrollRefs.current[key] = el;
+                            }}
+                            className="mb-2 border border-gray-300 rounded"
+                        >
+                            <div
+                                onClick={() =>
+                                    setOpenKey(openKey === key ? null : key)
+                                }
+                                className="flex flex-row items-center gap-2 bg-gray-200 px-2 py-1 cursor-pointer"
+                            >
+                                {openKey === key ? (
+                                    <IconMinusSquare />
+                                ) : (
+                                    <IconPlusSquare />
+                                )}
+                                {key}
+                            </div>
+                            {openKey === key && (
+                                <div
+                                    ref={contentScrollRef}
+                                    className="bg-black p-2 max-h-[70vh] overflow-y-auto text-white"
+                                >
+                                    {Object.entries(
+                                        state.output[key] as Record<
+                                            string,
+                                            any[]
                                         >
-                                            <IconPlusSquare></IconPlusSquare>
+                                    ).map(([subKey, entries]) => (
+                                        <div key={subKey} className="mb-2">
+                                            {entries.length > 0 && (
+                                                <strong>{subKey}</strong>
+                                            )}
+                                            <div className="pl-2 text-xs">
+                                                {entries.map((d, iii) => (
+                                                    <div key={iii}>
+                                                        <ConsoleOutput
+                                                            output={d}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
-                                    )}
-                                    {show?.output && (
-                                        <div
-                                            onClick={() => {
-                                                setShow({
-                                                    ...show,
-                                                    output: false,
-                                                });
-                                            }}
-                                            className="pointer"
-                                        >
-                                            <IconMinusSquare></IconMinusSquare>
-                                        </div>
-                                    )}
-                                    Outputs:
+                                    ))}
                                 </div>
-                                <ul>
-                                    {show?.output &&
-                                        Object.keys(state?.output).map(
-                                            (output, i) => {
-                                                return (
-                                                    <li
-                                                        key={i}
-                                                        className="ml-2"
-                                                    >
-                                                        <div className="flex items-center gap-1">
-                                                            {(!show?.[output] ||
-                                                                show?.[
-                                                                    output
-                                                                ] == false) && (
-                                                                <div
-                                                                    onClick={() => {
-                                                                        setShow(
-                                                                            {
-                                                                                ...show,
-                                                                                [output]:
-                                                                                    true,
-                                                                            }
-                                                                        );
-                                                                    }}
-                                                                    className="pointer"
-                                                                >
-                                                                    <IconPlusSquare></IconPlusSquare>
-                                                                </div>
-                                                            )}
-                                                            {show?.[output] && (
-                                                                <div
-                                                                    onClick={() => {
-                                                                        setShow(
-                                                                            {
-                                                                                ...show,
-                                                                                [output]:
-                                                                                    false,
-                                                                            }
-                                                                        );
-                                                                    }}
-                                                                    className="pointer"
-                                                                >
-                                                                    <IconMinusSquare></IconMinusSquare>
-                                                                </div>
-                                                            )}
-                                                            {output}:
-                                                        </div>
-                                                        {show?.[output] && (
-                                                            <ul>
-                                                                {Object.keys(
-                                                                    state
-                                                                        ?.output[
-                                                                        output
-                                                                    ]
-                                                                ).map(
-                                                                    (
-                                                                        key,
-                                                                        ii
-                                                                    ) => {
-                                                                        return (
-                                                                            <li
-                                                                                className="ml-2"
-                                                                                key={
-                                                                                    ii
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    key
-                                                                                }
-
-                                                                                :
-                                                                                <ul>
-                                                                                    {state
-                                                                                        ?.output[
-                                                                                        output
-                                                                                    ]?.[
-                                                                                        key
-                                                                                    ] &&
-                                                                                        state?.output[
-                                                                                            output
-                                                                                        ][
-                                                                                            key
-                                                                                        ].map(
-                                                                                            (
-                                                                                                d: any,
-                                                                                                iii: number
-                                                                                            ) => {
-                                                                                                return (
-                                                                                                    <li
-                                                                                                        key={
-                                                                                                            iii
-                                                                                                        }
-                                                                                                        className="ml-2 text-xs"
-                                                                                                    >
-                                                                                                        <ConsoleOutput
-                                                                                                            output={
-                                                                                                                d
-                                                                                                            }
-                                                                                                        ></ConsoleOutput>
-                                                                                                    </li>
-                                                                                                );
-                                                                                            }
-                                                                                        )}
-                                                                                </ul>
-                                                                            </li>
-                                                                        );
-                                                                    }
-                                                                )}
-                                                            </ul>
-                                                        )}
-                                                    </li>
-                                                );
-                                            }
-                                        )}
-                                </ul>
-                            </li>
-                        )}
-                    </ul>
-                </>
+                            )}
+                        </li>
+                    ))}
+                </ul>
             )}
         </>
     );

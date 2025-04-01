@@ -13,7 +13,9 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
                     return (
                         <div className="flex flex-row" key={i}>
                             {!(dt.type === "uuid" || dt.type === "id") && (
-                                <div>{dt.title}:&nbsp;</div>
+                                <div>
+                                    {dt.title != "" && dt.title + ":"}&nbsp;
+                                </div>
                             )}
 
                             {dt.type === "string" && (
@@ -25,6 +27,7 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
                             {dt.type === "selection" && (
                                 <div>{data?.[dt.name]}</div>
                             )}
+
                             {dt.type === "stringstring" && (
                                 <div>
                                     {data?.keyvalue?.data?.map(
