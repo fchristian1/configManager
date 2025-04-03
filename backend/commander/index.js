@@ -13,7 +13,7 @@ process.on('SIGINT', async () => {
 });
 
 // Starte WebSocket Server
-startWebSocketServer(3000);
+startWebSocketServer(8888);
 
 // Beispiel: Sende Nachricht nach 5 Sekunden an einen bestimmten Client
 // setInterval(() => {

@@ -1,36 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!--#include virtual="/components/csshead.html" -->
-        <title>configManager.dev</title>
-    </head>
-    <body>
-        <!--#include virtual="/components/navtag.html" -->
-        <main>
-            <aside>
-                <icon id="asideMenuIcon">X</icon>
-                <div>
-                    <a class="button" href="/">Home</a>
-                    <a class="button" href="/manager/">Mananger</a>
-                    <a class="button" href="/doku/">Doku</a>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--#include virtual="/components/csshead.html" -->
+    <title>configManager.dev</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <!--#include virtual="/components/navtag.html" -->
+    <main>
+        <div class="!p-0 w-full">
+            <!-- Hero Content -->
+            <div class="text-black text-center">
+                <div class="relative bg-white overflow-hidden">
+                    <!-- {/* Background Circles */} -->
+                    <div
+                        class="top-0 right-0 absolute bg-amber-200/30 rounded-full w-[800px] h-[800px] -translate-y-1/2 translate-x-1/4">
+                    </div>
+                    <div
+                        class="top-0 left-0 absolute bg-amber-200/20 rounded-full w-[600px] h-[600px] -translate-x-1/4 -translate-y-1/4">
+                    </div>
+                    <div
+                        class="right-0 bottom-0 absolute bg-amber-200/25 rounded-full w-[700px] h-[700px] translate-x-1/3 translate-y-1/3">
+                    </div>
+
+                    <!-- {/* Hero Section */} -->
+                    <div class="relative mx-auto px-6 pt-24 pb-24 container">
+                        <div class="flex flex-col mx-auto max-w-4xl text-center">
+                            <h1 class="mb-8 font-bold text-gray-900 text-5xl md:text-6xl">
+                                Your instance,
+                                <span class="block text-amber-500">
+                                    one click ahead
+                                </span>
+                            </h1>
+
+                            <!-- {/* Instance Connection Illustration */} -->
+                            <div class="flex flex-row justify-center items-center gap-6 my-16">
+                                <div class="w-12 h-12 text-amber-500 animate-bounce">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-mouse-pointer2-icon lucide-mouse-pointer-2">
+                                        <path
+                                            d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z" />
+                                    </svg>
+                                </div>
+                                <div class="flex flex-row justify-center items-center">
+                                    <div class="bg-gray-300 w-16 h-[2px]"></div>
+                                    <div class="mx-4 w-4 h-4 text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="lucide lucide-circle-dot-icon lucide-circle-dot">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <circle cx="12" cy="12" r="1" />
+                                        </svg>
+                                    </div>
+                                    <div class="bg-gray-300 w-16 h-[2px]"></div>
+                                </div>
+                                <div class="w-12 h-12 text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
+                                        <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                                        <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                                        <line x1="6" x2="6.01" y1="6" y2="6" />
+                                        <line x1="6" x2="6.01" y1="18" y2="18" />
+                                    </svg>
+                                </div>
+                                <div class="w-12 h-12 text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
+                                        <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                                        <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                                        <line x1="6" x2="6.01" y1="6" y2="6" />
+                                        <line x1="6" x2="6.01" y1="18" y2="18" />
+                                    </svg>
+                                </div>
+                                <div class="w-12 h-12 text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
+                                        <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                                        <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                                        <line x1="6" x2="6.01" y1="6" y2="6" />
+                                        <line x1="6" x2="6.01" y1="18" y2="18" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="mx-auto mb-12 max-w-2xl text-gray-600 text-xl">
+                            Deploy and manage your virtual machines with
+                            unprecedented ease. One click is all it takes to
+                            bring your infrastructure to life.
+                        </p>
+
+                        <button
+                            class="bg-amber-500 hover:bg-amber-600 shadow-lg hover:shadow-xl px-8 py-4 rounded-lg font-semibold text-white text-lg transition-colors">
+                            Get Started
+                        </button>
+                    </div>
                 </div>
-            </aside>
-            <div>
-                <h1>configManager.dev</h1>
-                <p>configManager.dev is a configuration management tool for developers.</p>
-                <p>It allows you to manage your configuration files in a single place and use them in your projects.</p>
-                <p>configManager.dev is free and open-source.</p>
-                <p>It is built with Laravel and Vue.js.</p>
-                <p>
-                    configManager.dev is a project by
-                    <a href="/manager/">Manager</a>
-                    "
-                </p>
-            </div>
-        </main>
-        <!--#include virtual="/components/footertag.html" -->
-        <!--#include virtual="/components/scripttag.html" -->
-    </body>
+                <!-- {/* Features Overview */} -->
+                <div class="relative bg-gray-50 py-24">
+                    <div class="mx-auto px-6 container">
+                        <div class="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-24">
+                            <!-- {/* Cards from previous version */}
+                            {/* Instance Creation */} -->
+                            <div class="bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <Server class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Einfache Instanzerstellung</h3>
+                                <p class="text-gray-600">
+                                    Erstellen Sie Instanzen mit wenigen Klicks durch eine übersichtliche Konfiguration.
+                                    Schnell, effizient und unkompliziert.
+                                </p>
+                            </div>
+
+                            <!-- {/* Module Installation */} -->
+                            <div class="bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <Package class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Modulare Softwareinstallation</h3>
+                                <p class="text-gray-600">
+                                    Installieren Sie Software über anpassbare Module.
+                                    Erstellen und modifizieren Sie Module nach Ihren Bedürfnissen.
+                                </p>
+                            </div>
+
+                            <!-- {/* Repository Cloning */} -->
+                            <div class="bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <GitBranch class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Repository Integration</h3>
+                                <p class="text-gray-600">
+                                    Klonen Sie Repositories direkt in Ihre Instanz.
+                                    Nahtlose Integration Ihrer Entwicklungsumgebung.
+                                </p>
+                            </div>
+
+                            <!-- {/* Command Execution */} -->
+                            <div class="bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <Terminal class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Befehlsausführung</h3>
+                                <p class="text-gray-600">
+                                    Führen Sie Commands direkt über die Plattform aus.
+                                    Volle Kontrolle über Ihre Instanzen.
+                                </p>
+                            </div>
+
+                            <!-- {/* Instance Stats */} -->
+                            <div class="bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <BarChart3 class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Instanz-Statistiken</h3>
+                                <p class="text-gray-600">
+                                    Überwachen Sie die Performance Ihrer Instanzen in Echtzeit.
+                                    Detaillierte Einblicke in alle wichtigen Metriken.
+                                </p>
+                            </div>
+
+                            <!-- {/* Management Interface */} -->
+                            <div class="bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <Settings class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Verwaltungsoberfläche</h3>
+                                <p class="text-gray-600">
+                                    Verwalten Sie alle Instanzen über eine intuitive Benutzeroberfläche.
+                                    Effizientes Management Ihrer Infrastruktur.
+                                </p>
+                            </div>
+                            <div class="col-span-3 bg-white shadow-lg hover:shadow-xl p-8 rounded-xl transition-shadow">
+                                <Server class="mb-6 w-12 h-12 text-amber-500" />
+                                <h3 class="mb-4 font-bold text-xl">Steuerung und Status über die API</h3>
+                                <p class="text-gray-600">
+                                    Steuern Sie Ihre Instanzen über unsere API.
+                                    Vollständige Automatisierung und Integration in Ihre bestehenden Systeme.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- {/* Detailed Feature Sections */} -->
+                        <div class="space-y-32">
+                            <!-- {/* Instance Creation Detail */} -->
+                            <div class="items-center gap-12 grid grid-cols-1 lg:grid-cols-2">
+                                <div class="order-2 lg:order-1">
+                                    <h2 class="mb-6 font-bold text-3xl">Einfache Instanzerstellung</h2>
+                                    <div class="space-y-4 text-gray-600 text-lg">
+                                        <p>
+                                            Unsere intuitive Konfigurationsoberfläche ermöglicht es Ihnen, neue
+                                            Instanzen in wenigen Minuten einzurichten.
+                                            Wählen Sie aus verschiedenen vordefinierten Templates oder erstellen Sie
+                                            Ihre eigene maßgeschneiderte Konfiguration.
+                                        </p>
+                                        <ul class="space-y-2 list-disc list-inside">
+                                            <li>Vordefinierte Templates für gängige Anwendungsfälle</li>
+                                            <li>Anpassbare Hardware-Ressourcen (CPU, RAM, Storage)</li>
+                                            <li>Automatische Netzwerkkonfiguration</li>
+                                            <li>Integrierte Sicherheitseinstellungen</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="order-1 lg:order-2">
+                                    <img src="https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?q=80&w=1000"
+                                        alt="Instance Configuration Interface" class="shadow-2xl rounded-xl" />
+                                </div>
+                            </div>
+
+                            <!-- {/* Module Installation Detail */} -->
+                            <div class="items-center gap-12 grid grid-cols-1 lg:grid-cols-2">
+                                <div>
+                                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1000"
+                                        alt="Module Management System" class="shadow-2xl rounded-xl" />
+                                </div>
+                                <div>
+                                    <h2 class="mb-6 font-bold text-3xl">Modulare Softwareinstallation</h2>
+                                    <div class="space-y-4 text-gray-600 text-lg">
+                                        <p>
+                                            Unser modulares System ermöglicht die flexible Installation und Verwaltung
+                                            von Software-Paketen.
+                                            Erstellen Sie eigene Module oder nutzen Sie unsere umfangreiche Bibliothek
+                                            vorgefertigter Lösungen.
+                                        </p>
+                                        <ul class="space-y-2 list-disc list-inside">
+                                            <li>Große Auswahl an vordefinierten Modulen</li>
+                                            <li>Einfache Modul-Erstellung über YAML-Konfiguration</li>
+                                            <li>Versionskontrolle für Module</li>
+                                            <li>Automatische Abhängigkeitsauflösung</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- {/* Repository Integration Detail */} -->
+                            <div class="items-center gap-12 grid grid-cols-1 lg:grid-cols-2">
+                                <div class="order-2 lg:order-1">
+                                    <h2 class="mb-6 font-bold text-3xl">Repository Integration</h2>
+                                    <div class="space-y-4 text-gray-600 text-lg">
+                                        <p>
+                                            Integrieren Sie Ihre Entwicklungsprojekte nahtlos in Ihre Instanzen.
+                                            Unterstützung für alle gängigen Git-Plattformen und automatische
+                                            Deployment-Prozesse.
+                                        </p>
+                                        <ul class="space-y-2 list-disc list-inside">
+                                            <li>Unterstützung für GitHub, GitLab und Bitbucket</li>
+                                            <li>Automatische SSH-Key Verwaltung</li>
+                                            <li>Branch-basierte Deployment-Konfiguration</li>
+                                            <li>Webhook-Integration für CI/CD-Pipelines</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="order-1 lg:order-2">
+                                    <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=1000"
+                                        alt="Repository Management Interface" class="shadow-2xl rounded-xl" />
+                                </div>
+                            </div>
+
+                            <!-- {/* Instance Monitoring Detail */} -->
+                            <div class="items-center gap-12 grid grid-cols-1 lg:grid-cols-2">
+                                <div>
+                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000"
+                                        alt="Instance Monitoring Dashboard" class="shadow-2xl rounded-xl" />
+                                </div>
+                                <div>
+                                    <h2 class="mb-6 font-bold text-3xl">Umfassendes Monitoring</h2>
+                                    <div class="space-y-4 text-gray-600 text-lg">
+                                        <p>
+                                            Behalten Sie den Überblick über alle wichtigen Metriken Ihrer Instanzen.
+                                            Echtzeitüberwachung und detaillierte Analysen für optimale Performance.
+                                        </p>
+                                        <ul class="space-y-2 list-disc list-inside">
+                                            <li>Echtzeit-Performance-Monitoring</li>
+                                            <li>Anpassbare Dashboards und Alerts</li>
+                                            <li>Historische Datenanalyse</li>
+                                            <li>Automatische Skalierungsoptionen</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- {/* API Integration Detail */} -->
+                            <div class="items-center gap-12 grid grid-cols-1 lg:grid-cols-2">
+                                <div class="order-2 lg:order-1">
+                                    <h2 class="mb-6 font-bold text-3xl">API & Automatisierung</h2>
+                                    <div class="space-y-4 text-gray-600 text-lg">
+                                        <p>
+                                            Nutzen Sie unsere umfangreiche API für vollständige Automatisierung und
+                                            Integration in Ihre bestehenden Systeme.
+                                            RESTful API und WebSocket-Unterstützung für Echtzeitkommunikation.
+                                        </p>
+                                        <ul class="space-y-2 list-disc list-inside">
+                                            <li>Vollständige REST API Dokumentation</li>
+                                            <li>WebSocket-Support für Echtzeitdaten</li>
+                                            <li>OAuth2 Authentifizierung</li>
+                                            <li>Rate Limiting und Quota Management</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="order-1 lg:order-2">
+                                    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1000"
+                                        alt="API Documentation Interface" class="shadow-2xl rounded-xl" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    </main>
+    <!--#include virtual="/components/footertag.html" -->
+    <!--#include virtual="/components/scripttag.html" -->
+</body>
+
 </html>

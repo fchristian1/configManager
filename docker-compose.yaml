@@ -79,7 +79,7 @@ services:
             - ./backend/commander:/app
             - ./data:/app/data
         ports:
-            - 8888:3000
+            - 8888:8888
         environment:
             <<: *backend-env
     backend_mongo:

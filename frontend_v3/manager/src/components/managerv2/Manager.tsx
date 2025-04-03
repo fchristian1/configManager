@@ -62,7 +62,7 @@ export function Manager({}: SideMenuProps) {
                     </div>
                 </div>
             </aside>
-            <div className="w-full">
+            <div id="main" className="w-full">
                 <Main></Main>
                 {managerContext.debug.showDebug && (
                     <pre className="text-xs">

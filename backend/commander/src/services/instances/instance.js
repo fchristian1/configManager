@@ -118,7 +118,7 @@ export class Instance {
                     //url
                     //console.log("download url");
                     if (theSoftware.url) {
-                        await this.commandOnTerminal(data, "software:download:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "'cd " + theSoftware.path + ` && curl -O ${theSoftware.url}'`], {
+                        await this.commandOnTerminal(data, "software:download:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "'cd " + theSoftware.path + ` && curl -O ${theSoftware.url}' && echo "Download completed"`], {
                             cwd: path.join(servicePath, 'terraform'), env: envVars
                         });
 
@@ -126,7 +126,7 @@ export class Instance {
                     //git clone
                     //console.log("git clone");
                     if (theSoftware.githuburl) {
-                        await this.commandOnTerminal(data, "software:gitclone:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "' cd " + theSoftware.path + ` && git clone ${theSoftware.githuburl}'`], {
+                        await this.commandOnTerminal(data, "software:gitclone:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "' cd " + theSoftware.path + ` && git clone ${theSoftware.githuburl} && echo "Git clone completed"'`], {
                             cwd: path.join(servicePath, 'terraform'), env: envVars
                         });
 
@@ -140,7 +140,7 @@ export class Instance {
                         await this.commandOnTerminal(data, "software:createfile:" + ip + ":" + file.filename, "ssh", [
                             "-i", `./${data.id}_my_key.pem`,
                             `ubuntu@${ip}`,
-                            `bash -c "cd ${theSoftware.path} && echo '${b64content}' | base64 -d > ${file.filename} && chmod +x ${file.filename}"`
+                            `bash -c "cd ${theSoftware.path} && echo '${b64content}' | base64 -d > ${file.filename} && chmod +x ${file.filename} && echo 'File created: ${file.filename}'"`
                         ], {
                             cwd: path.join(servicePath, 'terraform'),
                             env: envVars

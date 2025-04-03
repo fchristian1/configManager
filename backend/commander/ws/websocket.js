@@ -3,7 +3,7 @@ import { WebSocketServer } from 'ws';
 const clients = new Map(); // Map<`${name}:${id}`, WebSocket>
 let wss;
 
-export function startWebSocketServer(serverPort = 8081) {
+export function startWebSocketServer(serverPort = 8888) {
     wss = new WebSocketServer({ port: serverPort });
 
     wss.on('connection', (ws) => {

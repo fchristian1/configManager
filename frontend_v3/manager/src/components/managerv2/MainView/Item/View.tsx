@@ -10,6 +10,9 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
             {managerContext?.configData.objects
                 .find((o: any) => o.link === managerContext?.mainView.link)
                 .dataType.map((dt: any, i: number) => {
+                    if (dt.name === "name") {
+                        return null;
+                    }
                     return (
                         <div className="flex flex-row" key={i}>
                             {!(dt.type === "uuid" || dt.type === "id") && (
