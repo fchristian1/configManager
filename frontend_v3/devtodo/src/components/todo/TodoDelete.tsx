@@ -2,7 +2,7 @@ import { IconTrash } from "../icons/Trash";
 
 export function TodoDelete({ todo, handleDeleteTodo }: any) {
     return (
-        <div className="flex justify-end w-full">
+        <>
             {handleDeleteTodo && (
                 <button
                     className="flex justify-center items-center bg-gray-200 hover:bg-red-300 border border-gray-400 rounded w-7 h-7 aspect-square text-red-500"
@@ -21,6 +21,6 @@ export function TodoDelete({ todo, handleDeleteTodo }: any) {
                     <IconTrash />
                 </button>
             )}
-        </div>
+        </>
     );
 }

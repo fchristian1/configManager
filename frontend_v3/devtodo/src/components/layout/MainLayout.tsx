@@ -27,10 +27,8 @@ export function MainLayout({ children }: MainLayoutProps) {
     }, []);
     return (
         <>
-            <div
-                dangerouslySetInnerHTML={{ __html: navTag }}
-            ></div>
-            <main>{children}</main>
+            <div dangerouslySetInnerHTML={{ __html: navTag }}></div>
+            <main className="flex flex-col justify-center">{children}</main>
             <div
                 dangerouslySetInnerHTML={{
                     __html: footerTag,

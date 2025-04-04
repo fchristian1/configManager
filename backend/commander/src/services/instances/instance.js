@@ -63,12 +63,13 @@ export class Instance {
         this.createPath(this.servicePath);
         if (this.data.instanceType) {
             let moduleName = this.data.instanceType?.link.split(":")[1];
-            if (moduleName && moduleName == "aws-ec2") {
+            if (moduleName && moduleName == "aws-ec2" && this.data.commanderCommand != "restart") {
                 this.data = await this.instanceTypeAWSEC2(this.data, this.servicePath);
-
-
             }
-            if (this.data.status == "Active") {
+            if (moduleName && moduleName == "aws-ec2" && this.data.commanderCommand == "restart") {
+                this.data = await this.instanceTypeAWSEC2Restart(this.data, this.servicePath);
+            }
+            if (this.data?.status ?? "" == "Active") {
 
                 if (await this.noError()) this.data = await this.instanceSoftware(this.data, this.servicePath);
 
@@ -83,6 +84,7 @@ export class Instance {
             }
         }
         console.log("🔚 finish loadModules", this.data.id);
+        this.data.commanderCommand = "";
         this.data.state.commander = "ready";
         sendToClient('instance', this.data.id, this.data.state)
         await insertOne("instances", this.data.id, this.data) // Schreibe die Daten in die Datenbank
@@ -205,6 +207,33 @@ export class Instance {
         console.log("🔚 finish github_clone", data.id);
         return data;
     }
+
+    async instanceTypeAWSEC2Restart(data, servicePath) {
+        console.log("🪧  Start Restart AWS EC2", data.id);
+
+
+        const envVars = {
+            ...process.env
+        };
+        for (const ip of data?.state?.ips) {
+            //url
+            //console.log("download url");
+
+            await this.commandOnTerminal(data, "software:download:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, `"sudo reboot"`], {
+                cwd: path.join(servicePath, 'terraform'), env: envVars
+            });
+
+
+        }
+        await this.commandOnTerminal(data, "instance:check", 'ansible-playbook', ["-i", "inventory", "ping_wait.yaml"], {
+            cwd: path.join(servicePath, 'terraform/ansible_playbooks/'), env: envVars
+        });
+        sendToClient('instance', data.id, data.state)
+        await insertOne("instances", data.id, data)
+        console.log("🔚 finish Restart AWS EC2", data.id);
+        return data;
+    }
+
     async instanceTypeAWSEC2(data, servicePath) {
         console.log("🪧  Start AWS EC2", data.id);
         const moduleName = data.instanceType?.link.split(":")[1];

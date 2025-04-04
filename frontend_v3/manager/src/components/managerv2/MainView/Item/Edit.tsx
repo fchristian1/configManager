@@ -9,6 +9,7 @@ import { fetcher } from "../../../../services/common/fetcher";
 import { DTStringString } from "../DataTypes/StringString";
 import { DTFile } from "../DataTypes/File";
 import { DTObject } from "../DataTypes/Object";
+import { DTStringMultiple } from "../DataTypes/StringMultiple";
 
 type SideMenuProps = { data: any; setData: any; show: any; setShow: any };
 export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
@@ -124,25 +125,39 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                                 dt.type === "uuid" ||
                                 dt.type === "id" ||
                                 dt.type === "informations" ||
-                                dt.type === "toggle"
+                                dt.type === "toggle" ||
+                                dt.view === "false"
                             ) && <Title>{dt.title}:</Title>}
 
-                            {dt.type === "string" && (
-                                <DTString
-                                    onChange={handleOnChange}
-                                    value={editData?.[dt.name]}
-                                    name={dt.name}
-                                ></DTString>
-                            )}
-                            {dt.type === "stringstring" && (
-                                <DTStringString
-                                    onChange={handleOnChangeStringString}
-                                    value={editData?.[dt.name] ?? ""}
-                                    data={editData?.[dt.name]?.data}
-                                    name={dt.name}
-                                ></DTStringString>
-                            )}
-                            {dt.type === "file" && (
+                            {dt.type === "string" &&
+                                dt.view != "false" &&
+                                dt.multiple == false && (
+                                    <DTString
+                                        onChange={handleOnChange}
+                                        value={editData?.[dt.name]}
+                                        name={dt.name}
+                                    ></DTString>
+                                )}
+                            {dt.type === "string" &&
+                                dt.view != "false" &&
+                                dt.multiple == true && (
+                                    <DTStringMultiple
+                                        onChange={handleOnChangeObject}
+                                        value={editData?.[dt.name]}
+                                        data={editData?.[dt.name]?.data}
+                                        name={dt.name}
+                                    ></DTStringMultiple>
+                                )}
+                            {dt.type === "stringstring" &&
+                                dt.view != "false" && (
+                                    <DTStringString
+                                        onChange={handleOnChangeStringString}
+                                        value={editData?.[dt.name] ?? ""}
+                                        data={editData?.[dt.name]?.data}
+                                        name={dt.name}
+                                    ></DTStringString>
+                                )}
+                            {dt.type === "file" && dt.view != "false" && (
                                 <DTFile
                                     onChange={handleOnChangeFile}
                                     value={editData?.[dt.name] ?? ""}
@@ -150,7 +165,7 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                                     name={dt.name}
                                 ></DTFile>
                             )}
-                            {dt.type === "object" && (
+                            {dt.type === "object" && dt.view != "false" && (
                                 <DTObject
                                     onChange={handleOnChangeObject}
                                     dataType={dt}
@@ -159,14 +174,14 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                                     name={dt.name}
                                 ></DTObject>
                             )}
-                            {dt.type === "multiline" && (
+                            {dt.type === "multiline" && dt.view != "false" && (
                                 <DTMultiline
                                     onChange={handleOnChange}
                                     value={editData?.[dt.name]}
                                     name={dt.name}
                                 ></DTMultiline>
                             )}
-                            {dt.type === "selection" && (
+                            {dt.type === "selection" && dt.view != "false" && (
                                 <DTSelection
                                     onChange={handleOnChange}
                                     values={dt.values}
@@ -175,7 +190,7 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
                                     defaultValue={""}
                                 ></DTSelection>
                             )}
-                            {dt.type === "modules" && (
+                            {dt.type === "modules" && dt.view != "false" && (
                                 <DTModule
                                     onChange={handleOnChangeModule}
                                     modules={dt.modules}

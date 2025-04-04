@@ -121,6 +121,23 @@
                         ]
                     },
                     {
+                        "name": "domain",
+                        "title": "Domain",
+                        "type": "string",
+                        "required": false,
+                        "multiple": true
+                    },
+                    {
+                        "name": "commanderToggle",
+                        "type": "boolean",
+                        "view": "false"
+                    },
+                    {
+                        "name": "commanderCommand",
+                        "type": "string",
+                        "view": "false"
+                    },
+                    {
                         "name": "software",
                         "title": "Software",
                         "type": "object",

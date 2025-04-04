@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Todo } from "./IndexTodo";
+import test from "node:test";
 
 type TodoItemProps = {
     children?: React.ReactNode;
@@ -8,9 +9,18 @@ type TodoItemProps = {
     setEdit: any;
     handleEditTodo: any;
     childsDone: any;
+    color: string;
 };
 
-export function TodoItem({ children, childsDone, todo, edit, setEdit, handleEditTodo }: TodoItemProps) {
+export function TodoItem({
+    children,
+    childsDone,
+    todo,
+    edit,
+    setEdit,
+    handleEditTodo,
+    color,
+}: TodoItemProps) {
     const handleChangeSave = (todo: Todo) => {
         handleEditTodo(todo) && setEdit(null);
     };
@@ -22,7 +32,7 @@ export function TodoItem({ children, childsDone, todo, edit, setEdit, handleEdit
     }, []);
     return (
         <div className="flex items-center w-full">
-            <div className="flex gap-2 text-nowrap row">
+            <div className="flex flex-row gap-2 w-full text-nowrap">
                 <div className="flex justify-center items-center w-7 h-7">
                     <input
                         onChange={() => {
@@ -38,17 +48,35 @@ export function TodoItem({ children, childsDone, todo, edit, setEdit, handleEdit
                     />
                 </div>
                 {edit != todo && !todo.done && todo.title == "" && (
-                    <div className="flex items-center ml-2 w-full h-7 hover:text-amber-800" onClick={() => setEdit(todo)}>
+                    <div
+                        className={
+                            color +
+                            " flex items-center ml-1 w-full h-7 hover:text-amber-800"
+                        }
+                        onClick={() => setEdit(todo)}
+                    >
                         ---
                     </div>
                 )}
                 {edit != todo && !todo.done && (
-                    <div className="flex items-center ml-2 w-full h-7 hover:text-amber-800" onClick={() => setEdit(todo)}>
+                    <div
+                        className={
+                            color +
+                            " flex items-center ml-1 w-full h-7 hover:text-amber-800"
+                        }
+                        onClick={() => setEdit(todo)}
+                    >
                         {todo.title}
                     </div>
                 )}
                 {edit != todo && todo.done && (
-                    <div className="flex items-center ml-2 w-full hover:text-amber-800 line-through" onClick={() => setEdit(todo)}>
+                    <div
+                        className={
+                            color +
+                            " flex items-center ml-1 w-full h-7 hover:text-amber-800"
+                        }
+                        onClick={() => setEdit(todo)}
+                    >
                         {todo.title}
                     </div>
                 )}
@@ -57,7 +85,7 @@ export function TodoItem({ children, childsDone, todo, edit, setEdit, handleEdit
                         <input
                             id="title"
                             type="text"
-                            className="bg-white h-7"
+                            className="bg-white w-full h-7"
                             onChange={(e) => {
                                 todo.title = e.target.value;
                             }}

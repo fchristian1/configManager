@@ -4,6 +4,7 @@ const apis = [
     { name: 'todos', url: 'http://backend_todos:3000', token: true, protocol: "http" },
     { name: 'auth', url: 'http://backend_auth:3000', token: false, protocol: "http" },
     { name: 'manager', url: 'http://backend_manager:3000', token: true, protocol: "http" },
+    { name: "controller", url: "http://backend_controller:3000", token: false, protocol: "http" },
     { name: 'commander', url: 'http://backend_commander:3000', token: false, protocol: "ws" },
 ];
 

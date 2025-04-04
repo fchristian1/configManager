@@ -37,6 +37,14 @@ export function IndexTodo() {
         // { id: 8, parent: 7, title: "Todo 8", done: false, open: true },
         // { id: 9, parent: 8, title: "Todo 9", done: false, open: true },
     ] as Todo[]);
+    const color = [
+        "bg-red-100",
+        "bg-blue-100",
+        "bg-green-100",
+        "bg-yellow-100",
+        "bg-purple-100",
+        "bg-pink-100",
+    ];
     const [edit, setEdit] = useState<Todo | null>(null);
     const [deleteQuestion, setDeleteQuestion] = useState<Todo | null>(null);
 
@@ -100,11 +108,16 @@ export function IndexTodo() {
     const handleSortUp = (todo: Todo) => {
         if (todo.position == 0) return;
 
-        const todoToReplace = todos.find((t) => t.parent === todo.parent && t.position === todo.position - 1);
+        const todoToReplace = todos.find(
+            (t) => t.parent === todo.parent && t.position === todo.position - 1
+        );
         if (!todoToReplace) return;
 
         const todoToGoUp = { ...todo, position: todo.position - 1 };
-        const updatedTodoToReplace = { ...todoToReplace, position: todoToReplace.position + 1 };
+        const updatedTodoToReplace = {
+            ...todoToReplace,
+            position: todoToReplace.position + 1,
+        };
 
         const newTodos = todos.map((t) => {
             if (t.id === todoToReplace.id) {
@@ -122,11 +135,16 @@ export function IndexTodo() {
         const todosByParent = getTodosByParentId(todo.parent);
         if (todo.position == todosByParent.length - 1) return;
 
-        const todoToReplace = todos.find((t) => t.parent === todo.parent && t.position === todo.position + 1);
+        const todoToReplace = todos.find(
+            (t) => t.parent === todo.parent && t.position === todo.position + 1
+        );
         if (!todoToReplace) return;
 
         const todoToGoDown = { ...todo, position: todo.position + 1 };
-        const updatedTodoToReplace = { ...todoToReplace, position: todoToReplace.position - 1 };
+        const updatedTodoToReplace = {
+            ...todoToReplace,
+            position: todoToReplace.position - 1,
+        };
 
         const newTodos = todos.map((t) => {
             if (t.id === todoToReplace.id) {
@@ -142,7 +160,9 @@ export function IndexTodo() {
     };
 
     const getTodosByParentId = (parent: number) => {
-        return todos.filter((todo) => todo.parent === parent).sort((a, b) => a.position - b.position);
+        return todos
+            .filter((todo) => todo.parent === parent)
+            .sort((a, b) => a.position - b.position);
     };
     const showTodos = (parent: number, level: number): JSX.Element => {
         const todos = getTodosByParentId(parent);
@@ -152,21 +172,35 @@ export function IndexTodo() {
                     const children = showTodos(t.id, level + 1);
                     const childrenLength = children.props.children.length;
                     return (
-                        <div key={t.id}>
+                        <div className={" " + color[level] + " "} key={t.id}>
                             <div className="flex items-center hover:bg-gray-300 p-2 border hover:border-gray-400 border-transparent rounded w-full row">
-                                <div className="flex items-center gap-1 w-full row" style={{ marginLeft: level * 16 }}>
-                                    <TodoAdd handleNewTodo={handleNewTodo} parentId={t.id}></TodoAdd>
+                                <div
+                                    className="flex justify-start items-center gap-1 w-full row"
+                                    style={{ marginLeft: level * 32 }}
+                                >
+                                    <TodoAdd
+                                        handleNewTodo={handleNewTodo}
+                                        parentId={t.id}
+                                    ></TodoAdd>
 
-                                    {childrenLength == 0 && <div className="flex justify-center items-center w-7 h-7"></div>}
+                                    {childrenLength == 0 && (
+                                        <div className="ml-4"></div>
+                                    )}
                                     {childrenLength > 0 && (
                                         <div
                                             style={{ cursor: "pointer" }}
-                                            onClick={() => handleOpenCloseTodo(t)}
+                                            onClick={() =>
+                                                handleOpenCloseTodo(t)
+                                            }
                                             className="flex justify-center items-center h-7"
                                         >
                                             <div className="hover:text-amber-500">
-                                                {t.open && <IconChevronDown></IconChevronDown>}
-                                                {!t.open && <IconChevronRight></IconChevronRight>}
+                                                {t.open && (
+                                                    <IconChevronDown></IconChevronDown>
+                                                )}
+                                                {!t.open && (
+                                                    <IconChevronRight></IconChevronRight>
+                                                )}
                                             </div>
                                         </div>
                                     )}
@@ -176,13 +210,26 @@ export function IndexTodo() {
                                         edit={edit}
                                         setEdit={setEdit}
                                         todo={t}
+                                        color={color[level % color.length]}
                                     ></TodoItem>
-                                    <TodoDelete handleDeleteTodo={childrenLength == 0 && handleDeleteTodo} todo={t}></TodoDelete>
+                                    <TodoDelete
+                                        handleDeleteTodo={
+                                            childrenLength == 0 &&
+                                            handleDeleteTodo
+                                        }
+                                        todo={t}
+                                    ></TodoDelete>
                                     <div className="flex">
-                                        <div style={{ cursor: "pointer" }} onClick={() => handleSortUp(t)}>
+                                        <div
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => handleSortUp(t)}
+                                        >
                                             <IconArrowUp></IconArrowUp>
                                         </div>
-                                        <div style={{ cursor: "pointer" }} onClick={() => handleSortDown(t)}>
+                                        <div
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => handleSortDown(t)}
+                                        >
                                             <IconArrowDown></IconArrowDown>
                                         </div>
                                     </div>
@@ -199,7 +246,12 @@ export function IndexTodo() {
         <>
             <div className="flex gap-2 border border-gray-300 rounded min-w-[640px] col">
                 <div className="flex gap-2 row">
-                    {<TodoAdd handleNewTodo={handleNewTodo} parentId={0}></TodoAdd>}
+                    {
+                        <TodoAdd
+                            handleNewTodo={handleNewTodo}
+                            parentId={0}
+                        ></TodoAdd>
+                    }
                     {todos.length == 0 && "<-- Create a new Todo"}
                 </div>
                 <div className="flex gap-1 col">{showTodos(0, 0)}</div>
@@ -210,10 +262,18 @@ export function IndexTodo() {
                             <div className="flex justify-center items-center gap-2 w-full h-full">
                                 <div className="flex gap-2 bg-white p-4 border border-gray-400 rounded row">
                                     Delete?
-                                    <button onClick={() => handleDeleteTodo2(deleteQuestion)} className="hover:bg-red-500 px-2 border border-black rounded h-7">
+                                    <button
+                                        onClick={() =>
+                                            handleDeleteTodo2(deleteQuestion)
+                                        }
+                                        className="hover:bg-red-500 px-2 border border-black rounded h-7"
+                                    >
                                         Yes
                                     </button>
-                                    <button onClick={() => setDeleteQuestion(null)} className="hover:bg-green-500 px-2 border border-black rounded h-7">
+                                    <button
+                                        onClick={() => setDeleteQuestion(null)}
+                                        className="hover:bg-green-500 px-2 border border-black rounded h-7"
+                                    >
                                         No
                                     </button>
                                 </div>

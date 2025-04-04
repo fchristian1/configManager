@@ -132,24 +132,26 @@ export function New({}: SideMenuProps) {
                                 {!(
                                     dt.type === "uuid" ||
                                     dt.type === "id" ||
-                                    dt.type === "informations"
+                                    dt.type === "informations" ||
+                                    dt.view === "false"
                                 ) && <Title>{dt.title}:</Title>}
-                                {dt.type === "string" && (
+                                {dt.type === "string" && dt.view != "false" && (
                                     <DTString
                                         name={dt.name}
                                         value={newData?.[dt.name] ?? ""}
                                         onChange={handleOnChange}
                                     ></DTString>
                                 )}
-                                {dt.type === "stringstring" && (
-                                    <DTStringString
-                                        onChange={handleOnCangeStringString}
-                                        value={newData?.[dt.name] ?? ""}
-                                        data={newData.data}
-                                        name={dt.name}
-                                    ></DTStringString>
-                                )}
-                                {dt.type === "file" && (
+                                {dt.type === "stringstring" &&
+                                    dt.view != "false" && (
+                                        <DTStringString
+                                            onChange={handleOnCangeStringString}
+                                            value={newData?.[dt.name] ?? ""}
+                                            data={newData.data}
+                                            name={dt.name}
+                                        ></DTStringString>
+                                    )}
+                                {dt.type === "file" && dt.view != "false" && (
                                     <DTFile
                                         onChange={handleOnChangeFile}
                                         value={newData?.[dt.name] ?? ""}
@@ -157,7 +159,7 @@ export function New({}: SideMenuProps) {
                                         name={dt.name}
                                     ></DTFile>
                                 )}
-                                {dt.type === "object" && (
+                                {dt.type === "object" && dt.view != "false" && (
                                     <DTObject
                                         onChange={handleOnChangeObject}
                                         dataType={dt}
@@ -166,32 +168,35 @@ export function New({}: SideMenuProps) {
                                         name={dt.name}
                                     ></DTObject>
                                 )}
-                                {dt.type === "multiline" && (
-                                    <DTMultiline
-                                        name={dt.name}
-                                        value={newData?.[dt.name] ?? ""}
-                                        onChange={handleOnChange}
-                                    ></DTMultiline>
-                                )}
-                                {dt.type === "selection" && (
-                                    <DTSelection
-                                        name={dt.name}
-                                        values={dt.values}
-                                        defaultValue={dt.default}
-                                        data={newData?.[dt.name]}
-                                        onChange={handleOnChange}
-                                    ></DTSelection>
-                                )}
-                                {dt.type === "modules" && (
-                                    <DTModule
-                                        onChange={handleOnChangeModule}
-                                        name={dt.name}
-                                        data={newData}
-                                        moduleData={newData?.[dt.name]}
-                                        setEditData={null}
-                                        modules={dt.modules}
-                                    ></DTModule>
-                                )}
+                                {dt.type === "multiline" &&
+                                    dt.view != "false" && (
+                                        <DTMultiline
+                                            name={dt.name}
+                                            value={newData?.[dt.name] ?? ""}
+                                            onChange={handleOnChange}
+                                        ></DTMultiline>
+                                    )}
+                                {dt.type === "selection" &&
+                                    dt.view != "false" && (
+                                        <DTSelection
+                                            name={dt.name}
+                                            values={dt.values}
+                                            defaultValue={dt.default}
+                                            data={newData?.[dt.name]}
+                                            onChange={handleOnChange}
+                                        ></DTSelection>
+                                    )}
+                                {dt.type === "modules" &&
+                                    dt.view != "false" && (
+                                        <DTModule
+                                            onChange={handleOnChangeModule}
+                                            name={dt.name}
+                                            data={newData}
+                                            moduleData={newData?.[dt.name]}
+                                            setEditData={null}
+                                            modules={dt.modules}
+                                        ></DTModule>
+                                    )}
                             </div>
                         );
                     })}

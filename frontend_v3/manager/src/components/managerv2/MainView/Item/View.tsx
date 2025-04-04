@@ -15,38 +15,60 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
                     }
                     return (
                         <div className="flex flex-row" key={i}>
-                            {!(dt.type === "uuid" || dt.type === "id") && (
-                                <div>
-                                    {dt.title != "" && dt.title + ":"}&nbsp;
-                                </div>
+                            {!(dt.type === "uuid" || dt.type === "id") &&
+                                dt.view != "false" && (
+                                    <div>
+                                        {dt.title != "" && dt.title + ":"}&nbsp;
+                                    </div>
+                                )}
+
+                            {dt.type === "string" &&
+                                dt.multiple == false &&
+                                dt.view != "false" && (
+                                    <div>{data?.[dt.name]}</div>
+                                )}
+                            {dt.type === "string" &&
+                                dt.multiple == true &&
+                                dt.view != "false" && (
+                                    <div>
+                                        {data?.[dt.name].data &&
+                                            data?.[dt.name].data?.map(
+                                                (d: any, i: number) => (
+                                                    <div>
+                                                        {d.domain}
+                                                        {i + 1 <
+                                                            data?.[dt.name].data
+                                                                .length && ", "}
+                                                    </div>
+                                                )
+                                            )}
+                                    </div>
+                                )}
+
+                            {dt.type === "multiline" && dt.view != "false" && (
+                                <div>{data?.[dt.name]}</div>
+                            )}
+                            {dt.type === "selection" && dt.view != "false" && (
+                                <div>{data?.[dt.name]}</div>
                             )}
 
-                            {dt.type === "string" && (
-                                <div>{data?.[dt.name]}</div>
-                            )}
-                            {dt.type === "multiline" && (
-                                <div>{data?.[dt.name]}</div>
-                            )}
-                            {dt.type === "selection" && (
-                                <div>{data?.[dt.name]}</div>
-                            )}
-
-                            {dt.type === "stringstring" && (
-                                <div>
-                                    {data?.keyvalue?.data?.map(
-                                        (d: any, i: number) => (
-                                            <div key={i}>
-                                                {d.key}:{" "}
-                                                {d.value &&
-                                                    d.value != "" &&
-                                                    "..."}{" "}
-                                                <br />
-                                            </div>
-                                        )
-                                    )}
-                                </div>
-                            )}
-                            {dt.type === "object" && (
+                            {dt.type === "stringstring" &&
+                                dt.view != "false" && (
+                                    <div>
+                                        {data?.keyvalue?.data?.map(
+                                            (d: any, i: number) => (
+                                                <div key={i}>
+                                                    {d.key}:{" "}
+                                                    {d.value &&
+                                                        d.value != "" &&
+                                                        "..."}{" "}
+                                                    <br />
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                )}
+                            {dt.type === "object" && dt.view != "false" && (
                                 <div>
                                     {data?.[dt.name]?.data?.map(
                                         (d: any, i: number) => {
@@ -62,7 +84,7 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
                                     )}
                                 </div>
                             )}
-                            {dt.type === "file" && (
+                            {dt.type === "file" && dt.view != "false" && (
                                 <div>
                                     {data?.file?.data?.map(
                                         (d: any, i: number) => (
@@ -72,7 +94,7 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
                                 </div>
                             )}
 
-                            {dt.type === "modules" && (
+                            {dt.type === "modules" && dt.view != "false" && (
                                 <div>
                                     {managerContext?.configData?.modules?.find(
                                         (m: any) =>

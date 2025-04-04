@@ -70,7 +70,15 @@ services:
             - ./data:/app/data
         environment:
             <<: *backend-env
-
+    backend_controller:
+        build: ./backend/controller
+        container_name: backend_controller
+        restart: always
+        volumes:
+            - ./backend/controller:/app
+            - ./data:/app/data
+        environment:
+            <<: *backend-env
     backend_commander:
         build: ./backend/commander
         container_name: backend_commander

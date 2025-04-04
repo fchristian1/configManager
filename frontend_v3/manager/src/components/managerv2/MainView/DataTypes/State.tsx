@@ -28,7 +28,7 @@ export function DTState({ data, setData, name }: SideMenuProps) {
         socketRef.current = socket;
 
         socket.onopen = () => {
-            socket.send(JSON.stringify({ name, id: data.id }));
+            socket.send(JSON.stringify({ name, id: data?.id }));
             reconnectTimeoutRef.current &&
                 clearTimeout(reconnectTimeoutRef.current);
         };
@@ -122,14 +122,91 @@ export function DTState({ data, setData, name }: SideMenuProps) {
     return (
         <>
             <div>
+                API: <br />
+                GetState:
+                <div className="ml-2">
+                    http://localhost:3000/api/v1/controller/instance/{data?.id}
+                    /state
+                    <button
+                        title="Copy to Clipboard"
+                        className="mx-2 w-4 hover:text-amber-800 pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                `http://localhost:3000/api/v1/controller/instance/${data?.id}/state`
+                            );
+                        }}
+                    >
+                        <IconCopy></IconCopy>
+                    </button>
+                </div>
+                Controll:
+                <div className="ml-2">
+                    http://localhost:3000/api/v1/controller/instance/{data?.id}
+                    /(active
+                    <button
+                        title="Copy to Clipboard : active"
+                        className="mx-2 w-4 hover:text-amber-800 pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                `http://localhost:3000/api/v1/controller/instance/${data?.id}/active`
+                            );
+                        }}
+                    >
+                        <IconCopy></IconCopy>
+                    </button>
+                    | inactive{" "}
+                    <button
+                        title="Copy to Clipboard : inactive"
+                        className="mx-2 w-4 hover:text-amber-800 pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                `http://localhost:3000/api/v1/controller/instance/${data?.id}/inactive`
+                            );
+                        }}
+                    >
+                        <IconCopy></IconCopy>
+                    </button>
+                    | restart
+                    <button
+                        title="Copy to Clipboard : restart"
+                        className="mx-2 w-4 hover:text-amber-800 pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                `http://localhost:3000/api/v1/controller/instance/${data?.id}/restart`
+                            );
+                        }}
+                    >
+                        <IconCopy></IconCopy>
+                    </button>
+                    )
+                </div>
+                Output:
+                <div className="ml-2">
+                    http://localhost:3000/api/v1/controller/instance/{data?.id}
+                    /output
+                    <button
+                        title="Copy to Clipboard : output"
+                        className="mx-2 w-4 hover:text-amber-800 pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                ` http://localhost:3000/api/v1/controller/instance/${data?.id}/output`
+                            );
+                        }}
+                    >
+                        <IconCopy></IconCopy>
+                    </button>
+                </div>
                 Ips:{" "}
                 {state?.ips?.map((ip: string, i: number) => {
                     return (
                         <div className="flex gap-2 ml-2" key={i}>
                             {ip}
                             <button
-                                title="Copy to Clipboard"
+                                title="Copy to Clipboard : ip"
                                 className="w-4 hover:text-amber-800 pointer"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(ip);
+                                }}
                             >
                                 <IconCopy></IconCopy>
                             </button>
