@@ -31,7 +31,8 @@ export function ItemView({ data, setData, name }: SideMenuProps) {
                                 dt.multiple == true &&
                                 dt.view != "false" && (
                                     <div>
-                                        {data?.[dt.name].data &&
+                                        {dt?.name &&
+                                            data?.[dt?.name]?.data &&
                                             data?.[dt.name].data?.map(
                                                 (d: any, i: number) => (
                                                     <div>

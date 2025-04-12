@@ -114,12 +114,13 @@ export class Instance {
                     }, {})
                 };
                 //console.log("envVars", JSON.stringify(envVars, null, 2));
-                const files = theSoftware.file.data.map(data => ({ filename: data.filename, filecontent: data.filecontent }));
+                console.log("theSoftware.file", theSoftware?.file);
+                const files = theSoftware?.file?.data?.map(data => ({ filename: data.filename, filecontent: data.filecontent })) || [];
                 //console.log("files", JSON.stringify(files, null, 2));
                 for (const ip of data?.state?.ips) {
                     //url
                     //console.log("download url");
-                    if (theSoftware.url) {
+                    if (theSoftware?.url) {
                         await this.commandOnTerminal(data, "software:download:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "'cd " + theSoftware.path + ` && curl -O ${theSoftware.url}' && echo "Download completed"`], {
                             cwd: path.join(servicePath, 'terraform'), env: envVars
                         });
@@ -127,7 +128,7 @@ export class Instance {
                     }
                     //git clone
                     //console.log("git clone");
-                    if (theSoftware.githuburl) {
+                    if (theSoftware?.githuburl) {
                         await this.commandOnTerminal(data, "software:gitclone:" + ip, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "' cd " + theSoftware.path + ` && git clone ${theSoftware.githuburl} && echo "Git clone completed"'`], {
                             cwd: path.join(servicePath, 'terraform'), env: envVars
                         });
@@ -142,7 +143,7 @@ export class Instance {
                         await this.commandOnTerminal(data, "software:createfile:" + ip + ":" + file.filename, "ssh", [
                             "-i", `./${data.id}_my_key.pem`,
                             `ubuntu@${ip}`,
-                            `bash -c "cd ${theSoftware.path} && echo '${b64content}' | base64 -d > ${file.filename} && chmod +x ${file.filename} && echo 'File created: ${file.filename}'"`
+                            `bash -c "cd ${theSoftware?.path} && echo '${b64content}' | base64 -d > ${file.filename} && chmod +x ${file.filename} && echo 'File created: ${file.filename}'"`
                         ], {
                             cwd: path.join(servicePath, 'terraform'),
                             env: envVars
@@ -151,7 +152,7 @@ export class Instance {
                     }
                     //command  
                     //console.log("command");
-                    if (theSoftware.command) {
+                    if (theSoftware?.command) {
                         await this.commandOnTerminal(data, "software:command:" + ip + ":" + theSoftware.path + ":" + theSoftware.command, "ssh", ["-i", "./" + data.id + "_my_key.pem", "ubuntu@" + ip, "'cd " + theSoftware.path + " && " + theSoftware.command + "'"], {
                             cwd: path.join(servicePath, 'terraform'), env: envVars
                         });

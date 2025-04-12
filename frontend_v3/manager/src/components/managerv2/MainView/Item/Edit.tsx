@@ -131,12 +131,14 @@ export function ItemEdit({ data, setData, show, setShow }: SideMenuProps) {
 
                             {dt.type === "string" &&
                                 dt.view != "false" &&
-                                dt.multiple == false && (
-                                    <DTString
-                                        onChange={handleOnChange}
-                                        value={editData?.[dt.name]}
-                                        name={dt.name}
-                                    ></DTString>
+                                !dt.multiple && (
+                                    <div>
+                                        <DTString
+                                            onChange={handleOnChange}
+                                            value={editData?.[dt.name]}
+                                            name={dt.name}
+                                        ></DTString>
+                                    </div>
                                 )}
                             {dt.type === "string" &&
                                 dt.view != "false" &&
